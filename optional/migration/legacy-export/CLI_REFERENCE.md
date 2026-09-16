@@ -20,7 +20,11 @@
 {
   "queryRunner": {
     "type": "shell-template",
-    "commandTemplate": "sqlcmd -S 127.0.0.1 -d LegacyDb -U sa -P secret -W -w 65535 -f 65001 -s \"|\" -i {sql_file}"
+    "commandTemplate": "sqlcmd -S 127.0.0.1 -d LegacyDb -U sa -P secret -W -w 65535 -f 65001 -s \"|\" -i {sql_file}",
+    "maxAttempts": 3,
+    "retryDelayMs": 2000,
+    "loginTimeoutSeconds": 180,
+    "queryTimeoutSeconds": 300
   },
   "output": {
     "defaultDirectory": "exports"
@@ -32,6 +36,10 @@
 
 - 当前版本通过外部 SQL 客户端执行查询
 - `commandTemplate` 必须包含 `{sql_file}`
+- `maxAttempts` 控制登录、查询超时或网络错误的最大尝试次数，默认 `3`
+- `retryDelayMs` 控制重试间隔，默认 `2000`
+- Windows 使用 `sqlcmd` 时，`loginTimeoutSeconds` 和 `queryTimeoutSeconds` 默认分别为 `180` 秒和 `300` 秒；如果 `commandTemplate` 已显式设置 `-l` / `-t`，则以模板为准
+- 每次查询会输出阶段名、尝试次数、耗时、行数和错误类别，可用于定位慢在哪个元数据阶段
 - Windows `sqlcmd` 建议使用 `-f 65001 -s "|"`，避免中文字段名乱码以及 `\t` 被当作普通文本分隔符
 - `config.json`、scope JSON 和工具读取的中间 JSON 均支持 UTF-8 BOM；查询输出兼容 UTF-8、UTF-16 和 SQLCMD 的 `|`、Tab、反斜杠分隔
 - `{sql_file}` 会由 CLI 按当前平台自动加引号；模板可写成 `-i {sql_file}` 或 `-i "{sql_file}"`，CLI 会避免重复加引号

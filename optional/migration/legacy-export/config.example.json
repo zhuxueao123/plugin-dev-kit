@@ -1,7 +1,11 @@
 {
   "queryRunner": {
     "type": "shell-template",
-    "commandTemplate": "sqlcmd -S 127.0.0.1 -d LegacyDb -U sa -P secret -W -w 65535 -f 65001 -s \"|\" -i {sql_file}"
+    "commandTemplate": "sqlcmd -S 127.0.0.1 -d LegacyDb -U sa -P secret -W -w 65535 -f 65001 -s \"|\" -i {sql_file}",
+    "maxAttempts": 3,
+    "retryDelayMs": 2000,
+    "loginTimeoutSeconds": 180,
+    "queryTimeoutSeconds": 300
   },
   "output": {
     "defaultDirectory": "exports"
