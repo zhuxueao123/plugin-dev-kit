@@ -12,7 +12,7 @@
 
 ## 配置文件
 
-请基于 `config.example.json` 创建本地 `config.json`，不要提交或共享真实连接配置。
+请基于 `config.example.json` 创建本地 `config.json`，不要把真实连接配置随交付包分发。
 
 `config.example.json` 示例：
 
@@ -38,8 +38,8 @@
 - `commandTemplate` 必须包含 `{sql_file}`
 - `maxAttempts` 控制登录、查询超时或网络错误的最大尝试次数，默认 `3`
 - `retryDelayMs` 控制重试间隔，默认 `2000`
-- Windows 使用 `sqlcmd` 时，`loginTimeoutSeconds` 和 `queryTimeoutSeconds` 默认分别为 `180` 秒和 `300` 秒；如果 `commandTemplate` 已显式设置 `-l` / `-t`，则以模板为准
-- 每次查询会输出阶段名、尝试次数、耗时、行数和错误类别，可用于定位慢在哪个元数据阶段
+- Windows 使用 `sqlcmd` 时，`loginTimeoutSeconds` 和 `queryTimeoutSeconds` 默认分别为 `180` 秒和 `300` 秒，会在模板未显式提供 `-l` / `-t` 时自动补入；模板中的显式参数优先
+- 每次查询会在标准错误输出阶段名、尝试次数、耗时、行数和错误类别，便于定位慢在 function、blocks、block-fields、events 或具体表
 - Windows `sqlcmd` 建议使用 `-f 65001 -s "|"`，避免中文字段名乱码以及 `\t` 被当作普通文本分隔符
 - `config.json`、scope JSON 和工具读取的中间 JSON 均支持 UTF-8 BOM；查询输出兼容 UTF-8、UTF-16 和 SQLCMD 的 `|`、Tab、反斜杠分隔
 - `{sql_file}` 会由 CLI 按当前平台自动加引号；模板可写成 `-i {sql_file}` 或 `-i "{sql_file}"`，CLI 会避免重复加引号
@@ -50,28 +50,91 @@
 ## 用法
 
 ```bash
-./legacy-export --help
-./legacy-export export-function --help
-./legacy-export export-function --config config.json --func-id SD_T_SO --out exports
-./legacy-export inspect-function --config config.json --func-id SD_T_SO
-./legacy-export batch-export --config config.json --func-file funcs.txt --out exports
-./legacy-export export-menu-subtree --config config.json --menu-name "站点配送" --out exports
-./legacy-export export-scope --config config.json --scope-file scope.json --out exports
-./legacy-export export-system --config config.json --out exports
-./legacy-export export-serials --config config.json --out exports
-./legacy-export export-workflows --config config.json --out exports
-./legacy-export export-security --config config.json --out exports
-./legacy-export export-users --config config.json --out exports
-./legacy-export export-org --config config.json --out exports
-./legacy-export export-menus --config config.json --out exports
-./legacy-export export-lists --config config.json --out exports
+cargo run -- --help
+cargo run -- export-function --help
+cargo run -- export-function --config config.json --func-id SD_T_SO --out exports
+cargo run -- inspect-function --config config.json --func-id SD_T_SO
+cargo run -- batch-export --config config.json --func-file funcs.txt --out exports
+cargo run -- export-menu-subtree --config config.json --menu-name "站点配送" --out exports
+cargo run -- export-scope --config config.json --scope-file scope.json --out exports
+cargo run -- export-system --config config.json --out exports
+cargo run -- export-serials --config config.json --out exports
+cargo run -- export-workflows --config config.json --out exports
+cargo run -- export-security --config config.json --out exports
+cargo run -- export-users --config config.json --out exports
+cargo run -- export-org --config config.json --out exports
+cargo run -- export-menus --config config.json --out exports
+cargo run -- export-lists --config config.json --out exports
 ```
 
-使用当前操作系统目录中的可执行文件：
+构建：
 
 ```bash
-./legacy-export
+cargo build --release
 ```
+
+二进制路径：
+
+```bash
+target/release/legacy-export
+```
+
+Windows 二进制路径：
+
+```text
+target\release\legacy-export.exe
+```
+
+## 跨平台发布（macOS + Windows）
+
+当前 CLI 已支持按操作系统选择命令执行器：
+
+- macOS / Linux: 使用 `/bin/zsh -lc`
+- Windows: 使用 `cmd /C`
+
+推荐发布方式：分别在目标系统本机构建，避免交叉编译链路复杂度。
+
+### 1. macOS 构建
+
+```bash
+cargo build --release
+```
+
+产物：`target/release/legacy-export`
+
+### 2. Windows 构建（在 Windows 机器执行）
+
+```powershell
+cargo build --release
+```
+
+产物：`target\release\legacy-export.exe`
+
+### 3. Windows 配置样例
+
+在 Windows 的 `config.json` 中，`commandTemplate` 建议使用 cmd 可直接执行的命令，例如：
+
+```json
+{
+  "queryRunner": {
+    "type": "shell-template",
+    "commandTemplate": "sqlcmd -S 127.0.0.1 -d LegacyDb -U sa -P secret -W -w 65535 -f 65001 -s \"|\" -i {sql_file}",
+    "maxAttempts": 3,
+    "retryDelayMs": 2000,
+    "loginTimeoutSeconds": 180,
+    "queryTimeoutSeconds": 300
+  },
+  "output": {
+    "defaultDirectory": "exports"
+  }
+}
+```
+
+说明：
+
+- `commandTemplate` 必须保留 `{sql_file}` 占位符
+- CLI 会自动按平台处理临时 SQL 文件路径引用
+- Windows 请确保 `sqlcmd` 已加入 `PATH`
 
 ## 输出结构
 
@@ -117,7 +180,7 @@ exports/
 - `plugin_analysis_seed.json`
 - `summary.md`
 
-`scenario_update_seed.json` 优先给出表单场景草稿；`scenario_update_seeds.json` 保留全部场景草稿。表单草稿会尽量生成 `metadata.formLayout`、`metadata.detailTables` 和控件迁移提示。关系、字典以及主从表关联键仍必须在应用前人工复核。
+`scenario_update_seed.json` 优先给出表单场景草稿；`scenario_update_seeds.json` 保留全部场景草稿。表单草稿会生成符合 `ScenarioRequest` 契约的 metadata JSON 字符串，其中包含 `formLayout`、`detailTables`。旧平台列表、表参照和常量数据源会尽量转换为字典、关系和静态选项配置；无法可靠转换的 SQL/脚本数据源保留原始元数据和迁移状态。
 
 归一化时会优先把名称包含 `MAINBLOCK`（包括 `BMAINBLOCK`）的 block 识别为主信息块，并从该 block 推导主实体；主信息块不会进入 `detailTables`。明细列可在 block field 未重复携带 `TABLEID` 时通过 block 反查实体。主从表存在同名业务键时优先使用 `CODE_* = CODE_*`，其次才使用 ID 字段或兜底值。
 
@@ -206,9 +269,9 @@ exports/
 CLI 已内置帮助：
 
 ```bash
-./legacy-export --help
-./legacy-export export-function --help
-./legacy-export export-scope --help
+./target/release/legacy-export --help
+./target/release/legacy-export export-function --help
+./target/release/legacy-export export-scope --help
 ```
 
 ## Schema 与样例
@@ -218,13 +281,14 @@ CLI 已内置帮助：
 - `docs/EXPORT_SCHEMA.md`
 - `examples/sample-output/`
 
-## 当前使用边界
+## 当前交付边界
 
-当前版本适合生成迁移编排输入，建议同时向 AI 助手提供：
+当前版本适合作为“迁移编排输入包”交付，建议一起交付给 AI 的内容包括：
 
-1. 本工具导出的 `exports/`
-2. 老系统插件代码库
-3. 新系统 CLI 文档与建模文档
+1. 本 CLI 二进制与 `config.example.json`
+2. 本 CLI 导出的 `exports/`
+3. 老系统插件代码库
+4. 新系统 CLI 文档与建模文档
 
 当前版本已经覆盖：
 

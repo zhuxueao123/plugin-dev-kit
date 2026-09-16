@@ -140,6 +140,7 @@ exports/functions/<FUNCID>/
   "code": "list",
   "name": "列表",
   "scenarioType": "list",
+  "metadata": "{\"formLayout\":{\"type\":\"tabs\",\"tabs\":[]},\"detailTables\":[]}",
   "fieldGroups": [],
   "actions": [
     {
@@ -152,6 +153,8 @@ exports/functions/<FUNCID>/
 }
 ```
 
+`ScenarioRequest.metadata` 在新平台接口中是 JSON 字符串，因此 `formLayout` 和 `detailTables` 位于该字符串的内层 JSON 中。CLI 会将整个 seed 原样提交；它们不应移到请求顶层，否则后端会忽略。
+
 复杂功能还会生成 `handoff/scenario_update_seeds.json`，其中包含全部列表/表单场景。表单场景尽量附带：
 
 - `metadata.formLayout.tabs`：从旧平台 region 和主表字段分组推导；
@@ -159,11 +162,11 @@ exports/functions/<FUNCID>/
 - `MAINBLOCK`/`BMAINBLOCK` 被视为主信息块并排除在 `detailTables` 外；block field 缺少 `TABLEID` 时通过 block 反查；
 - 主从表共有 `CODE_*` 字段时，关系键优先保留为同名业务键，例如 `CODE_ITEM = CODE_ITEM`；
 - 明细列会合并 `SYS_TableField`、`V_SYS_GroupBlockField` 和 `SYS_BlockFieldOver`，覆盖值优先；因此表字段上的名称、图片/附件控件类型不会因 block 视图列为空而丢失；
-- 明细列仅保留旧平台 `GSTATUS/BSTATUS` 可见的非系统字段；关联键即使不展示，仍保留在 `relation.parentKey/childKey`；
-- `componentType` 与 `extraMetadata`：保留旧 `CTRLTYPE`、`DSTYPE`、数据源表达式和推荐控件；
+- 明细列仅保留旧平台 `GSTATUS/BSTATUS` 可见的非系统字段；`CODE_ITEM`、`DESC_ITEM` 等字段不按名称硬编码删除，旧平台可见时保留并按原状态设置只读，不可见时过滤；关联键无论是否展示都保留在 `relation.parentKey/childKey`；
+- `componentType` 与 `extraMetadata`：保留旧 `CTRLTYPE`、`DSTYPE` 和完整数据源表达式；`DSTYPE=1` 转换为字典源，`DSTYPE=2` 转换为关系源，`DSTYPE=4` 转换为静态选项；
 - `migrationWarning`：提醒应用前复核主从表关联键。
 
-当字典或关系目标尚未迁移时，导出器使用可录入的 `q-input` 作为安全降级，并把推荐的 `q-select` 或 `relation-picker-field` 写入 `suggestedComponent`，避免生成不可操作表单。
+下拉和参照不再静默降级为 `q-input`。无法结构化的 SQL、脚本或缺失依赖的数据源会保留完整旧元数据，并通过 `migrationStatus` 标记后续处理，不伪造可用选项。
 
 ### `migration_readiness.json`
 

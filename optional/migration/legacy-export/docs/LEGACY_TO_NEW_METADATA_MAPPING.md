@@ -346,6 +346,16 @@
 - `feature_field.source_config`
 - `scenario_field.metadata.lookup`
 
+`DSTYPE` 的已确认语义及 handoff 转换规则：
+
+- `1`：系统列表/字典，`DS` 作为字典编码，转换为 `q-select + dictionary` option source；
+- `2`：表参照，`DS` 作为目标实体，`DSTEXT` 作为源字段，`DSVALUE` 作为本地接收字段，转换为 `relation-picker-field + relation` option source；
+- `3`：SQL 数据源，保留原始表达式并标记需要迁移，不伪造可用选项；
+- `4`：分号分隔的常量列表，转换为 `q-select + static` option source；
+- `5`：用户数据源，保留原始表达式并标记需要迁移。
+
+参照配置同时输出目标实体、取值字段、显示字段、搜索字段、本地接收字段以及可推导的自动回填映射。`DSFILTER`/`DSPARAM` 原样保留，供迁移阶段转换为新平台过滤器和参数。
+
 若第一版无法完全结构化，则至少保留：
 
 ```json
