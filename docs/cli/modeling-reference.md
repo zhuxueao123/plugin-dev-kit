@@ -1273,6 +1273,8 @@ CLI 请求示例见 `examples/update_detail_scenario_tabs.json`。
 1. 新增字段优先使用单独的 `add-entity-fields` 能力。
 2. 修改已有字段时，先读取当前实体定义，再修改目标字段。
 3. 不要随意改动系统字段。
+4. 删除普通字段使用 `system delete-entity-field --entity-code <code> --field-code <field>`；该操作会同步删除物理列，不能用于系统内置字段。
+5. `metadata` 可以在 CLI 输入中写成 JSON 对象，CLI 会转为接口需要的 JSON 字符串。`length` 仅适用于 `string/varchar`，`precision` 仅适用于 `decimal/float/double`，`scale` 仅在已指定 decimal precision 时保留。
 
 风险：
 

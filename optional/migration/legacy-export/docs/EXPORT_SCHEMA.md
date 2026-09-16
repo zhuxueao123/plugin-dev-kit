@@ -131,6 +131,10 @@ exports/functions/<FUNCID>/
 }
 ```
 
+### `handoff/create_feature_seed.json`
+
+该文件用于创建与主实体绑定的功能。对多实体旧功能，`fields` 只包含 `manifest.mainEntityCode` 对应的主表字段；子表字段不会平铺进 feature，而是保留在场景 `metadata.detailTables[].columns` 中。这可避免多个实体的同名 `sourceField` 产生歧义。
+
 ### `handoff/scenario_update_seed.json`
 
 该文件是 `system update-scenario` 的请求主体草稿，不包含 `featureId` / `scenarioId` 占位字段。动作列表只保留新平台稳定接收的最小字段：

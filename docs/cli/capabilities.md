@@ -32,6 +32,8 @@
   用途：按 `--entity-id` 或 `--code` 删除实体定义
 - `system update-entity-field`
   用途：更新实体字段定义
+- `system delete-entity-field`
+  用途：按 `--entity-code` 与 `--field-id`/`--field-code` 删除实体字段；会同步修改物理表，使用前必须确认目标
 - `system create-feature`
   用途：创建功能并初始化默认场景
 - `system list-features`

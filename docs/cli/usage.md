@@ -206,7 +206,7 @@ CLI 统一输出 JSON。
 
 1. `system create-entity`（迁移重跑时可加 `--if-exists skip`）
 2. `system add-entity-fields`
-3. `system update-entity` / `system update-entity-field`
+3. `system update-entity` / `system update-entity-field` / `system delete-entity-field`
 4. `system create-feature`（迁移重跑时可加 `--if-exists skip`）
 5. `system add-feature-fields`（推荐专门用于给已有 feature 增量补字段）
 6. `system update-feature`
@@ -219,6 +219,8 @@ CLI 统一输出 JSON。
 13. `identity create-user`
 14. `identity assign-user-roles`
 15. `identity set-password-policy`
+
+实体字段输入规则：`add-entity-fields` 会把对象型 `metadata` 序列化为后端契约要求的 JSON 字符串，并按数据类型忽略无效的 `length/precision/scale`；批量失败时错误会指明字段编码和输入序号。删除普通字段可使用 `system delete-entity-field --entity-code <code> --field-code <field>`，该操作会同步删除物理列。
 
 ## 6. 重要规则
 
