@@ -158,6 +158,8 @@ exports/functions/<FUNCID>/
 - `metadata.detailTables`：从非主表 block 和 block field 推导；
 - `MAINBLOCK`/`BMAINBLOCK` 被视为主信息块并排除在 `detailTables` 外；block field 缺少 `TABLEID` 时通过 block 反查；
 - 主从表共有 `CODE_*` 字段时，关系键优先保留为同名业务键，例如 `CODE_ITEM = CODE_ITEM`；
+- 明细列会合并 `SYS_TableField`、`V_SYS_GroupBlockField` 和 `SYS_BlockFieldOver`，覆盖值优先；因此表字段上的名称、图片/附件控件类型不会因 block 视图列为空而丢失；
+- 明细列仅保留旧平台 `GSTATUS/BSTATUS` 可见的非系统字段；关联键即使不展示，仍保留在 `relation.parentKey/childKey`；
 - `componentType` 与 `extraMetadata`：保留旧 `CTRLTYPE`、`DSTYPE`、数据源表达式和推荐控件；
 - `migrationWarning`：提醒应用前复核主从表关联键。
 
