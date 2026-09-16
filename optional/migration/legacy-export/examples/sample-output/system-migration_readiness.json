@@ -1,0 +1,21 @@
+{
+  "readyForSystemMetadataMigration": true,
+  "riskLevel": "medium",
+  "summary": {
+    "featureCount": 120,
+    "workflowCount": 8,
+    "roleCount": 16,
+    "serialRuleCount": 12,
+    "menuCount": 180
+  },
+  "riskFlags": [
+    "workflow_assets_present",
+    "security_assets_present",
+    "serial_rules_present"
+  ],
+  "requiredNextSteps": [
+    "Migrate entities before features and scenarios.",
+    "Apply security, menu, workflow, and serial assets after base metadata exists.",
+    "Validate plugin bindings separately with exported function packages."
+  ]
+}

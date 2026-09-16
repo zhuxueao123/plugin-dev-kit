@@ -1,0 +1,141 @@
+{
+  "code": "ad_t_wplan",
+  "name": "计划导入与维护",
+  "module": "ad",
+  "physicalName": "AD_T_WPLAN",
+  "description": "由旧系统安灯作业模块 AD_T_WPLAN 迁移而来。",
+  "fields": [
+    {
+      "code": "sid",
+      "name": "SID",
+      "dataType": "integer",
+      "isNullable": false,
+      "orderIndex": 1
+    },
+    {
+      "code": "code_line",
+      "name": "产线代码",
+      "dataType": "string",
+      "length": 10,
+      "isNullable": true,
+      "orderIndex": 60
+    },
+    {
+      "code": "date_plan",
+      "name": "生产日期",
+      "dataType": "datetime",
+      "isNullable": true,
+      "orderIndex": 70
+    },
+    {
+      "code": "code_shift",
+      "name": "班次",
+      "dataType": "string",
+      "length": 10,
+      "isNullable": true,
+      "orderIndex": 80
+    },
+    {
+      "code": "date_start",
+      "name": "开始时间",
+      "dataType": "datetime",
+      "isNullable": true,
+      "orderIndex": 90
+    },
+    {
+      "code": "date_end",
+      "name": "结束时间",
+      "dataType": "datetime",
+      "isNullable": true,
+      "orderIndex": 100
+    },
+    {
+      "code": "code_wo",
+      "name": "工单号",
+      "dataType": "string",
+      "length": 20,
+      "isNullable": true,
+      "orderIndex": 105
+    },
+    {
+      "code": "code_item",
+      "name": "机组号",
+      "dataType": "string",
+      "length": 20,
+      "isNullable": true,
+      "orderIndex": 110
+    },
+    {
+      "code": "desc_item",
+      "name": "机组名称",
+      "dataType": "string",
+      "length": 100,
+      "isNullable": true,
+      "orderIndex": 120
+    },
+    {
+      "code": "cycle_time",
+      "name": "生产节拍(秒)",
+      "dataType": "integer",
+      "isNullable": true,
+      "orderIndex": 125
+    },
+    {
+      "code": "wk_sta",
+      "name": "工位数",
+      "dataType": "integer",
+      "isNullable": true,
+      "orderIndex": 126
+    },
+    {
+      "code": "qty_plan",
+      "name": "计划数量",
+      "dataType": "integer",
+      "isNullable": true,
+      "orderIndex": 130
+    },
+    {
+      "code": "buffer",
+      "name": "缓冲数",
+      "dataType": "integer",
+      "isNullable": true,
+      "orderIndex": 135
+    },
+    {
+      "code": "qty_finish",
+      "name": "完工数量",
+      "dataType": "integer",
+      "isNullable": true,
+      "orderIndex": 140
+    },
+    {
+      "code": "status",
+      "name": "状态",
+      "dataType": "string",
+      "length": 10,
+      "isNullable": true,
+      "orderIndex": 200
+    },
+    {
+      "code": "plan_seq",
+      "name": "序号",
+      "dataType": "integer",
+      "isNullable": true,
+      "orderIndex": 240
+    },
+    {
+      "code": "work_status",
+      "name": "生产状态",
+      "dataType": "integer",
+      "isNullable": true,
+      "orderIndex": 250
+    },
+    {
+      "code": "total_work_time",
+      "name": "工作时长",
+      "dataType": "integer",
+      "isNullable": true,
+      "orderIndex": 260
+    }
+  ]
+}

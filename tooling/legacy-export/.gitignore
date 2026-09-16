@@ -1,0 +1,5 @@
+/config.json
+/target/
+/dist/
+.DS_Store
+._*

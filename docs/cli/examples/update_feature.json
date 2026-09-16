@@ -1,0 +1,9 @@
+{
+  "name": "订单管理",
+  "module": "sales",
+  "dataSourceType": "table",
+  "dataSourceName": "sales_order",
+  "description": "销售订单管理功能",
+  "isActive": true,
+  "metadata": "{}"
+}

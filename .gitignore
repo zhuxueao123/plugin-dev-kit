@@ -1,0 +1,21 @@
+# Local credentials and machine-specific configuration
+**/config.json
+**/.env
+**/.env.*
+
+# Dependency caches and generated output
+**/node_modules/
+**/__pycache__/
+**/.venv/
+**/target/
+plugin-workspace/frontend/dist/
+dist/
+exports/
+optional/migration/legacy-export/exports/
+
+# Editor and operating-system files
+.DS_Store
+._*
+Thumbs.db
+*.pyc
+*.pyo

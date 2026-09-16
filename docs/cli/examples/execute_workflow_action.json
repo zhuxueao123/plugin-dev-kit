@@ -1,0 +1,9 @@
+{
+  "comment": "审批通过，转仓库发货。",
+  "payload": {
+    "source": "cli",
+    "businessData": {
+      "manager_comment": "订单金额合理，可以继续流转。"
+    }
+  }
+}

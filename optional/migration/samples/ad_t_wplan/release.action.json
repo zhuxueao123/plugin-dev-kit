@@ -1,0 +1,9 @@
+{
+  "featureId": "89d19661-d99e-4426-8aa5-5075ead762cd",
+  "code": "release",
+  "name": "下达",
+  "actionType": "custom",
+  "executionMode": "sync",
+  "description": "将草稿计划下达到已下达状态。",
+  "metadata": "{}"
+}

@@ -1,0 +1,23 @@
+{
+  "code": "detail",
+  "name": "计划导入与维护 表单",
+  "scenarioType": "form",
+  "description": "系统初始化的标准表单场景",
+  "isDefault": true,
+  "metadata": "{\"detailTables\":[{\"key\":\"detail\",\"title\":\"作业明细\",\"entityCode\":\"ad_t_wpland\",\"relation\":{\"parentKey\":\"sid\",\"childKey\":\"sid\"},\"allowAdd\":true,\"allowDelete\":true,\"columns\":[{\"fieldKey\":\"line\",\"label\":\"LINE\",\"component\":\"q-number\",\"required\":true,\"readonly\":false,\"persist\":true,\"width\":90},{\"fieldKey\":\"date_start\",\"label\":\"开始时间\",\"component\":\"q-datetime\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":180},{\"fieldKey\":\"date_finish\",\"label\":\"完成时间\",\"component\":\"q-datetime\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":180},{\"fieldKey\":\"finish_result\",\"label\":\"完工判定结果\",\"component\":\"q-number\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":120}]}]}",
+  "fieldGroups": [
+    { "featureFieldKey": "sid", "orderIndex": 0, "form": { "enabled": true, "required": false, "readonly": true, "componentType": "q-number" } },
+    { "featureFieldKey": "code_line", "orderIndex": 1, "form": { "enabled": true, "required": false, "readonly": false, "componentType": "q-input" } },
+    { "featureFieldKey": "date_plan", "orderIndex": 2, "form": { "enabled": true, "required": false, "readonly": false, "componentType": "q-datetime" } },
+    { "featureFieldKey": "code_shift", "orderIndex": 3, "form": { "enabled": true, "required": false, "readonly": false, "componentType": "q-input" } },
+    { "featureFieldKey": "date_start", "orderIndex": 4, "form": { "enabled": true, "required": false, "readonly": false, "componentType": "q-datetime" } },
+    { "featureFieldKey": "date_end", "orderIndex": 5, "form": { "enabled": true, "required": false, "readonly": false, "componentType": "q-datetime" } },
+    { "featureFieldKey": "code_wo", "orderIndex": 6, "form": { "enabled": true, "required": false, "readonly": false, "componentType": "q-input" } },
+    { "featureFieldKey": "code_item", "orderIndex": 7, "form": { "enabled": true, "required": false, "readonly": false, "componentType": "q-input" } },
+    { "featureFieldKey": "desc_item", "orderIndex": 8, "form": { "enabled": true, "required": false, "readonly": false, "componentType": "q-input" } },
+    { "featureFieldKey": "qty_plan", "orderIndex": 9, "form": { "enabled": true, "required": false, "readonly": false, "componentType": "q-number" } },
+    { "featureFieldKey": "qty_finish", "orderIndex": 10, "form": { "enabled": true, "required": false, "readonly": false, "componentType": "q-number" } },
+    { "featureFieldKey": "status", "orderIndex": 11, "form": { "enabled": true, "required": false, "readonly": false, "componentType": "q-input" } }
+  ],
+  "actions": []
+}

@@ -1,0 +1,46 @@
+{
+  "sid": 1001,
+  "code_line": "L-AD-01",
+  "date_plan": "2026-04-05T00:00:00Z",
+  "code_shift": "A",
+  "date_start": "2026-04-05T08:00:00Z",
+  "date_end": "2026-04-05T17:00:00Z",
+  "code_wo": "WO-AD-1001",
+  "code_item": "ITEM-AD-01",
+  "desc_item": "测试机组",
+  "cycle_time": 60,
+  "wk_sta": 4,
+  "qty_plan": 120,
+  "buffer": 12,
+  "qty_finish": 0,
+  "status": "NDRF",
+  "plan_seq": 1,
+  "work_status": 0,
+  "total_work_time": 540,
+  "__detailTables": [
+    {
+      "key": "detail",
+      "entityCode": "ad_t_wpland",
+      "relation": {
+        "parentKey": "sid",
+        "childKey": "sid"
+      },
+      "rows": [
+        {
+          "sid": 1001,
+          "line": 1,
+          "date_start": "2026-04-05T08:00:00Z",
+          "date_finish": "2026-04-05T10:00:00Z",
+          "finish_result": 0
+        },
+        {
+          "sid": 1001,
+          "line": 2,
+          "date_start": "2026-04-05T10:00:00Z",
+          "date_finish": "2026-04-05T12:00:00Z",
+          "finish_result": 0
+        }
+      ]
+    }
+  ]
+}

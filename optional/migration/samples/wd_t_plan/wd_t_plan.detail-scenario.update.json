@@ -1,0 +1,119 @@
+{
+  "code": "detail",
+  "name": "配送计划 表单",
+  "scenarioType": "form",
+  "description": "系统初始化的标准表单场景",
+  "isDefault": true,
+  "metadata": "{\"detailTables\":[{\"key\":\"pland\",\"title\":\"配送计划明细\",\"entityCode\":\"wd_t_pland\",\"relation\":{\"parentKey\":\"id_plan\",\"childKey\":\"id_plan\"},\"allowAdd\":true,\"allowDelete\":true,\"columns\":[{\"fieldKey\":\"line_pland\",\"label\":\"行号\",\"component\":\"q-number\",\"required\":true,\"readonly\":false,\"persist\":true,\"width\":100},{\"fieldKey\":\"code_site\",\"label\":\"站点代码\",\"component\":\"q-input\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":140},{\"fieldKey\":\"desc_site\",\"label\":\"站点描述\",\"component\":\"q-input\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":180},{\"fieldKey\":\"code_line\",\"label\":\"产线代码\",\"component\":\"q-input\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":120},{\"fieldKey\":\"desc_line\",\"label\":\"产线名称\",\"component\":\"q-input\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":180},{\"fieldKey\":\"time_start\",\"label\":\"开始时间\",\"component\":\"q-time\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":120},{\"fieldKey\":\"time_end\",\"label\":\"结束时间\",\"component\":\"q-time\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":120},{\"fieldKey\":\"round\",\"label\":\"轮次\",\"component\":\"q-number\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":90}]}]}",
+  "fieldGroups": [
+    {
+      "featureFieldKey": "break_end",
+      "orderIndex": 0,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false
+      }
+    },
+    {
+      "featureFieldKey": "break_start",
+      "orderIndex": 1,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false
+      }
+    },
+    {
+      "featureFieldKey": "date_eff",
+      "orderIndex": 2,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-datetime"
+      }
+    },
+    {
+      "featureFieldKey": "date_exp",
+      "orderIndex": 3,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-datetime"
+      }
+    },
+    {
+      "featureFieldKey": "desc_plan",
+      "orderIndex": 4,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-input"
+      }
+    },
+    {
+      "featureFieldKey": "f_default",
+      "orderIndex": 5,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-toggle"
+      }
+    },
+    {
+      "featureFieldKey": "f_enabled",
+      "orderIndex": 6,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-toggle"
+      }
+    },
+    {
+      "featureFieldKey": "id_plan",
+      "orderIndex": 7,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": true,
+        "componentType": "q-number"
+      }
+    },
+    {
+      "featureFieldKey": "round",
+      "orderIndex": 8,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-number"
+      }
+    },
+    {
+      "featureFieldKey": "time_cost",
+      "orderIndex": 9,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-number"
+      }
+    },
+    {
+      "featureFieldKey": "time_start",
+      "orderIndex": 10,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-time"
+      }
+    }
+  ],
+  "actions": []
+}

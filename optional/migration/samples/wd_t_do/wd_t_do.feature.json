@@ -1,0 +1,78 @@
+{
+  "code": "wd_t_do",
+  "name": "配送单",
+  "module": "wd",
+  "entityCode": "wd_t_do",
+  "description": "由旧系统站点配送模块 WD_T_DO 迁移而来。",
+  "initializeDefaultScenarios": true,
+  "includeDefaultListActions": true,
+  "fields": [
+    {
+      "fieldKey": "code_do",
+      "displayName": "配送单号",
+      "dataType": "string",
+      "sourceField": "code_do",
+      "isIdentifier": true
+    },
+    {
+      "fieldKey": "date_do",
+      "displayName": "配送日期",
+      "dataType": "datetime",
+      "sourceField": "date_do"
+    },
+    {
+      "fieldKey": "code_line",
+      "displayName": "产线代码",
+      "dataType": "string",
+      "sourceField": "code_line"
+    },
+    {
+      "fieldKey": "desc_line",
+      "displayName": "产线名称",
+      "dataType": "string",
+      "sourceField": "desc_line"
+    },
+    {
+      "fieldKey": "prv_bl",
+      "displayName": "前一天结余套数",
+      "dataType": "integer",
+      "sourceField": "prv_bl"
+    },
+    {
+      "fieldKey": "time_start",
+      "displayName": "开始时间",
+      "dataType": "string",
+      "sourceField": "time_start"
+    },
+    {
+      "fieldKey": "time_end",
+      "displayName": "结束时间",
+      "dataType": "string",
+      "sourceField": "time_end"
+    },
+    {
+      "fieldKey": "qty_set",
+      "displayName": "套数",
+      "dataType": "integer",
+      "sourceField": "qty_set"
+    },
+    {
+      "fieldKey": "time_span",
+      "displayName": "节拍（分钟）",
+      "dataType": "integer",
+      "sourceField": "time_span"
+    },
+    {
+      "fieldKey": "status",
+      "displayName": "状态",
+      "dataType": "string",
+      "sourceField": "status"
+    },
+    {
+      "fieldKey": "cur_bl",
+      "displayName": "当前结余套数",
+      "dataType": "integer",
+      "sourceField": "cur_bl"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "code_do": "WDDO000001",
+  "date_do": "2026-04-05T00:00:00Z",
+  "code_line": "L01",
+  "desc_line": "测试产线",
+  "prv_bl": 3,
+  "time_start": "08:30",
+  "time_end": "17:00",
+  "qty_set": 12,
+  "time_span": 30,
+  "status": "NDRF",
+  "cur_bl": 5,
+  "__detailTables": [
+    {
+      "key": "dod",
+      "entityCode": "wd_t_dod",
+      "relation": {
+        "parentKey": "code_do",
+        "childKey": "code_do"
+      },
+      "rows": [
+        {
+          "line_dod": 1,
+          "code_do": "WDDO000001",
+          "code_site": "SITE01",
+          "desc_site": "测试站点一",
+          "code_line": "L01",
+          "desc_line": "测试产线",
+          "time_start": "08:30",
+          "time_end": "09:00",
+          "time_push": "08:25",
+          "round": 1
+        },
+        {
+          "line_dod": 2,
+          "code_do": "WDDO000001",
+          "code_site": "SITE02",
+          "desc_site": "测试站点二",
+          "code_line": "L01",
+          "desc_line": "测试产线",
+          "time_start": "09:00",
+          "time_end": "09:30",
+          "time_push": "08:55",
+          "round": 2
+        }
+      ]
+    }
+  ]
+}

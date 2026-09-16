@@ -1,0 +1,23 @@
+{
+  "pluginCode": "ad_wplan_release",
+  "pluginName": "计划下达插件",
+  "version": "0.1.0",
+  "capabilities": [
+    {
+      "code": "release_plan",
+      "displayName": "下达计划",
+      "slot": "action.execute",
+      "description": "将计划状态从草稿改为已下达。",
+      "inputSchema": {
+        "type": "object"
+      },
+      "defaultParams": {
+        "draftStatus": "NDRF",
+        "releasedStatus": "DREL"
+      },
+      "permissions": [],
+      "timeoutSeconds": 5,
+      "auditLevel": "basic"
+    }
+  ]
+}

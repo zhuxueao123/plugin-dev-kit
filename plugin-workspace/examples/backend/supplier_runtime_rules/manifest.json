@@ -1,0 +1,29 @@
+{
+  "pluginCode": "supplier_runtime_rules",
+  "pluginName": "供应商界面规则插件示例",
+  "version": "0.1.0",
+  "capabilities": [
+    {
+      "code": "decorate_supplier_form",
+      "displayName": "表单加载后规则",
+      "slot": "scenario.load.post",
+      "description": "根据供应商状态调整表单字段与动作。",
+      "inputSchema": { "type": "object" },
+      "defaultParams": {},
+      "permissions": [],
+      "timeoutSeconds": 5,
+      "auditLevel": "basic"
+    },
+    {
+      "code": "decorate_supplier_list",
+      "displayName": "列表动作规则",
+      "slot": "scenario.action.execute",
+      "description": "返回列表页 UI 覆盖。",
+      "inputSchema": { "type": "object" },
+      "defaultParams": {},
+      "permissions": [],
+      "timeoutSeconds": 5,
+      "auditLevel": "basic"
+    }
+  ]
+}

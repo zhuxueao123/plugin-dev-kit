@@ -1,0 +1,29 @@
+{
+  "code": "ad_t_wplan",
+  "name": "计划导入与维护",
+  "module": "ad",
+  "entityCode": "ad_t_wplan",
+  "description": "由旧系统安灯作业模块 AD_T_WPLAN 迁移而来。",
+  "initializeDefaultScenarios": true,
+  "includeDefaultListActions": true,
+  "fields": [
+    { "fieldKey": "sid", "displayName": "SID", "dataType": "integer", "sourceField": "sid", "isIdentifier": true },
+    { "fieldKey": "code_line", "displayName": "产线代码", "dataType": "string", "sourceField": "code_line" },
+    { "fieldKey": "date_plan", "displayName": "生产日期", "dataType": "datetime", "sourceField": "date_plan" },
+    { "fieldKey": "code_shift", "displayName": "班次", "dataType": "string", "sourceField": "code_shift" },
+    { "fieldKey": "date_start", "displayName": "开始时间", "dataType": "datetime", "sourceField": "date_start" },
+    { "fieldKey": "date_end", "displayName": "结束时间", "dataType": "datetime", "sourceField": "date_end" },
+    { "fieldKey": "code_wo", "displayName": "工单号", "dataType": "string", "sourceField": "code_wo" },
+    { "fieldKey": "code_item", "displayName": "机组号", "dataType": "string", "sourceField": "code_item" },
+    { "fieldKey": "desc_item", "displayName": "机组名称", "dataType": "string", "sourceField": "desc_item" },
+    { "fieldKey": "cycle_time", "displayName": "生产节拍(秒)", "dataType": "integer", "sourceField": "cycle_time" },
+    { "fieldKey": "wk_sta", "displayName": "工位数", "dataType": "integer", "sourceField": "wk_sta" },
+    { "fieldKey": "qty_plan", "displayName": "计划数量", "dataType": "integer", "sourceField": "qty_plan" },
+    { "fieldKey": "buffer", "displayName": "缓冲数", "dataType": "integer", "sourceField": "buffer" },
+    { "fieldKey": "qty_finish", "displayName": "完工数量", "dataType": "integer", "sourceField": "qty_finish" },
+    { "fieldKey": "status", "displayName": "状态", "dataType": "string", "sourceField": "status" },
+    { "fieldKey": "plan_seq", "displayName": "序号", "dataType": "integer", "sourceField": "plan_seq" },
+    { "fieldKey": "work_status", "displayName": "生产状态", "dataType": "integer", "sourceField": "work_status" },
+    { "fieldKey": "total_work_time", "displayName": "工作时长", "dataType": "integer", "sourceField": "total_work_time" }
+  ]
+}

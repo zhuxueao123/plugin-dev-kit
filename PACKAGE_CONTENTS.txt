@@ -1,0 +1,15 @@
+plugin-dev-kit
+├── README.md
+├── plugin-build.sh / plugin-build.ps1
+├── plugin-publish.sh / plugin-publish.ps1
+├── bin/
+│   ├── macos/asapflow/      # macOS CLI
+│   └── windows/asapflow/    # Windows CLI replacement location
+├── docs/
+│   ├── README.md            # single documentation entry
+│   ├── plugin-development/
+│   ├── cli/
+│   ├── ai/
+│   └── migration/
+├── plugin-workspace/        # plugin source workspace
+└── optional/migration/      # legacy migration only

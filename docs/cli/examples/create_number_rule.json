@@ -1,0 +1,22 @@
+{
+  "code": "sales_order_no",
+  "name": "销售订单编号",
+  "status": "active",
+  "description": "销售订单创建保存时自动生成编号",
+  "segments": [
+    { "type": "text", "value": "SO" },
+    { "type": "date", "format": "yyyyMMdd" },
+    { "type": "sequence", "length": 4, "padChar": "0" }
+  ],
+  "sequencePolicy": {
+    "resetPolicy": "daily",
+    "startValue": 1,
+    "step": 1
+  },
+  "overridePolicy": {
+    "allowManualOverride": false
+  },
+  "metadata": {
+    "category": "sales"
+  }
+}

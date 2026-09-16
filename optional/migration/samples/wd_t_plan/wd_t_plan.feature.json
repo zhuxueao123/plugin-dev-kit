@@ -1,0 +1,78 @@
+{
+  "code": "wd_t_plan",
+  "name": "配送计划",
+  "module": "wd",
+  "entityCode": "wd_t_plan",
+  "description": "由旧系统站点配送模块 WD_T_PLAN 迁移而来。",
+  "initializeDefaultScenarios": true,
+  "includeDefaultListActions": true,
+  "fields": [
+    {
+      "fieldKey": "id_plan",
+      "displayName": "ID",
+      "dataType": "integer",
+      "sourceField": "id_plan",
+      "isIdentifier": true
+    },
+    {
+      "fieldKey": "desc_plan",
+      "displayName": "计划描述",
+      "dataType": "string",
+      "sourceField": "desc_plan"
+    },
+    {
+      "fieldKey": "f_default",
+      "displayName": "默认计划",
+      "dataType": "boolean",
+      "sourceField": "f_default"
+    },
+    {
+      "fieldKey": "date_eff",
+      "displayName": "生效日期",
+      "dataType": "datetime",
+      "sourceField": "date_eff"
+    },
+    {
+      "fieldKey": "date_exp",
+      "displayName": "失效日期",
+      "dataType": "datetime",
+      "sourceField": "date_exp"
+    },
+    {
+      "fieldKey": "f_enabled",
+      "displayName": "启用",
+      "dataType": "boolean",
+      "sourceField": "f_enabled"
+    },
+    {
+      "fieldKey": "time_cost",
+      "displayName": "时间间隔（分钟）",
+      "dataType": "integer",
+      "sourceField": "time_cost"
+    },
+    {
+      "fieldKey": "time_start",
+      "displayName": "起始时间",
+      "dataType": "string",
+      "sourceField": "time_start"
+    },
+    {
+      "fieldKey": "round",
+      "displayName": "送货轮次",
+      "dataType": "integer",
+      "sourceField": "round"
+    },
+    {
+      "fieldKey": "break_start",
+      "displayName": "午休开始时间",
+      "dataType": "string",
+      "sourceField": "break_start"
+    },
+    {
+      "fieldKey": "break_end",
+      "displayName": "午休结束时间",
+      "dataType": "string",
+      "sourceField": "break_end"
+    }
+  ]
+}

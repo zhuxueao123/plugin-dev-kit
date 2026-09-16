@@ -1,0 +1,8 @@
+[
+  {
+    "code": "status",
+    "name": "状态",
+    "dataType": "string",
+    "length": 32
+  }
+]

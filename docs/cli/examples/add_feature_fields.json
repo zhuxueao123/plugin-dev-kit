@@ -1,0 +1,11 @@
+[
+  {
+    "fieldKey": "customer_level",
+    "displayName": "客户等级",
+    "dataType": "string",
+    "sourceType": "entity",
+    "sourceConfig": "{\"field\":\"customer_level\"}",
+    "defaultVisible": true,
+    "defaultEditable": true
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "pluginCode": "supplier_guard",
+  "pluginName": "供应商保存校验插件",
+  "version": "0.1.0",
+  "capabilities": [
+    {
+      "code": "validate_before_save",
+      "displayName": "保存前校验",
+      "slot": "scenario.submit.pre",
+      "description": "在保存供应商前做基础业务校验。",
+      "inputSchema": {
+        "type": "object"
+      },
+      "defaultParams": {
+        "blockedStatuses": [
+          "archived"
+        ]
+      },
+      "permissions": [],
+      "timeoutSeconds": 3,
+      "auditLevel": "basic"
+    }
+  ]
+}

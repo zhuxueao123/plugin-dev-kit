@@ -1,0 +1,22 @@
+{
+  "name": "asapflow-plugin-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@trusteem/asapflow-plugin-sdk": "^0.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.0",
+    "vite": "^5.0.0",
+    "vue": "^3.4.0"
+  },
+  "peerDependencies": {
+    "pinia": "^2.1.7",
+    "quasar": "^2.16.0",
+    "vue": "^3.4.0"
+  }
+}

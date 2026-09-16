@@ -1,0 +1,44 @@
+{
+  "code": "ad_t_wpland",
+  "name": "作业明细",
+  "module": "ad",
+  "physicalName": "AD_T_WPLAND",
+  "description": "由旧系统安灯作业模块 AD_T_WPLAND 迁移而来。",
+  "fields": [
+    {
+      "code": "sid",
+      "name": "SID",
+      "dataType": "integer",
+      "isNullable": false,
+      "orderIndex": 1
+    },
+    {
+      "code": "line",
+      "name": "LINE",
+      "dataType": "integer",
+      "isNullable": false,
+      "orderIndex": 60
+    },
+    {
+      "code": "date_start",
+      "name": "开始时间",
+      "dataType": "datetime",
+      "isNullable": true,
+      "orderIndex": 70
+    },
+    {
+      "code": "date_finish",
+      "name": "完成时间",
+      "dataType": "datetime",
+      "isNullable": true,
+      "orderIndex": 80
+    },
+    {
+      "code": "finish_result",
+      "name": "完工判定结果",
+      "dataType": "integer",
+      "isNullable": true,
+      "orderIndex": 130
+    }
+  ]
+}

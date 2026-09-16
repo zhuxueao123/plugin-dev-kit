@@ -1,0 +1,46 @@
+{
+  "supplier_guard": {
+    "messages": {
+      "name_required": "供应商名称不能为空",
+      "archived_blocked": "状态为 {status} 的供应商不允许保存",
+      "validation_passed": "供应商校验通过"
+    }
+  },
+  "supplier_runtime_rules": {
+    "messages": {
+      "form_applied": "表单规则已应用",
+      "inactive_readonly": "停用供应商仅允许查看，不允许再次保存",
+      "draft_hide_address": "草稿供应商默认隐藏地址字段",
+      "list_applied": "列表规则已应用"
+    },
+    "labels": {
+      "supplier_status": "供应商状态",
+      "view_details": "查看详情"
+    }
+  },
+  "supplier_portal": {
+    "pages": {
+      "portal_eyebrow": "供应商门户",
+      "dashboard_title": "供应商总览",
+      "dashboard_summary": "面向 supplier_management 功能的示例前端插件页面，用于展示如何挂接自定义门户。",
+      "status_board_eyebrow": "状态看板",
+      "status_board_title": "供应商状态看板"
+    },
+    "cards": {
+      "draft_label": "草稿供应商",
+      "draft_note": "等待补充基础资料",
+      "active_label": "有效供应商",
+      "active_note": "可参与采购与询价",
+      "inactive_label": "停用供应商",
+      "inactive_note": "仅保留历史数据查询"
+    },
+    "lanes": {
+      "draft_title": "草稿",
+      "draft_description": "资料还未补齐，适合在创建后继续人工完善。",
+      "active_title": "有效",
+      "active_description": "已经通过基础校验，可以被业务流程正常选择。",
+      "inactive_title": "停用",
+      "inactive_description": "被插件规则自动限制编辑与删除，仅可查看历史记录。"
+    }
+  }
+}

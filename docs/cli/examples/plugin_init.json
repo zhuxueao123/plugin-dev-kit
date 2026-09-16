@@ -1,0 +1,6 @@
+{
+  "code": "supplier_guard",
+  "name": "供应商校验插件",
+  "kind": "full",
+  "root": "."
+}

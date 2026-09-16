@@ -1,0 +1,46 @@
+{
+  "supplier_guard": {
+    "messages": {
+      "name_required": "Supplier name is required.",
+      "archived_blocked": "Suppliers with status {status} cannot be saved.",
+      "validation_passed": "Supplier validation passed."
+    }
+  },
+  "supplier_runtime_rules": {
+    "messages": {
+      "form_applied": "Form rules applied.",
+      "inactive_readonly": "Inactive suppliers are read-only and cannot be saved again.",
+      "draft_hide_address": "Draft suppliers hide the address field by default.",
+      "list_applied": "List rules applied."
+    },
+    "labels": {
+      "supplier_status": "Supplier Status",
+      "view_details": "View Details"
+    }
+  },
+  "supplier_portal": {
+    "pages": {
+      "portal_eyebrow": "Supplier Portal",
+      "dashboard_title": "Supplier Dashboard",
+      "dashboard_summary": "A sample frontend plugin page for supplier_management that demonstrates how to attach a custom portal.",
+      "status_board_eyebrow": "Status Board",
+      "status_board_title": "Supplier Status Board"
+    },
+    "cards": {
+      "draft_label": "Draft Suppliers",
+      "draft_note": "Waiting for base information to be completed",
+      "active_label": "Active Suppliers",
+      "active_note": "Available for purchasing and quotation flows",
+      "inactive_label": "Inactive Suppliers",
+      "inactive_note": "Retained for historical lookup only"
+    },
+    "lanes": {
+      "draft_title": "Draft",
+      "draft_description": "Data is still incomplete and usually needs more manual refinement after creation.",
+      "active_title": "Active",
+      "active_description": "Passed base validation and can be used in normal business flows.",
+      "inactive_title": "Inactive",
+      "inactive_description": "Restricted by plugin rules and only available for historical viewing."
+    }
+  }
+}

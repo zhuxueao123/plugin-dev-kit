@@ -1,0 +1,21 @@
+{
+  "code": "draft",
+  "name": "草稿计划",
+  "scenarioType": "list",
+  "description": "只显示草稿状态的计划",
+  "metadata": "{\"search\":{\"defaultFilter\":{\"status\":{\"$eq\":\"NDRF\"}}}}",
+  "isDefault": false,
+  "fieldGroups": [
+    { "featureFieldKey": "sid", "orderIndex": 0, "list": { "enabled": true, "visible": true, "filterable": false } },
+    { "featureFieldKey": "code_line", "orderIndex": 1, "list": { "enabled": true, "visible": true, "filterable": true } },
+    { "featureFieldKey": "date_plan", "orderIndex": 2, "list": { "enabled": true, "visible": true, "filterable": true } },
+    { "featureFieldKey": "code_shift", "orderIndex": 3, "list": { "enabled": true, "visible": true, "filterable": true } },
+    { "featureFieldKey": "code_wo", "orderIndex": 4, "list": { "enabled": true, "visible": true, "filterable": true } },
+    { "featureFieldKey": "desc_item", "orderIndex": 5, "list": { "enabled": true, "visible": true, "filterable": true } },
+    { "featureFieldKey": "qty_plan", "orderIndex": 6, "list": { "enabled": true, "visible": true, "filterable": false } },
+    { "featureFieldKey": "qty_finish", "orderIndex": 7, "list": { "enabled": true, "visible": true, "filterable": false } },
+    { "featureFieldKey": "status", "orderIndex": 8, "list": { "enabled": true, "visible": true, "filterable": true } }
+  ],
+  "fields": [],
+  "actions": []
+}

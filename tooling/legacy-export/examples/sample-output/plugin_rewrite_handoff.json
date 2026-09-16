@@ -1,0 +1,24 @@
+{
+  "featureCode": "SD_T_SO",
+  "featureName": "销售订单",
+  "mainEntityCode": "SD_T_SO",
+  "pluginRefs": [
+    {
+      "rawRef": "SM.SO.BlockBeforeSave",
+      "library": "SM",
+      "namespace": "",
+      "className": "SO",
+      "methodName": "BlockBeforeSave"
+    }
+  ],
+  "rewriteGuidance": [
+    "Do not translate legacy SQL literally into new plugins.",
+    "Rewrite SQL intent into new-system entity, repository, or service operations.",
+    "Use table and field semantic hints to infer join purpose, status checks, and master-data lookups."
+  ],
+  "manualReviewRequired": [
+    "Helper method call chains inside plugin source code",
+    "Cross-feature writeback tables",
+    "Direct transaction management and UI/session interactions"
+  ]
+}

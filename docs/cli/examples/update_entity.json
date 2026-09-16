@@ -1,0 +1,11 @@
+{
+  "name": "销售订单",
+  "module": "sales",
+  "storageType": "table",
+  "schemaName": "public",
+  "physicalName": "sales_order",
+  "writeEnabled": true,
+  "status": "active",
+  "description": "销售订单主数据",
+  "metadata": "{}"
+}

@@ -1,0 +1,14 @@
+{
+  "code": "order_no",
+  "name": "订单号",
+  "dataType": "string",
+  "length": 64,
+  "precision": null,
+  "scale": null,
+  "isNullable": false,
+  "isPrimary": false,
+  "defaultValue": null,
+  "orderIndex": 1,
+  "category": "business",
+  "metadata": "{}"
+}

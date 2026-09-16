@@ -1,0 +1,30 @@
+{
+  "id": "replace-with-feature-id",
+  "code": "supplier_management",
+  "name": "供应商管理",
+  "module": "supply",
+  "entityCode": "supplier",
+  "description": "供应商主数据管理",
+  "isActive": true,
+  "initializeDefaultScenarios": true,
+  "includeDefaultListActions": true,
+  "fields": [
+    {
+      "displayName": "供应商名称",
+      "dataType": "string",
+      "sourceField": "name",
+      "isIdentifier": true
+    },
+    {
+      "displayName": "供应商编码",
+      "dataType": "string",
+      "sourceField": "code"
+    },
+    {
+      "displayName": "联系人",
+      "dataType": "string",
+      "sourceField": "contact_name"
+    }
+  ],
+  "notes": "这是给 AI 的参考结构。修改已有 feature 时，应先读取当前完整定义，再在现有结构基础上调整，避免误丢字段或实体绑定。"
+}

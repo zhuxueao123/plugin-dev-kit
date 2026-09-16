@@ -1,0 +1,11 @@
+{
+  "label": "进行中订单",
+  "code": "sales-order-in-progress",
+  "menuType": "scenario",
+  "featureId": "replace-with-feature-id",
+  "scenarioId": "replace-with-scenario-id",
+  "icon": "pending_actions",
+  "description": "销售订单进行中场景入口",
+  "metadata": "{}",
+  "isActive": true
+}

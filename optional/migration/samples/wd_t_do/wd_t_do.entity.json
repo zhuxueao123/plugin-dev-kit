@@ -1,0 +1,122 @@
+{
+  "code": "wd_t_do",
+  "name": "配送单",
+  "module": "wd",
+  "physicalName": "WD_T_DO",
+  "description": "由旧系统站点配送模块 WD_T_DO 迁移而来。",
+  "fields": [
+    {
+      "code": "code_do",
+      "name": "配送单号",
+      "dataType": "string",
+      "length": 12,
+      "isNullable": false,
+      "orderIndex": 1
+    },
+    {
+      "code": "date_do",
+      "name": "配送日期",
+      "dataType": "datetime",
+      "isNullable": true,
+      "orderIndex": 80
+    },
+    {
+      "code": "code_line",
+      "name": "产线代码",
+      "dataType": "string",
+      "length": 10,
+      "isNullable": true,
+      "orderIndex": 140
+    },
+    {
+      "code": "desc_line",
+      "name": "产线名称",
+      "dataType": "string",
+      "length": 50,
+      "isNullable": true,
+      "orderIndex": 150
+    },
+    {
+      "code": "prv_bl",
+      "name": "前一天结余套数",
+      "dataType": "integer",
+      "isNullable": true,
+      "orderIndex": 155
+    },
+    {
+      "code": "time_start",
+      "name": "开始时间",
+      "dataType": "string",
+      "length": 5,
+      "isNullable": true,
+      "orderIndex": 160
+    },
+    {
+      "code": "time_end",
+      "name": "结束时间",
+      "dataType": "string",
+      "length": 5,
+      "isNullable": true,
+      "orderIndex": 165
+    },
+    {
+      "code": "qty_set",
+      "name": "套数",
+      "dataType": "integer",
+      "isNullable": true,
+      "orderIndex": 170
+    },
+    {
+      "code": "time_span",
+      "name": "节拍（分钟）",
+      "dataType": "integer",
+      "isNullable": true,
+      "orderIndex": 180
+    },
+    {
+      "code": "status",
+      "name": "状态",
+      "dataType": "string",
+      "length": 10,
+      "isNullable": true,
+      "orderIndex": 190
+    },
+    {
+      "code": "cur_bl",
+      "name": "当前结余套数",
+      "dataType": "integer",
+      "isNullable": true,
+      "orderIndex": 200
+    },
+    {
+      "code": "creusr",
+      "name": "创建用户",
+      "dataType": "string",
+      "length": 24,
+      "isNullable": true,
+      "orderIndex": 210
+    },
+    {
+      "code": "credat",
+      "name": "创建日期",
+      "dataType": "datetime",
+      "isNullable": true,
+      "orderIndex": 220
+    },
+    {
+      "code": "updusr",
+      "name": "修改用户",
+      "dataType": "string",
+      "length": 24,
+      "isNullable": true,
+      "orderIndex": 230
+    },
+    {
+      "code": "upddat",
+      "name": "修改日期",
+      "dataType": "datetime",
+      "isNullable": true,
+      "orderIndex": 240
+    }
+  ]
+}

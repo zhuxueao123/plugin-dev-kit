@@ -1,0 +1,9 @@
+﻿allowed_modules:
+  - re
+  - datetime
+  - json
+  - plugins_sdk
+  - plugins_sdk.*
+  - plugins.*
+core_sdk_base_url: http://127.0.0.1:5189
+core_sdk_timeout_seconds: 10.0

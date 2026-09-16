@@ -1,0 +1,121 @@
+{
+  "code": "detail",
+  "name": "配送单 表单",
+  "scenarioType": "form",
+  "description": "系统初始化的标准表单场景",
+  "isDefault": true,
+  "metadata": "{\"detailTables\":[{\"key\":\"dod\",\"title\":\"配送单明细\",\"entityCode\":\"wd_t_dod\",\"relation\":{\"parentKey\":\"code_do\",\"childKey\":\"code_do\"},\"allowAdd\":true,\"allowDelete\":true,\"columns\":[{\"fieldKey\":\"line_dod\",\"label\":\"序号\",\"component\":\"q-number\",\"required\":true,\"readonly\":false,\"persist\":true,\"width\":90},{\"fieldKey\":\"code_site\",\"label\":\"站点代码\",\"component\":\"q-input\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":140},{\"fieldKey\":\"desc_site\",\"label\":\"站点描述\",\"component\":\"q-input\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":180},{\"fieldKey\":\"code_line\",\"label\":\"产线代码\",\"component\":\"q-input\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":120},{\"fieldKey\":\"desc_line\",\"label\":\"产线名称\",\"component\":\"q-input\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":180},{\"fieldKey\":\"time_start\",\"label\":\"开始时间\",\"component\":\"q-time\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":120},{\"fieldKey\":\"time_end\",\"label\":\"结束时间\",\"component\":\"q-time\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":120},{\"fieldKey\":\"time_push\",\"label\":\"操作时间\",\"component\":\"q-time\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":120},{\"fieldKey\":\"round\",\"label\":\"轮次\",\"component\":\"q-number\",\"required\":false,\"readonly\":false,\"persist\":true,\"width\":90}]}]}",
+  "fieldGroups": [
+    {
+      "featureFieldKey": "code_do",
+      "orderIndex": 0,
+      "form": {
+        "enabled": true,
+        "required": true,
+        "readonly": false,
+        "componentType": "q-input"
+      }
+    },
+    {
+      "featureFieldKey": "date_do",
+      "orderIndex": 1,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-datetime"
+      }
+    },
+    {
+      "featureFieldKey": "code_line",
+      "orderIndex": 2,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-input"
+      }
+    },
+    {
+      "featureFieldKey": "desc_line",
+      "orderIndex": 3,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-input"
+      }
+    },
+    {
+      "featureFieldKey": "prv_bl",
+      "orderIndex": 4,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-number"
+      }
+    },
+    {
+      "featureFieldKey": "time_start",
+      "orderIndex": 5,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-time"
+      }
+    },
+    {
+      "featureFieldKey": "time_end",
+      "orderIndex": 6,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-time"
+      }
+    },
+    {
+      "featureFieldKey": "qty_set",
+      "orderIndex": 7,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-number"
+      }
+    },
+    {
+      "featureFieldKey": "time_span",
+      "orderIndex": 8,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-number"
+      }
+    },
+    {
+      "featureFieldKey": "status",
+      "orderIndex": 9,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-input"
+      }
+    },
+    {
+      "featureFieldKey": "cur_bl",
+      "orderIndex": 10,
+      "form": {
+        "enabled": true,
+        "required": false,
+        "readonly": false,
+        "componentType": "q-number"
+      }
+    }
+  ],
+  "actions": []
+}

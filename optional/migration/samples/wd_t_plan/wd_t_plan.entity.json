@@ -1,0 +1,120 @@
+{
+  "code": "wd_t_plan",
+  "name": "配送计划",
+  "module": "wd",
+  "physicalName": "WD_T_PLAN",
+  "description": "由旧系统站点配送模块 WD_T_PLAN 迁移而来。",
+  "fields": [
+    {
+      "code": "id_plan",
+      "name": "ID",
+      "dataType": "integer",
+      "isNullable": false,
+      "orderIndex": 1
+    },
+    {
+      "code": "desc_plan",
+      "name": "计划描述",
+      "dataType": "string",
+      "length": 100,
+      "isNullable": true,
+      "orderIndex": 20
+    },
+    {
+      "code": "f_default",
+      "name": "默认计划",
+      "dataType": "boolean",
+      "isNullable": true,
+      "orderIndex": 30
+    },
+    {
+      "code": "date_eff",
+      "name": "生效日期",
+      "dataType": "datetime",
+      "isNullable": true,
+      "orderIndex": 70
+    },
+    {
+      "code": "date_exp",
+      "name": "失效日期",
+      "dataType": "datetime",
+      "isNullable": true,
+      "orderIndex": 80
+    },
+    {
+      "code": "f_enabled",
+      "name": "启用",
+      "dataType": "boolean",
+      "isNullable": true,
+      "orderIndex": 90
+    },
+    {
+      "code": "time_cost",
+      "name": "时间间隔（分钟）",
+      "dataType": "integer",
+      "isNullable": true,
+      "orderIndex": 150
+    },
+    {
+      "code": "time_start",
+      "name": "起始时间",
+      "dataType": "string",
+      "length": 5,
+      "isNullable": true,
+      "orderIndex": 160
+    },
+    {
+      "code": "round",
+      "name": "送货轮次",
+      "dataType": "integer",
+      "isNullable": true,
+      "orderIndex": 170
+    },
+    {
+      "code": "break_start",
+      "name": "午休开始时间",
+      "dataType": "string",
+      "length": 5,
+      "isNullable": true,
+      "orderIndex": 180
+    },
+    {
+      "code": "break_end",
+      "name": "午休结束时间",
+      "dataType": "string",
+      "length": 5,
+      "isNullable": true,
+      "orderIndex": 190
+    },
+    {
+      "code": "creusr",
+      "name": "创建用户",
+      "dataType": "string",
+      "length": 24,
+      "isNullable": true,
+      "orderIndex": 200
+    },
+    {
+      "code": "credat",
+      "name": "创建日期",
+      "dataType": "datetime",
+      "isNullable": true,
+      "orderIndex": 210
+    },
+    {
+      "code": "updusr",
+      "name": "修改用户",
+      "dataType": "string",
+      "length": 24,
+      "isNullable": true,
+      "orderIndex": 220
+    },
+    {
+      "code": "upddat",
+      "name": "修改日期",
+      "dataType": "datetime",
+      "isNullable": true,
+      "orderIndex": 230
+    }
+  ]
+}

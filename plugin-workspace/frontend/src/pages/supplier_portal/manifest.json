@@ -1,0 +1,55 @@
+{
+  "pluginCode": "supplier_portal",
+  "pluginName": "供应商门户页面插件",
+  "version": "0.1.0",
+  "pages": [
+    {
+      "code": "supplier-dashboard",
+      "displayName": "供应商总览",
+      "route": {
+        "name": "plugin-supplier-dashboard",
+        "path": "/plugins/supplier/dashboard"
+      },
+      "entry": "./supplier-dashboard.vue",
+      "bundle": "supplier-dashboard.es.js",
+      "entryExport": "default",
+      "propsSchema": {
+        "type": "object"
+      },
+      "permissions": [],
+      "hostFeatures": [
+        "supplier_management"
+      ],
+      "layout": {
+        "fullWidth": true
+      },
+      "metadata": {
+        "icon": "dashboard"
+      }
+    },
+    {
+      "code": "supplier-status-board",
+      "displayName": "供应商状态看板",
+      "route": {
+        "name": "plugin-supplier-status-board",
+        "path": "/plugins/supplier/status-board"
+      },
+      "entry": "./supplier-status-board.vue",
+      "bundle": "supplier-status-board.es.js",
+      "entryExport": "default",
+      "propsSchema": {
+        "type": "object"
+      },
+      "permissions": [],
+      "hostFeatures": [
+        "supplier_management"
+      ],
+      "layout": {
+        "fullWidth": true
+      },
+      "metadata": {
+        "icon": "analytics"
+      }
+    }
+  ]
+}

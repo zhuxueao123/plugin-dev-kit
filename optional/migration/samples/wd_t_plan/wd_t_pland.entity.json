@@ -1,0 +1,108 @@
+{
+  "code": "wd_t_pland",
+  "name": "配送计划明细",
+  "module": "wd",
+  "physicalName": "WD_T_PLAND",
+  "description": "由旧系统站点配送模块 WD_T_PLAND 迁移而来。",
+  "fields": [
+    {
+      "code": "id_plan",
+      "name": "ID",
+      "dataType": "integer",
+      "isNullable": false,
+      "orderIndex": 1
+    },
+    {
+      "code": "line_pland",
+      "name": "行号",
+      "dataType": "integer",
+      "isNullable": false,
+      "orderIndex": 60
+    },
+    {
+      "code": "code_site",
+      "name": "站点代码",
+      "dataType": "string",
+      "length": 20,
+      "isNullable": true,
+      "orderIndex": 70
+    },
+    {
+      "code": "desc_site",
+      "name": "站点描述",
+      "dataType": "string",
+      "length": 50,
+      "isNullable": true,
+      "orderIndex": 80
+    },
+    {
+      "code": "code_line",
+      "name": "产线代码",
+      "dataType": "string",
+      "length": 10,
+      "isNullable": true,
+      "orderIndex": 83
+    },
+    {
+      "code": "desc_line",
+      "name": "产线名称",
+      "dataType": "string",
+      "length": 50,
+      "isNullable": true,
+      "orderIndex": 86
+    },
+    {
+      "code": "time_start",
+      "name": "开始时间",
+      "dataType": "string",
+      "length": 5,
+      "isNullable": true,
+      "orderIndex": 90
+    },
+    {
+      "code": "time_end",
+      "name": "结束时间",
+      "dataType": "string",
+      "length": 5,
+      "isNullable": true,
+      "orderIndex": 140
+    },
+    {
+      "code": "round",
+      "name": "轮次",
+      "dataType": "integer",
+      "isNullable": true,
+      "orderIndex": 170
+    },
+    {
+      "code": "creusr",
+      "name": "创建用户",
+      "dataType": "string",
+      "length": 24,
+      "isNullable": true,
+      "orderIndex": 200
+    },
+    {
+      "code": "credat",
+      "name": "创建日期",
+      "dataType": "datetime",
+      "isNullable": true,
+      "orderIndex": 210
+    },
+    {
+      "code": "updusr",
+      "name": "修改用户",
+      "dataType": "string",
+      "length": 24,
+      "isNullable": true,
+      "orderIndex": 220
+    },
+    {
+      "code": "upddat",
+      "name": "修改日期",
+      "dataType": "datetime",
+      "isNullable": true,
+      "orderIndex": 230
+    }
+  ]
+}
