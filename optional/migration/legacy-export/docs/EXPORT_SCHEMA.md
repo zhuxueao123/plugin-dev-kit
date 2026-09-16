@@ -162,8 +162,9 @@ exports/functions/<FUNCID>/
 - `MAINBLOCK`/`BMAINBLOCK` 被视为主信息块并排除在 `detailTables` 外；block field 缺少 `TABLEID` 时通过 block 反查；
 - 主从表共有 `CODE_*` 字段时，关系键优先保留为同名业务键，例如 `CODE_ITEM = CODE_ITEM`；
 - 明细列会合并 `SYS_TableField`、`V_SYS_GroupBlockField` 和 `SYS_BlockFieldOver`，覆盖值优先；因此表字段上的名称、图片/附件控件类型不会因 block 视图列为空而丢失；
-- 明细列仅保留旧平台 `GSTATUS/BSTATUS` 可见的非系统字段；`CODE_ITEM`、`DESC_ITEM` 等字段不按名称硬编码删除，旧平台可见时保留并按原状态设置只读，不可见时过滤；关联键无论是否展示都保留在 `relation.parentKey/childKey`；
+- 明细列仅保留旧平台 `GSTATUS/BSTATUS` 可见的非系统字段；主从关联键（如 `CODE_ITEM`）及主表中同后缀的上下文描述字段（如 `DESC_ITEM`）不再重复显示为明细列，关联键仍保留在 `relation.parentKey/childKey`；
 - `componentType` 与 `extraMetadata`：保留旧 `CTRLTYPE`、`DSTYPE` 和完整数据源表达式；`DSTYPE=1` 转换为字典源，`DSTYPE=2` 转换为关系源，`DSTYPE=4` 转换为静态选项；
+- 同一场景的同一 `featureFieldKey` 只输出一个 `fieldGroups` 条目，`list/form/detail` 上下文合并在该条目内；重复来源优先保留可见且数据源配置更完整的版本；
 - `migrationWarning`：提醒应用前复核主从表关联键。
 
 下拉和参照不再静默降级为 `q-input`。无法结构化的 SQL、脚本或缺失依赖的数据源会保留完整旧元数据，并通过 `migrationStatus` 标记后续处理，不伪造可用选项。
