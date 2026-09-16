@@ -106,6 +106,8 @@
 | `UNIQUE` | `unique_hint` | `entity_field.metadata.unique=true`，必要时生成唯一索引 |
 | `STATUS` | `legacy_status` | `entity_field.metadata.legacyStatus` |
 
+`FIELDTYPE` 必须按旧平台实际物理语义输出：`1=int`、`2=decimal`、`3/4=string`、`5=datetime`、`6=boolean`、`7=bigint`、`8=text`、`9=binary`。其中旧平台将 `5` 命名为 Date，但实际创建 SQL Server `datetime` 列，不得降为新平台 `date`。`9` 仅表达为 `binary` 元数据，当前交付不包含二进制数据搬迁。
+
 以下老系统字段不直接落到实体层，而主要用于功能层：
 
 - `CTRLTYPE`
