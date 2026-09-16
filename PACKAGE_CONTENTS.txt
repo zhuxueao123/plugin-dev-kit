@@ -4,7 +4,7 @@ plugin-dev-kit
 ├── plugin-publish.sh / plugin-publish.ps1
 ├── bin/
 │   ├── macos/asapflow/      # macOS CLI
-│   └── windows/asapflow/    # Windows CLI replacement location
+│   └── windows/asapflow/    # Windows CLI and configuration
 ├── docs/
 │   ├── README.md            # single documentation entry
 │   ├── plugin-development/
@@ -12,4 +12,6 @@ plugin-dev-kit
 │   ├── ai/
 │   └── migration/
 ├── plugin-workspace/        # plugin source workspace
+├── tooling/                 # CLI and migration-tool source
+├── scripts/                 # Dev Kit maintenance scripts
 └── optional/migration/      # legacy migration only

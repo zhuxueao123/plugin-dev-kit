@@ -1,6 +1,6 @@
 # Examples
 
-这里放的是客户可复制的模板示例。
+这里存放插件开发人员可复制的模板示例。
 
 说明：
 - `examples/backend/` 不会被 Runtime 自动加载。

@@ -1,5 +1,5 @@
 Place Windows CLI binary here:
 - legacy-export.exe
 
-This file is not produced by this macOS packaging script.
-Build it on Windows and copy it into this directory before delivery.
+From the Dev Kit root, run .\scripts\build-windows-tools.ps1 on Windows.
+The script builds and places legacy-export.exe in this directory.
