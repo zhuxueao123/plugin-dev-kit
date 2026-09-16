@@ -12,7 +12,7 @@
 
 ## 配置文件
 
-请基于 `config.example.json` 创建本地 `config.json`，不要把真实连接配置随交付包分发。
+请基于 `config.example.json` 创建本地 `config.json`，不要提交或共享真实连接配置。
 
 `config.example.json` 示例：
 
@@ -59,9 +59,7 @@
 ./legacy-export export-lists --config config.json --out exports
 ```
 
-构建：
-
-交付目录中的可执行文件：
+使用当前操作系统目录中的可执行文件：
 
 ```bash
 ./legacy-export
@@ -212,14 +210,13 @@ CLI 已内置帮助：
 - `docs/EXPORT_SCHEMA.md`
 - `examples/sample-output/`
 
-## 当前交付边界
+## 当前使用边界
 
-当前版本适合作为“迁移编排输入包”交付，建议一起交付给 AI 的内容包括：
+当前版本适合生成迁移编排输入，建议同时向 AI 助手提供：
 
-1. 本 CLI 二进制与 `config.example.json`
-2. 本 CLI 导出的 `exports/`
-3. 老系统插件代码库
-4. 新系统 CLI 文档与建模文档
+1. 本工具导出的 `exports/`
+2. 老系统插件代码库
+3. 新系统 CLI 文档与建模文档
 
 当前版本已经覆盖：
 

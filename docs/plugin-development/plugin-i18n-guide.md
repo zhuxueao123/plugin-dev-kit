@@ -5,10 +5,10 @@
 插件国际化统一采用：
 
 - 语言来源：当前请求上下文中的 `context.locale`
-- 语言资源：`plugins/locales/<locale>.json`
+- 语言资源：`plugin-workspace/locales/<locale>.json`
 - 后端插件调用方式：`context.t(key, params=None, default=None)`
 - 前端插件调用方式：宿主 `vue-i18n` + `usePluginI18n(pluginCode)`
-- 平台前端内置语言包：仅作为 fallback baseline，客户主要维护面是 `plugins/locales/*.json`
+- 平台内置语言包作为 fallback，插件文案统一在 `plugin-workspace/locales/*.json` 中维护
 
 不要在插件代码里手写：
 
@@ -26,13 +26,13 @@ else:
 统一语言包目录：
 
 ```text
-plugins/
+plugin-workspace/
   locales/
     zh-CN.json
     en-US.json
 ```
 
-统一语言包由客户维护，建议同时承载三类文案：
+统一语言包由插件开发人员维护，建议同时承载三类文案：
 
 - 平台前端覆盖文案：`platform.*`
 - 后端插件文案：`<pluginCode>.*`
@@ -157,17 +157,16 @@ def validate_before_save(context: PluginContext, payload: bytes):
 
 其中：
 
-- 后端 runtime 会直接读取 `plugins/locales/*.json`
-- 宿主前端会将 `plugins/locales/*.json` merge 到内置 `vue-i18n` 语言包
-- 平台前端源码内置语言包仍保留，用作系统默认 fallback，不作为客户主要维护入口
+- 后端插件和前端插件发布后都会使用 `plugin-workspace/locales/*.json` 中的语言资源
+- 平台内置语言包仍作为系统默认 fallback
 
-## 8. 客户维护原则
+## 8. 开发维护原则
 
-面向客户交付时，应当把 `plugins/locales/` 视为统一语言资源目录。
+应当把 `plugin-workspace/locales/` 视为统一语言资源目录。
 
-客户通常只需要维护：
+插件开发人员通常只需要维护：
 
-- `plugins/locales/zh-CN.json`
-- `plugins/locales/en-US.json`
+- `plugin-workspace/locales/zh-CN.json`
+- `plugin-workspace/locales/en-US.json`
 
-不需要直接修改平台前端源码中的 `frontend/src/i18n/*.json`，除非在做平台级开发。
+不要修改平台内置语言资源。

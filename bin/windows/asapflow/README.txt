@@ -1,6 +1,9 @@
-Place Windows CLI binary here:
+Windows 插件开发使用本目录中的：
 - asapflow.exe
+- asapflow.ps1
+- config.json
 
-From the Dev Kit root, run .\scripts\build-windows-tools.ps1 on Windows.
-The script builds tooling\cli\target\release\asapflow.exe and places it here.
-Do not use tooling\cli\target\x86_64-pc-windows-gnu\release\asapflow.exe.
+从 config.example.json 复制并创建 config.json，填写平台地址和 Service Token。
+日常使用优先执行 .\asapflow.ps1。开发人员无需自行构建 CLI。
+
+如果当前版本缺少 asapflow.exe，请联系 Dev Kit 提供方获取完整版本。

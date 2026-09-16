@@ -1,5 +1,3 @@
-Place Windows CLI binary here:
-- legacy-export.exe
+旧系统迁移时使用本目录中的 legacy-export.exe。
 
-From the Dev Kit root, run .\scripts\build-windows-tools.ps1 on Windows.
-The script builds and places legacy-export.exe in this directory.
+开发人员无需自行构建该工具。如果当前版本缺少可执行文件，请联系 Dev Kit 提供方获取完整版本。

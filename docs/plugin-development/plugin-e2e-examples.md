@@ -13,10 +13,9 @@
 - 后端插件：`supplier_runtime_rules`
 - 前端插件：`supplier_portal`
 
-开发包中的可复制示例位于 `plugin-workspace/examples/backend/` 和
+可复制示例位于 `plugin-workspace/examples/backend/` 和
 `plugin-workspace/examples/frontend/`；启用后放入 `plugin-workspace/backend/`
-和 `plugin-workspace/frontend/src/pages/`。AsapFlow 源仓库中的示例路径为
-`plugins/examples/`。
+和 `plugin-workspace/frontend/src/pages/`。
 
 ## 1. 前置条件
 
@@ -26,7 +25,7 @@
 2. 前端宿主已启动
 3. runtime 正常运行
 4. CLI 已配置 `baseUrl` 与 token
-5. `plugins/locales/*.json` 已随插件仓库一起存在
+5. `plugin-workspace/locales/*.json` 已存在
 
 ## 2. 创建实体
 
@@ -129,8 +128,6 @@ cd plugin-workspace/frontend
 npm run build
 ```
 
-如果在 AsapFlow 源仓库内验证，请改为进入 `plugins/frontend`。
-
 页面示例：
 
 - `/plugins/supplier/dashboard`
@@ -179,7 +176,7 @@ npm run build
 统一语言资源目录：
 
 ```text
-plugins/locales/
+plugin-workspace/locales/
   zh-CN.json
   en-US.json
 ```
@@ -190,7 +187,7 @@ plugins/locales/
 - 后端插件：`supplier_guard.*`、`supplier_runtime_rules.*`
 - 前端插件：`supplier_portal.*`
 
-## 9. 推荐交付给 AI 的文档
+## 9. 推荐提供给 AI 助手的文档
 
 如果目标是让 AI 生成和联调插件，建议至少提供：
 

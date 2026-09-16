@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-"""Verify the extracted AsapFlow Plugin Dev Kit before delivery or use."""
+"""Verify the local AsapFlow Plugin Dev Kit development environment."""
 from __future__ import annotations
 
-import argparse
 import json
 import sys
 from pathlib import Path
@@ -15,7 +14,7 @@ SDK_ROOT = WORKSPACE / "runtime-sdk"
 def require(relative_path: str) -> Path:
     path = KIT_ROOT / relative_path
     if not path.exists():
-        raise RuntimeError(f"missing required delivery file: {relative_path}")
+        raise RuntimeError(f"missing required Dev Kit file: {relative_path}")
     return path
 
 
@@ -66,33 +65,10 @@ def verify_sdk() -> None:
         raise RuntimeError("ExecutionResultBuilder smoke check failed")
 
 
-def verify_forbidden_files() -> None:
-    forbidden_names = {"config.json", ".DS_Store"}
-    for path in KIT_ROOT.rglob("*"):
-        if path.name in forbidden_names or path.name.startswith("._"):
-            raise RuntimeError(f"forbidden delivery file: {path.relative_to(KIT_ROOT)}")
-        if path.is_dir() and path.name in {"node_modules", ".venv", "__pycache__"}:
-            raise RuntimeError(f"forbidden delivery directory: {path.relative_to(KIT_ROOT)}")
-
-
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--mode",
-        choices=("local", "delivery"),
-        default="local",
-        help="local validates an installed workspace; delivery also rejects secrets and generated files",
-    )
-    return parser.parse_args()
-
-
 def main() -> None:
-    args = parse_args()
     verify_manifests()
     verify_sdk()
-    if args.mode == "delivery":
-        verify_forbidden_files()
-    print(f"Plugin Dev Kit verification passed ({args.mode} mode).")
+    print("Plugin Dev Kit verification passed.")
 
 
 if __name__ == "__main__":

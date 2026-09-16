@@ -446,8 +446,9 @@
 
 当前实现中，插件 Manifest 不落数据库主表，主要通过文件系统加载并在内存聚合：
 
-- 后端插件：`plugins/backend/<pluginCode>/manifest.json`
-- 前端插件（聚合产物）：`plugins/frontend/dist/manifests/<pluginCode>.json`
+- 后端插件源码：`plugin-workspace/backend/<pluginCode>/manifest.json`
+- 前端插件源码：`plugin-workspace/frontend/src/pages/<pluginCode>/manifest.json`
+- 前端插件聚合产物：`plugin-workspace/frontend/dist/manifests/<pluginCode>.json`
 
 平台在请求时汇总为统一 `PluginManifest`：
 

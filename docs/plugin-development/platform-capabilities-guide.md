@@ -1,6 +1,6 @@
 # 插件开发关联的平台能力指南
 
-本文面向在 `plugins/` 工作区内协作的 AI 和开发人员。
+本文面向在 `plugin-workspace/` 中开发插件的开发人员及其 AI 助手。
 
 目的只有一个：当需求看起来像“要写插件”时，先判断哪些能力其实应直接使用平台标准能力，而不是在插件里重复实现。
 
@@ -51,7 +51,7 @@
 }
 ```
 
-### 2.3 AI 固定操作顺序
+### 2.3 推荐操作顺序
 
 1. `dictionary get` / `dictionary list` 先确认是否已存在。
 2. 不存在时执行 `dictionary create`。
@@ -81,7 +81,7 @@ asapflow dictionary delete --code order_status
 
 不要在插件前端手工拼接编号。
 
-### 3.2 AI 固定操作顺序
+### 3.2 推荐操作顺序
 
 1. `number-rule get` / `number-rule list` 先确认规则是否已存在。
 2. 不存在时执行 `number-rule create`。
@@ -120,7 +120,7 @@ asapflow number-rule bind-field --entity-code sales_order --field-code order_no 
 
 不要先建议外部 cron，也不要先做前端轮询。
 
-### 4.2 AI 固定操作顺序
+### 4.2 推荐操作顺序
 
 1. `scheduled-job list` 看是否已有同类任务。
 2. `scheduled-job get` 读取已有任务详情。

@@ -240,7 +240,7 @@
 - `plugin manifest-check`
   用途：校验单个 manifest 文件
 - `plugin build-frontend`
-  用途：构建前端插件。默认自动识别源码仓库的 `plugins/frontend`、开发包的 `plugin-workspace/frontend` 或当前前端目录；也可用 `--working-dir` 明确指定
+  用途：构建前端插件。默认使用 `plugin-workspace/frontend`，也可用 `--working-dir` 明确指定前端工程目录
 
 ### 服务端运行能力
 
@@ -262,14 +262,6 @@
   用途：查询插件发布历史
 - `plugin rollback`
   用途：回滚到平台保留的成功版本
-- `plugin workspace-status`
-  用途：查看插件工作区传输能力
-- `plugin pull-package`
-  用途：下载当前服务器 `plugins/` 工作区压缩包
-- `plugin package`
-  用途：把本地 `plugins/` 工作区打包成 zip
-- `plugin deploy-package`
-  用途：上传本地 `plugins/` 工作区压缩包并部署，可选触发前端构建与后端热重载
 
 ## 8. BI 看板能力
 

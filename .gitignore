@@ -9,6 +9,7 @@
 **/.venv/
 **/target/
 plugin-workspace/frontend/dist/
+plugin-workspace/frontend/.generated/
 dist/
 exports/
 optional/migration/legacy-export/exports/

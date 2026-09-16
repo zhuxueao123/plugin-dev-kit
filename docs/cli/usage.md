@@ -62,10 +62,6 @@ asapflow bi execute-query --dashboard-id <dashboard-id> --input execute_bi_query
 asapflow bi publish --dashboard-id <dashboard-id> --input publish_bi_dashboard.json
 asapflow data query-records --entity-code customer --input customer.query.json
 asapflow plugin init --code supplier_guard --name "供应商校验插件"
-asapflow plugin workspace-status
-asapflow plugin pull-package --output-file plugins.zip
-asapflow plugin package --source ./plugins --output-file plugins.zip
-asapflow plugin deploy-package --file plugins.zip --mode replace --build-frontend --reload-backend --strict-docs
 ```
 
 如果在 Windows PowerShell 中从当前目录运行，可执行文件应写成：
@@ -123,7 +119,7 @@ asapflow data query-records --entity-code customer --json "{\"pageSize\":20}"
 - CLI 现在会尽量容忍外层再包一层单引号或双引号的写法
 - 但在 Windows 终端和 AI 工具场景下，仍然优先推荐 `--input <json-file>`
 - 复杂 JSON 不建议长期依赖内联字符串
-- 如果输入只是一次性临时数据，推荐使用 `--input -` 从标准输入读取，避免在客户仓库里生成临时 JSON 文件
+- 如果输入只是一次性临时数据，推荐使用 `--input -` 从标准输入读取，避免在插件工作区生成临时 JSON 文件
 
 Windows PowerShell 示例：
 
@@ -171,7 +167,7 @@ EOF
 - 成功时写入成功 JSON
 - 失败时写入失败 JSON
 - 这样 AI 工具只需要读取文件，不依赖终端 stdout 捕获
-- 如果必须显式指定 `--output`，建议写入系统临时目录，不要写到客户代码仓库根目录
+- 如果必须显式指定 `--output`，建议写入系统临时目录，不要写到插件工作区根目录
 - Windows PowerShell 5.1 读取 `--output` 文件时建议显式指定 UTF-8：
 
 ```powershell
@@ -238,7 +234,6 @@ CLI 统一输出 JSON。
 6. 查询和写入已有实体的数据时，不需要关心业务库
 7. 业务库路由由服务端根据元数据自动解析
 8. 插件命令只操作本地工作目录，除 `plugin reload` 这类运行管理命令外，不直接作用于服务器源码
-20. 插件工作区允许通过受控压缩包方式从服务器下载、在本地修改后再上传部署；这不等同于在线编辑服务器源码
 9. 创建流程时，优先走 `workflow create-definition -> workflow publish-definition`
 10. 流程实例跳转到业务页面时，建议在发起输入中补齐 `featureCode`、`scenarioCode`、`mode`
 11. 需要自动编号时，先创建编号规则，再在实体字段 `metadata.generator` 中引用 `ruleCode`

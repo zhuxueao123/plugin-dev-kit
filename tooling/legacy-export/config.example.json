@@ -1,9 +1,0 @@
-{
-  "queryRunner": {
-    "type": "shell-template",
-    "commandTemplate": "sqlcmd -S 127.0.0.1 -d LegacyDb -U sa -P secret -W -w 65535 -f 65001 -s \"|\" -i {sql_file}"
-  },
-  "output": {
-    "defaultDirectory": "exports"
-  }
-}

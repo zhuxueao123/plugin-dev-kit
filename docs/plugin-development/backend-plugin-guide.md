@@ -5,7 +5,7 @@
 后端插件放在：
 
 ```text
-plugins/backend/<plugin-code>/
+plugin-workspace/backend/<plugin-code>/
   manifest.json
   main.py
 ```
@@ -88,7 +88,7 @@ PLUGIN_APP = app
   - `context.selection.rows`
   - `context.selection.ids`
   - `context.selection.count`
-- 多语言文案统一使用 `context.t(...)`，语言资源放在 `plugins/locales/*.json`，不要在插件里手写 `if locale == ...`
+- 多语言文案统一使用 `context.t(...)`，语言资源放在 `plugin-workspace/locales/*.json`，不要在插件里手写 `if locale == ...`
 
 ## 4. 宿主能力访问
 
@@ -251,6 +251,6 @@ return ok({
 
 ## 8. 参考示例
 
-- 正式示例：`plugins/backend/supplier_guard/`、`plugins/backend/supplier_runtime_rules/`
-- 可复制模板：`plugins/examples/backend/supplier_guard/`
+- 正式插件：`plugin-workspace/backend/<plugin-code>/`
+- 可复制模板：`plugin-workspace/examples/backend/supplier_guard/`、`plugin-workspace/examples/backend/supplier_runtime_rules/`
 - 完整联调链路见 [plugin-e2e-examples.md](plugin-e2e-examples.md)
