@@ -316,4 +316,5 @@ CLI 已内置帮助：
 1. 在 `SYS_Function` 中按 `IDNUM / DES1 / DES2` 匹配菜单名称
 2. 递归收集该菜单节点下所有子功能
 3. 过滤掉仅作为目录节点、没有实际功能绑定的菜单项
-4. 逐个复用 `export-function` 导出功能包
+4. 将完整子树（包含目录节点）写入 `menus/menu_tree_seed.json` 和 `menus/sys_function_menu.json`
+5. 逐个复用 `export-function` 导出功能包

@@ -849,7 +849,19 @@ CLI 在简化输入中额外支持：
 - `dataBinding`
   含义：数据绑定配置。
   必填：否。
-  说明：通常是 JSON 字符串，用于表达过滤、排序、关联加载等规则。
+  说明：JSON 字符串，用于表达过滤、排序、关联加载等规则。场景固定过滤可使用查询过滤对象，也可使用结构化条件；运行时会将它与 `metadata.search.defaultFilter` 以 `$and` 合并。
+
+  ```json
+  {
+    "primaryEntityCode": "BD_B_ITEM",
+    "defaultFilter": {
+      "STAT_ITEM": { "$ne": "6" }
+    },
+    "legacyFilter": "STAT_ITEM<>'6'"
+  }
+  ```
+
+  也可将 `defaultFilter` 写成 `filter`，或使用 `condition: { "field": "STAT_ITEM", "operator": "ne", "value": "6" }`。旧平台原始表达式应保留在 `legacyFilter` 供审计，但运行时只执行结构化过滤，不直接执行旧 SQL 片段。
 
 - `defaultView`
   含义：默认视图配置。
@@ -1250,6 +1262,7 @@ CLI 请求示例见 `examples/update_detail_scenario_tabs.json`。
 - `metadata`
   含义：菜单扩展元数据。
   必填：否。
+  说明：CLI 接受 JSON 对象、JSON 字符串或 `null`，并会按服务端字符串契约统一序列化。
 
 - `isActive`
   含义：是否启用。
@@ -1261,6 +1274,8 @@ CLI 请求示例见 `examples/update_detail_scenario_tabs.json`。
 1. 普通业务入口优先使用 `scenario` 类型菜单。
 2. `scenario` 菜单应尽量同时绑定 `featureId` 和 `scenarioId`。
 3. `group` 只负责分组，不直接承载业务页面。
+4. 旧菜单叶子编码形如 `BD_ITEM@GADMIN` 时，建议使用 `BD_ITEM_GADMIN` 作为唯一菜单编码，并分别通过 `featureId`、`scenarioId` 绑定真实功能和场景。
+5. `system update-menu` 是整包更新；修改菜单类型前必须先读取原菜单，并提交目标类型所需的全部字段。无法安全转换时应删除错误入口后按正确层级重建。
 
 ## 9. 安全更新指南
 

@@ -64,6 +64,23 @@ asapflow data query-records --entity-code customer --input customer.query.json
 asapflow plugin init --code supplier_guard --name "供应商校验插件"
 ```
 
+`query-records` 的 `pageIndex` 从 `0` 开始。需要验证场景固定过滤时，在请求体同时传 `featureCode` 和 `scenarioCode`，运行时会自动合并该场景的固定过滤：
+
+```json
+{
+  "featureCode": "BD_ITEM",
+  "scenarioCode": "GMSTOCK",
+  "pageIndex": 0,
+  "pageSize": 20
+}
+```
+
+迁移旧业务数据且必须保留原编号时，创建记录应显式增加 `--preserve-number-values`；该选项仅跳过本次创建的编号规则，不改变实体上的规则绑定：
+
+```bash
+asapflow data create-record --entity-code BD_B_ITEM --input record.json --preserve-number-values
+```
+
 如果在 Windows PowerShell 中从当前目录运行，可执行文件应写成：
 
 ```powershell

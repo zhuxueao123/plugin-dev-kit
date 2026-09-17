@@ -170,6 +170,8 @@ exports/functions/<FUNCID>/
 - `componentType` 与 `extraMetadata`：保留旧 `CTRLTYPE`、`DSTYPE` 和完整数据源表达式；`DSTYPE=1` 转换为字典源，`DSTYPE=2` 转换为关系源，`DSTYPE=4` 转换为静态选项；
 - 同一场景的同一 `featureFieldKey` 只输出一个 `fieldGroups` 条目，`list/form/detail` 上下文合并在该条目内；重复来源优先保留可见且数据源配置更完整的版本；
 - `migrationWarning`：提醒应用前复核主从表关联键。
+- `dataBinding`：当场景 block 存在 `GFILTER/BFILTER` 时，保留 `primaryEntityCode`、来源 block、原始过滤和参数；可安全识别的简单比较条件同时转换为 `defaultFilter`。
+- `metadata.legacyFilters`：按 block code 保存非空的 `GFILTER/GPARAM/BFILTER/BPARAM`，即使表达式暂时无法结构化也不会丢失。
 
 下拉和参照不再静默降级为 `q-input`。无法结构化的 SQL、脚本或缺失依赖的数据源会保留完整旧元数据，并通过 `migrationStatus` 标记后续处理，不伪造可用选项。
 

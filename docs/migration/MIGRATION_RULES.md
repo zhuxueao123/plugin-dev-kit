@@ -38,6 +38,20 @@
 - 保存前校验插件和业务动作插件必须分开处理
 - 业务动作优先挂到旧系统对应列表或业务场景
 - 后端插件应优先使用 `context.core.*`
+
+## 7. 场景过滤
+
+- 旧平台 block 的 `GFILTER/BFILTER` 必须随对应场景迁移，不能只迁字段级 `filterable`。
+- 可转换条件写入 `ScenarioRequest.dataBinding.defaultFilter`；原始表达式同时保留在 `dataBinding.legacyFilter` 和 `metadata.legacyFilters.<blockCode>`。
+- 新平台运行时不执行旧 SQL 片段。无法安全结构化的表达式必须标记为待人工处理，不能静默丢失或直接执行。
+- 可用 `data query-records` 请求体中的 `featureCode`、`scenarioCode` 验证场景过滤；`pageIndex` 从 `0` 开始。
+
+## 8. 业务数据与依赖
+
+- 迁移样本或正式业务数据时，必须盘点字段 `optionSource` 指向的字典和关联实体；只迁主表会导致下拉/参照无法显示。
+- 关联显示字段、快照字段应从对应主数据回填，不能仅导入编码。
+- 需要保留旧编号时，使用 `data create-record --preserve-number-values`，避免已绑定的编号规则覆盖输入值。
+- 当前 `legacy-export` 负责元数据和系统资料，不把业务记录导出混入功能 handoff；业务数据应走独立、可审计的只读提取与导入流程。
 ## 场景动作规则
 
 - `list` 场景通常配置 `create`、`edit`、`delete`、`view`。
