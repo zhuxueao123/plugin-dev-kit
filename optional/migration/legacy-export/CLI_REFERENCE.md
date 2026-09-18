@@ -50,91 +50,31 @@
 ## 用法
 
 ```bash
-cargo run -- --help
-cargo run -- export-function --help
-cargo run -- export-function --config config.json --func-id SD_T_SO --out exports
-cargo run -- inspect-function --config config.json --func-id SD_T_SO
-cargo run -- batch-export --config config.json --func-file funcs.txt --out exports
-cargo run -- export-menu-subtree --config config.json --menu-name "站点配送" --out exports
-cargo run -- export-scope --config config.json --scope-file scope.json --out exports
-cargo run -- export-system --config config.json --out exports
-cargo run -- export-serials --config config.json --out exports
-cargo run -- export-workflows --config config.json --out exports
-cargo run -- export-security --config config.json --out exports
-cargo run -- export-users --config config.json --out exports
-cargo run -- export-org --config config.json --out exports
-cargo run -- export-menus --config config.json --out exports
-cargo run -- export-lists --config config.json --out exports
+./legacy-export --help
+./legacy-export export-function --help
+./legacy-export export-function --config config.json --func-id SD_T_SO --out exports
+./legacy-export inspect-function --config config.json --func-id SD_T_SO
+./legacy-export batch-export --config config.json --func-file funcs.txt --out exports
+./legacy-export export-menu-subtree --config config.json --menu-name "站点配送" --out exports
+./legacy-export export-scope --config config.json --scope-file scope.json --out exports
+./legacy-export export-system --config config.json --out exports
+./legacy-export export-serials --config config.json --out exports
+./legacy-export export-workflows --config config.json --out exports
+./legacy-export export-security --config config.json --out exports
+./legacy-export export-users --config config.json --out exports
+./legacy-export export-org --config config.json --out exports
+./legacy-export export-menus --config config.json --out exports
+./legacy-export export-lists --config config.json --out exports
+./legacy-export query-data --config config.json --table BD_ITEM --columns CODE_ITEM,DESC_ITEM --pageIndex 1 --pageSize 1000
 ```
 
 构建：
 
-```bash
-cargo build --release
-```
-
-二进制路径：
+交付目录中的可执行文件：
 
 ```bash
-target/release/legacy-export
+./legacy-export
 ```
-
-Windows 二进制路径：
-
-```text
-target\release\legacy-export.exe
-```
-
-## 跨平台发布（macOS + Windows）
-
-当前 CLI 已支持按操作系统选择命令执行器：
-
-- macOS / Linux: 使用 `/bin/zsh -lc`
-- Windows: 使用 `cmd /C`
-
-推荐发布方式：分别在目标系统本机构建，避免交叉编译链路复杂度。
-
-### 1. macOS 构建
-
-```bash
-cargo build --release
-```
-
-产物：`target/release/legacy-export`
-
-### 2. Windows 构建（在 Windows 机器执行）
-
-```powershell
-cargo build --release
-```
-
-产物：`target\release\legacy-export.exe`
-
-### 3. Windows 配置样例
-
-在 Windows 的 `config.json` 中，`commandTemplate` 建议使用 cmd 可直接执行的命令，例如：
-
-```json
-{
-  "queryRunner": {
-    "type": "shell-template",
-    "commandTemplate": "sqlcmd -S 127.0.0.1 -d LegacyDb -U sa -P secret -W -w 65535 -f 65001 -s \"|\" -i {sql_file}",
-    "maxAttempts": 3,
-    "retryDelayMs": 2000,
-    "loginTimeoutSeconds": 180,
-    "queryTimeoutSeconds": 300
-  },
-  "output": {
-    "defaultDirectory": "exports"
-  }
-}
-```
-
-说明：
-
-- `commandTemplate` 必须保留 `{sql_file}` 占位符
-- CLI 会自动按平台处理临时 SQL 文件路径引用
-- Windows 请确保 `sqlcmd` 已加入 `PATH`
 
 ## 输出结构
 
@@ -232,9 +172,33 @@ exports/
 
 明确不包含：
 
-- 订单、采购、库存、财务等业务交易数据
+- `export-system` 不自动包含订单、采购、库存、财务等业务交易数据；需要时使用 `query-data` 分页查询
 - 流程实例运行数据
 - 日志、历史、锁表、临时业务表
+
+## 分页查询业务数据
+
+`query-data` 只允许查询 `SYS_Table` / `SYS_TableField` 中登记的表和字段：
+
+```bash
+./legacy-export query-data \
+  --config config.json \
+  --table BD_ITEM \
+  --columns CODE_ITEM,DESC_ITEM,TYPE_ITEM,STAT_ITEM \
+  --where "STAT_ITEM='1'" \
+  --order-by "CODE_ITEM ASC" \
+  --pageIndex 1 \
+  --pageSize 1000 \
+  --format json \
+  --out exports/business_data/BD_ITEM/page-1.json
+```
+
+- `pageIndex` 从 `1` 开始，`pageIndex` 和 `pageSize` 必填且没有 CLI 上限。
+- 不传 `--order-by` 时使用 `SYS_Table.IDFIELD`；元数据为空时必须显式指定。
+- `--columns` 不支持 `*`，未登记字段和二进制字段会被拒绝。
+- `--where` 拒绝分号、注释、子查询以及增删改、执行和 DDL 关键词。
+- 输出支持 `json`、`csv`；CSV 同时生成记录分页信息、行数和实际查询语句的 manifest。
+- 未传 `--out` 时默认写入 `exports/business_data/<TABLE>/page-<pageIndex>.<format>`。
 
 ## 范围导出
 
@@ -269,9 +233,9 @@ exports/
 CLI 已内置帮助：
 
 ```bash
-./target/release/legacy-export --help
-./target/release/legacy-export export-function --help
-./target/release/legacy-export export-scope --help
+./legacy-export --help
+./legacy-export export-function --help
+./legacy-export export-scope --help
 ```
 
 ## Schema 与样例
@@ -296,12 +260,13 @@ CLI 已内置帮助：
 - 系统基础数据导出
 - 功能级插件入口引用导出
 - 面向插件 SQL 重写的数据语义辅助目录
+- 对已登记业务表进行受控、分页的只读数据查询
 
 当前版本尚不直接提供：
 
 - 插件源码打包
 - 插件方法调用链静态分析结果
-- 业务交易数据迁移
+- 业务交易数据自动迁移、断点续传与新平台写入
 
 因此，推荐联调方式是：
 

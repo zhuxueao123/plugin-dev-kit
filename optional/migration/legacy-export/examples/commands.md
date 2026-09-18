@@ -42,3 +42,18 @@
 ```bash
 ./legacy-export export-system --config config.json --out exports
 ```
+
+## 分页查询业务数据
+
+```bash
+./legacy-export query-data \
+  --config config.json \
+  --table BD_ITEM \
+  --columns CODE_ITEM,DESC_ITEM,TYPE_ITEM,STAT_ITEM \
+  --where "STAT_ITEM='1'" \
+  --order-by "CODE_ITEM ASC" \
+  --pageIndex 1 \
+  --pageSize 1000 \
+  --format json \
+  --out exports/business_data/BD_ITEM/page-1.json
+```

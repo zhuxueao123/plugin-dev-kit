@@ -51,7 +51,8 @@
 - 迁移样本或正式业务数据时，必须盘点字段 `optionSource` 指向的字典和关联实体；只迁主表会导致下拉/参照无法显示。
 - 关联显示字段、快照字段应从对应主数据回填，不能仅导入编码。
 - 需要保留旧编号时，使用 `data create-record --preserve-number-values`，避免已绑定的编号规则覆盖输入值。
-- 当前 `legacy-export` 负责元数据和系统资料，不把业务记录导出混入功能 handoff；业务数据应走独立、可审计的只读提取与导入流程。
+- `legacy-export export-system` 和功能 handoff 不自动混入业务记录；需要旧平台业务数据时使用 `legacy-export query-data` 按 `pageIndex/pageSize` 走独立、可审计的只读提取流程。
+
 ## 场景动作规则
 
 - `list` 场景通常配置 `create`、`edit`、`delete`、`view`。
