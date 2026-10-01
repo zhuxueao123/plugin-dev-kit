@@ -10,6 +10,8 @@
 - `update_detail_scenario_tabs.json`：更新表单/详情场景，为大量字段配置标签页分组。
 - `create_menu.json`：创建菜单。若是场景菜单，请先创建对应 feature/scenario 并填写返回的 ID。
 - `query_records.json`：查询数据。执行前需要已有对应 `entityCode`。
+- `create_record_flat.json`：创建记录的扁平字段对象；不需要 `{ "data": ... }` 包装。
+- `update_feature_field_labels.json`：用最小字段请求修改功能字段显示名。
 
 ## 依赖已有对象的示例
 

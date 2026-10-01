@@ -794,6 +794,7 @@ CLI 在简化输入中额外支持：
   含义：来源配置。
   必填：否。
   说明：`entity` 场景下通常由 CLI 自动生成最小配置。
+  CLI 兼容：输入可为 JSON 对象或 JSON 字符串；CLI 会统一转换为后端字符串契约。
 
 - `sourceField`
   含义：CLI 简化输入中的实体原始字段名。
@@ -822,6 +823,8 @@ CLI 在简化输入中额外支持：
 - `metadata`
   含义：扩展元数据。
   必填：否。
+
+使用 `system update-feature` 同步字段时，CLI 会忽略读回 DTO 中的 `id`，并接受对象型 `sourceConfig`、`validationRules`、`metadata`。只修改少数字段显示名时，仍建议只提交待修改字段的最小结构，避免把无关字段一起改写；示例见 `examples/update_feature_field_labels.json`。
 
 ## 4. 场景配置
 
@@ -1099,14 +1102,16 @@ CLI 请求示例见 `examples/update_detail_scenario_tabs.json`。
 
 1. 实体有单独的新增字段、更新字段、删除字段接口。
 2. 功能字段也有单独的新增、更新、删除接口。
-3. 场景有单独的新增、更新接口，但场景内部大多数配置项不是细粒度 patch。
-4. 更新场景时，`fieldGroups` 和 `actions` 更接近“整包覆盖”语义。
+3. `system update-scenario` 保留整包覆盖语义，适合首次迁移和完整重建。
+4. `system patch-scenario` 只修改请求中明确给出的节点；JSON 对象递归合并，字段组按 `featureFieldKey`、动作按 `actionId` 增删。
+5. 两种更新都会先覆盖保存一份“最近更新前快照”；平台不维护版本链。误操作后可执行 `system restore-scenario-backup`，恢复操作会把恢复前状态变成新的最近备份。
 
 这意味着：
 
-- 如果 AI 修改场景配置，应基于当前完整场景结构再更新，不要只凭想象发一小段残缺 JSON。
+- AI 只修改过滤、布局、明细表、个别字段组或动作时，应使用 `system patch-scenario`，不要调用整包更新。
+- CLI 会在 `fieldGroups`（或 `fields`）/`actions` 缺失时默认拒绝执行，防止后端把遗漏集合清空。仅当清空是明确意图时才追加 `--allow-destructive-replace`。
 - 特别是 `actions`，传入的新数组会替换原场景动作集合。
-- 如果目标是修改某个场景里某一个按钮的导航配置，应优先走 `system update-scenario`，而不是 `system update-action`。
+- 如果目标是修改某个场景里某一个按钮的导航配置，应优先走 `system patch-scenario`，而不是 `system update-action`。
   说明：`update-action` 更新的是动作定义；列表里某个按钮的 `metadata/navigation` 实际挂在 `ScenarioAction` 绑定上，属于场景配置的一部分。
 - 使用 CLI 更新场景时，应按 `ScenarioRequest` 结构发送整包，推荐使用 `fieldGroups + actions`。
   不要直接把 `get-feature` 返回的场景 DTO 原样回写，因为返回结构与更新请求结构并不完全相同。
@@ -1121,6 +1126,10 @@ CLI 请求示例见 `examples/update_detail_scenario_tabs.json`。
 | `metadata.detailTables` | `scenario.metadata.detailTables` | 明细表布局和列配置 |
 
 回读验证不得直接在 `scenario.fields[]` 中查找 `fieldKey`；应先建立 `featureFieldId -> fieldKey` 映射，否则会误判更新没有保存。
+
+整包更新前可执行 `system get-scenario-edit-model --feature-id <id> --scenario-id <id>`，其返回值可直接作为更新基础，不必手工把 `featureFieldId` 映射回 `featureFieldKey`。
+
+局部更新请求示例见 `examples/patch_scenario.json`。JSON patch 对象中的 `null` 表示删除该属性；未出现的属性保持不变。`fieldGroupChanges.upsert/remove` 和 `actionChanges.upsert/remove` 都是显式操作，不会影响未列出的节点。
 
 ## 6. 最重要的默认规则
 

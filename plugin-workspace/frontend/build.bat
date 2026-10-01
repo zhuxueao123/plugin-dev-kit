@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-if not exist node_modules (
+if not exist node_modules ( 
   echo Installing dependencies...
   npm install
 )

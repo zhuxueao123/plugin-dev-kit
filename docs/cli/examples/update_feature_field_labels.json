@@ -1,0 +1,11 @@
+{
+  "fields": [
+    {
+      "fieldKey": "CODE_VEND",
+      "displayName": "供应商编码",
+      "dataType": "string",
+      "sourceField": "CODE_VEND",
+      "isIdentifier": true
+    }
+  ]
+}

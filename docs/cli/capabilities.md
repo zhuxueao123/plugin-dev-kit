@@ -48,8 +48,14 @@
   用途：按 `--feature-id` 或 `--code` 删除功能定义
 - `system create-scenario`
   用途：为功能创建额外场景
+- `system get-scenario-edit-model`
+  用途：读取可直接用于场景更新的 `ScenarioRequest` 结构
 - `system update-scenario`
   用途：整包更新指定场景
+- `system patch-scenario`
+  用途：局部合并场景 JSON 配置，或按稳定键增删字段组和动作
+- `system restore-scenario-backup`
+  用途：恢复最近一次场景更新前的滚动备份
 - `system delete-scenario`
   用途：删除指定功能下的场景
 - `system create-action`
@@ -242,7 +248,7 @@
 - `plugin manifest-check`
   用途：校验单个 manifest 文件
 - `plugin build-frontend`
-  用途：构建前端插件。默认使用 `plugin-workspace/frontend`，也可用 `--working-dir` 明确指定前端工程目录
+  用途：构建前端插件。默认自动识别源码仓库的 `plugins/frontend`、开发包的 `plugin-workspace/frontend` 或当前前端目录；也可用 `--working-dir` 明确指定
 
 ### 服务端运行能力
 
@@ -264,6 +270,14 @@
   用途：查询插件发布历史
 - `plugin rollback`
   用途：回滚到平台保留的成功版本
+- `plugin workspace-status`
+  用途：查看插件工作区传输能力
+- `plugin pull-package`
+  用途：下载当前服务器 `plugins/` 工作区压缩包
+- `plugin package`
+  用途：把本地 `plugins/` 工作区打包成 zip
+- `plugin deploy-package`
+  用途：上传本地 `plugins/` 工作区压缩包并部署，可选触发前端构建与后端热重载
 
 ## 8. BI 看板能力
 

@@ -133,7 +133,7 @@ exports/functions/<FUNCID>/
 
 ### `handoff/create_feature_seed.json`
 
-该文件用于创建与主实体绑定的功能。对多实体旧功能，`fields` 只包含 `manifest.mainEntityCode` 对应的主表字段；子表字段不会平铺进 feature，而是保留在场景 `metadata.detailTables[].columns` 中。这可避免多个实体的同名 `sourceField` 产生歧义。
+该文件用于创建与主实体绑定的功能。`fields` 包含主实体字段，并补齐所有 `scenario_update_seeds[].fieldGroups[].featureFieldKey` 实际引用的非限定字段，保证先创建功能、再更新场景时不会引用不存在的 feature field。带 `子表.字段` 限定前缀的明细列不会平铺进 feature，而是保留在场景 `metadata.detailTables[].columns` 中，以避免多实体同名字段歧义。
 
 ### `handoff/scenario_update_seed.json`
 
@@ -171,7 +171,16 @@ exports/functions/<FUNCID>/
 - 同一场景的同一 `featureFieldKey` 只输出一个 `fieldGroups` 条目，`list/form/detail` 上下文合并在该条目内；重复来源优先保留可见且数据源配置更完整的版本；
 - `migrationWarning`：提醒应用前复核主从表关联键。
 - `dataBinding`：当场景 block 存在 `GFILTER/BFILTER` 时，保留 `primaryEntityCode`、来源 block、原始过滤和参数；可安全识别的简单比较条件同时转换为 `defaultFilter`。
-- `metadata.legacyFilters`：按 block code 保存非空的 `GFILTER/GPARAM/BFILTER/BPARAM`，即使表达式暂时无法结构化也不会丢失。
+- `metadata.search.defaultFilter`：同步写入同一份安全结构化过滤，兼容配置页和运行时的场景搜索配置读取路径。
+- `metadata.legacyFilters`：按 block code 保存非空的 `gfilter/gparam/bfilter/bparam`。无法安全结构化的表达式会标记 `migrationStatus=manual_required`，不会静默丢失或被运行时执行。
+
+如果旧平台主维护场景（即使它被识别为 list）包含 `formLayout` 或 `detailTables`，还会生成 `handoff/default_detail_scenario_patch_seed.json`。迁移端应解析目标功能默认 `detail` 场景 ID，把其中的 `metadataPatch` 和 `fieldGroupChanges` 作为 `system patch-scenario` 请求体；`save` 动作必须在目标平台解析真实 action ID 后另行补入。
+
+### 关联数据源字段语义
+
+- `legacyDataSource.textFields`（旧 `DSTEXT`）是关联源表的查询/展示字段，可作为最小关联实体字段候选。
+- `legacyDataSource.valueFields`（旧 `DSVALUE`）描述回填目标/本地承接字段，不保证存在于关联源表，不能直接据此给源实体建字段。
+- 构建最小关联实体时，只采用旧表字段目录中真实存在的 `textFields`、过滤条件字段和关联键；回填映射以 `optionSource.config.autoFill` 为准。
 
 下拉和参照不再静默降级为 `q-input`。无法结构化的 SQL、脚本或缺失依赖的数据源会保留完整旧元数据，并通过 `migrationStatus` 标记后续处理，不伪造可用选项。
 
@@ -208,6 +217,12 @@ exports/system/
 - `org/normalized.json`
 - `lists/normalized.json`
 - `data_catalog/*.json`
+
+### `export-menu-subtree` 的 `menus/menu_tree_seed.json`
+
+- 叶子菜单的 `createRequest.scenarioCode` 来自旧功能主维护场景推荐，不再固定写成新平台默认 `list`。
+- `scenarioCandidates` 保留全部候选及评分；无法安全推荐时 `scenarioCode` 为 `null`，导入前必须显式选择。
+- 子树外的父菜单写入 `externalParentLegacyCode` 和顶层 `externalParentDependencies`，同时将 `parentLegacyCode` 置空，因此子树可以先作为根节点独立导入，再按目标平台菜单结构挂载。
 
 ### `data_catalog/entities.json`
 

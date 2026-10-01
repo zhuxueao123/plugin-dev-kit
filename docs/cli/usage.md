@@ -62,6 +62,10 @@ asapflow bi execute-query --dashboard-id <dashboard-id> --input execute_bi_query
 asapflow bi publish --dashboard-id <dashboard-id> --input publish_bi_dashboard.json
 asapflow data query-records --entity-code customer --input customer.query.json
 asapflow plugin init --code supplier_guard --name "供应商校验插件"
+asapflow plugin workspace-status
+asapflow plugin pull-package --output-file plugins.zip
+asapflow plugin package --source ./plugins --output-file plugins.zip
+asapflow plugin deploy-package --file plugins.zip --mode replace --build-frontend --reload-backend --strict-docs
 ```
 
 `query-records` 的 `pageIndex` 从 `0` 开始。需要验证场景固定过滤时，在请求体同时传 `featureCode` 和 `scenarioCode`，运行时会自动合并该场景的固定过滤：
@@ -80,6 +84,17 @@ asapflow plugin init --code supplier_guard --name "供应商校验插件"
 ```bash
 asapflow data create-record --entity-code BD_B_ITEM --input record.json --preserve-number-values
 ```
+
+`record.json` 直接使用扁平字段对象，不需要 `{ "data": ... }` 包装：
+
+```json
+{
+  "CODE_VEND": "VCH0001",
+  "NAME_VEND": "示例供应商"
+}
+```
+
+`--preserve-number-values` 只表示保留请求中传入的编号、跳过本次编号规则覆盖，不改变请求体结构，也不解除实体上的编号规则绑定。完整文件见 `examples/create_record_flat.json`。
 
 如果在 Windows PowerShell 中从当前目录运行，可执行文件应写成：
 
@@ -136,7 +151,7 @@ asapflow data query-records --entity-code customer --json "{\"pageSize\":20}"
 - CLI 现在会尽量容忍外层再包一层单引号或双引号的写法
 - 但在 Windows 终端和 AI 工具场景下，仍然优先推荐 `--input <json-file>`
 - 复杂 JSON 不建议长期依赖内联字符串
-- 如果输入只是一次性临时数据，推荐使用 `--input -` 从标准输入读取，避免在插件工作区生成临时 JSON 文件
+- 如果输入只是一次性临时数据，推荐使用 `--input -` 从标准输入读取，避免在客户仓库里生成临时 JSON 文件
 
 Windows PowerShell 示例：
 
@@ -184,7 +199,7 @@ EOF
 - 成功时写入成功 JSON
 - 失败时写入失败 JSON
 - 这样 AI 工具只需要读取文件，不依赖终端 stdout 捕获
-- 如果必须显式指定 `--output`，建议写入系统临时目录，不要写到插件工作区根目录
+- 如果必须显式指定 `--output`，建议写入系统临时目录，不要写到客户代码仓库根目录
 - Windows PowerShell 5.1 读取 `--output` 文件时建议显式指定 UTF-8：
 
 ```powershell
@@ -227,7 +242,7 @@ CLI 统一输出 JSON。
 4. `system create-feature`（迁移重跑时可加 `--if-exists skip`）
 5. `system add-feature-fields`（推荐专门用于给已有 feature 增量补字段）
 6. `system update-feature`
-7. `system create-scenario` / `system update-scenario`
+7. `system create-scenario` / `system get-scenario-edit-model` / `system update-scenario` / `system patch-scenario` / `system restore-scenario-backup`
 8. `system create-action` / `system update-action`
 9. `system create-menu` / `system update-menu`
 10. `number-rule create`
@@ -237,38 +252,40 @@ CLI 统一输出 JSON。
 14. `identity assign-user-roles`
 15. `identity set-password-policy`
 
-实体字段输入规则：`add-entity-fields` 会把对象型 `metadata` 序列化为后端契约要求的 JSON 字符串，并按数据类型忽略无效的 `length/precision/scale`；批量失败时错误会指明字段编码和输入序号。删除普通字段可使用 `system delete-entity-field --entity-code <code> --field-code <field>`，该操作会同步删除物理列。
-
 ## 6. 重要规则
 
 1. 创建实体、功能、菜单等建模能力，默认不要求显式指定 `dataSourceCode`
-2. `workflow start-instance` 支持两种抄送写法：
+2. `add-entity-fields` 会把对象型 `metadata` 序列化为后端契约要求的 JSON 字符串，并按数据类型忽略无效的 `length/precision/scale`；批量失败时错误会指明字段编码和输入序号
+3. `workflow start-instance` 支持两种抄送写法：
    - 在 JSON 请求体中写 `ccUserIds`
    - 在命令行追加多个 `--cc-user-id`
-3. `workflow list-workbench --view` 当前允许值为 `todo`、`started`、`done`、`cc`、`finished`
-4. 创建 feature 时，如果它对应某个实体，应传 `entityCode`
-5. 创建 feature 时，如果包含字段且未显式关闭默认场景初始化，系统会默认创建 `list` 和 `detail` 场景；如果 `fields` 为空，CLI 默认跳过默认场景和默认动作初始化
-6. 默认情况下，`list` 场景会自动附带四个系统动作：`create`、`edit`、`delete`、`view`
-5. 如果客户明确要求不要这四个系统动作，应在 `create-feature` 输入中传 `includeDefaultListActions = false`
-6. 查询和写入已有实体的数据时，不需要关心业务库
-7. 业务库路由由服务端根据元数据自动解析
-8. 插件命令只操作本地工作目录，除 `plugin reload` 这类运行管理命令外，不直接作用于服务器源码
-9. 创建流程时，优先走 `workflow create-definition -> workflow publish-definition`
-10. 流程实例跳转到业务页面时，建议在发起输入中补齐 `featureCode`、`scenarioCode`、`mode`
-11. 需要自动编号时，先创建编号规则，再在实体字段 `metadata.generator` 中引用 `ruleCode`
-12. `create-feature` 只会创建默认 `list` / `detail` 场景，不会自动把子表实体挂成表单明细区
-13. 如果旧功能存在主表 + 子表结构，必须额外执行 `system update-scenario`，在 `detail` 场景的 `metadata.detailTables` 中显式配置子表
-14. `metadata.detailTables` 至少要包含 `entityCode`、`relation.parentKey`、`relation.childKey` 和 `columns`
-15. 更新场景或菜单前必须先读取当前对象整包；`system update-scenario` / `system update-menu` 更接近整包覆盖，不能只凭想象发送局部片段
-16. 表单场景如果要支持提交保存，必须显式为该场景配置 `save` 动作；仅有 `create/edit/view` 跳转并不会让表单页自动出现保存按钮
-17. 如果表单字段很多，或旧平台已经有字段块/分组，应在表单场景 `metadata.formLayout` 中配置 `type = tabs`；示例见 `examples/update_detail_scenario_tabs.json`
-18. 删除菜单、动作、场景、功能和实体时，应按引用关系从外到内处理，例如先删除菜单，再删除功能，最后删除实体
-19. `system delete-entity` / `system delete-feature` 支持用 `--code` 自动解析 ID；`system delete-menu` / `system delete-action` / `system delete-scenario` 使用 ID 删除
-20. 给已有 feature 补字段时，优先使用 `system add-feature-fields`；如果走 `system update-feature` 并包含 `fields`，CLI 也会按 `fieldKey` 自动做新增/更新同步
-21. `bi update` 会整包更新看板草稿；修改前必须先执行 `bi get` 并保留未修改的查询和组件
-22. `bi execute-query` 默认执行草稿查询，只有显式增加 `--published` 才执行发布版本
-23. BI 查询支持 SQL、插件接口和静态数据；SQL 必须使用参数绑定，CLI 不在本地执行 SQL，数据库类型识别和安全校验都由后端完成
-24. BI 主页绑定使用 `bi save-homepage-binding`，不要写进看板 `definition` JSON
+4. `workflow list-workbench --view` 当前允许值为 `todo`、`started`、`done`、`cc`、`finished`
+5. 创建 feature 时，如果它对应某个实体，应传 `entityCode`
+6. 创建 feature 时，如果包含字段且未显式关闭默认场景初始化，系统会默认创建 `list` 和 `detail` 场景；如果 `fields` 为空，CLI 默认跳过默认场景和默认动作初始化
+7. 默认情况下，`list` 场景会自动附带四个系统动作：`create`、`edit`、`delete`、`view`
+8. 如果客户明确要求不要这四个系统动作，应在 `create-feature` 输入中传 `includeDefaultListActions = false`
+9. 查询和写入已有实体的数据时，不需要关心业务库
+10. 业务库路由由服务端根据元数据自动解析
+11. 插件命令只操作本地工作目录，除 `plugin reload` 这类运行管理命令外，不直接作用于服务器源码
+12. 插件工作区允许通过受控压缩包方式从服务器下载、在本地修改后再上传部署；这不等同于在线编辑服务器源码
+13. 创建流程时，优先走 `workflow create-definition -> workflow publish-definition`
+14. 流程实例跳转到业务页面时，建议在发起输入中补齐 `featureCode`、`scenarioCode`、`mode`
+15. 需要自动编号时，先创建编号规则，再在实体字段 `metadata.generator` 中引用 `ruleCode`
+16. `create-feature` 只会创建默认 `list` / `detail` 场景，不会自动把子表实体挂成表单明细区
+17. 如果旧功能存在主表 + 子表结构，必须额外执行 `system update-scenario`，在 `detail` 场景的 `metadata.detailTables` 中显式配置子表
+18. `metadata.detailTables` 至少要包含 `entityCode`、`relation.parentKey`、`relation.childKey` 和 `columns`
+19. 场景局部修改优先使用 `system patch-scenario`；需要整包更新时，先用 `system get-scenario-edit-model` 读取可写结构。`system update-scenario` 默认要求请求显式包含 `fieldGroups`（或 `fields`）和 `actions`；只有确实要清空遗漏集合时才使用 `--allow-destructive-replace`
+20. 表单场景如果要支持提交保存，必须显式为该场景配置 `save` 动作；仅有 `create/edit/view` 跳转并不会让表单页自动出现保存按钮
+21. 如果表单字段很多，或旧平台已经有字段块/分组，应在表单场景 `metadata.formLayout` 中配置 `type = tabs`；示例见 `examples/update_detail_scenario_tabs.json`
+22. 删除菜单、动作、场景、功能和实体时，应按引用关系从外到内处理，例如先删除菜单，再删除功能，最后删除实体
+23. `system delete-entity` / `system delete-feature` 支持用 `--code` 自动解析 ID；`system delete-entity-field` 支持用 `--entity-code` + `--field-code`；`system delete-menu` / `system delete-action` / `system delete-scenario` 使用 ID 删除
+24. 给已有 feature 补字段时，优先使用 `system add-feature-fields`；如果走 `system update-feature` 并包含 `fields`，CLI 也会按 `fieldKey` 自动做新增/更新同步
+   - `fields` 可使用最小请求结构：`fieldKey/displayName/dataType/sourceField/isIdentifier`。
+   - CLI 会忽略读回 DTO 的字段 `id`，并把对象型 `sourceConfig/validationRules/metadata` 转成后端要求的 JSON 字符串；只改显示名时仍建议只提交待修改字段，示例见 `examples/update_feature_field_labels.json`。
+25. `bi update` 会整包更新看板草稿；修改前必须先执行 `bi get` 并保留未修改的查询和组件
+26. `bi execute-query` 默认执行草稿查询，只有显式增加 `--published` 才执行发布版本
+27. BI 查询支持 SQL、插件接口和静态数据；SQL 必须使用参数绑定，CLI 不在本地执行 SQL，数据库类型识别和安全校验都由后端完成
+28. BI 主页绑定使用 `bi save-homepage-binding`，不要写进看板 `definition` JSON
 
 ## 7. 修改已有功能/场景时的建议
 
@@ -282,3 +299,4 @@ CLI 统一输出 JSON。
 6. 如果编辑的是 `form/detail` 场景，确认 `actions` 中包含 `save`；场景配置页里看到建议勾选并不代表已经落库
 7. `system update-feature --feature-id <id>` 场景已兼容；CLI 会内部解析 feature 列表后再执行更新，不再依赖后端按 id 的读取接口
 8. 如果编辑的是字段较多的 `form/detail` 场景，确认 `metadata.formLayout` 已保留或补齐；缺失时运行页会回退为平铺表单
+9. 旧平台维护列表场景如果携带 `formLayout/detailTables`，必须同步到新建/编辑/查看实际跳转的默认 `detail` 场景；使用导出物 `default_detail_scenario_patch_seed.json` 时，先解析目标场景 ID，再提交其中的 patch 请求体，并单独解析真实 `save` action ID
