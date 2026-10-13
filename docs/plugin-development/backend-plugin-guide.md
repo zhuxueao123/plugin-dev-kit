@@ -94,10 +94,13 @@ PLUGIN_APP = app
 
 插件通过 `context.core` 访问平台受控能力。
 
+这里的 Core SDK 是后端 Python Runtime 能力，与前端 `@trusteem/asapflow-plugin-sdk` npm 包用途不同；后端数据访问仍必须走 `context.core`。
+
 常用方法：
 
 - `context.core.query_records(...)`
 - `context.core.get_record(...)`
+- `context.core.get_entity_relationships(entity_code, direction="both")`
 - `context.core.create_record(...)`
 - `context.core.update_record(...)`
 - `context.core.execute_action(...)`

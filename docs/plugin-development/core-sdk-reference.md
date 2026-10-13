@@ -5,6 +5,7 @@
 说明：
 
 - `context.core` 是当前推荐写法
+- `context.core` 属于后端 Python Runtime；前端 npm 包 `@trusteem/asapflow-plugin-sdk` 不会替代它
 - 旧文档中的 `context.core_sdk` 可视为已废弃写法，后续统一使用 `context.core`
 - 插件上下文和 `context.core` 相关的实体数据统一使用实体原始字段名，例如 `contact_person`
 - 插件文案不要手写语言分支，统一使用 `context.t(...)`，见 [plugin-i18n-guide.md](plugin-i18n-guide.md)
@@ -22,6 +23,9 @@
 
 ## 2. 数据查询与写入
 
+- `list_entities(module=None)`
+- `get_entity(code)`
+- `get_entity_relationships(entity_code, direction="both")`
 - `query_records(entity_code, filters=None, page_index=0, page_size=50, sort=None, fields=None)`
 - `exists(entity_code, filters=None)`
 - `count_records(entity_code, filters=None)`
@@ -31,6 +35,10 @@
 - `update_record(entity_code, record_id, payload)`
 - `patch_record(entity_code, record_id, payload)`
 - `delete_record(entity_code, record_id)`
+
+`get_entity_relationships` 的 `direction` 支持 `both`、`outgoing`、`incoming`，返回源/目标实体编码、源/目标字段编码、关系类型、桥接实体和删除行为，可用于级联处理与关系校验。
+
+过滤操作符支持 `$eq`、`$ne`、`$isnull`、`$in`、`$nin`、`$gt`、`$gte`、`$lt`、`$lte`、`$contains` 以及 `$and` / `$or`。不支持的操作符会直接报错，不会静默删除或返回空结果。
 
 ## 3. 数据库侧能力
 
@@ -142,3 +150,9 @@ scenario_config = core.get_scenario_config("supplier_management", "list").payloa
 records = core.query_records("Order", page_size=20).payload
 core.log("info", "plugin executed", {"user": user})
 ```
+
+## 7. 连通性判断
+
+`get_user()` 和 `get_context()` 读取的是 Runtime 已收到的调用上下文，不访问平台数据服务，因此它们成功不代表 Core SDK 网络连通。验证数据服务应调用 `count_records()`、`list_entities()` 等远程能力。
+
+正式发布包由平台注入 Core SDK 地址，插件代码不应硬编码 URL。容器化部署默认访问同容器的 `http://127.0.0.1:8080`；只有自定义部署拓扑才需要由平台运维设置 `ASAPFLOW_CORE_BASE_URL`。若出现 `Connection refused`，应检查平台 API 是否已启动以及该环境变量，而不是修改插件的 `allowed_modules.yaml`。

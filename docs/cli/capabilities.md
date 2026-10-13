@@ -19,7 +19,7 @@
   - `action` = 动作，是场景中的按钮或操作，不等于场景本身
 
 - `system create-entity`
-  用途：创建实体与初始字段
+  用途：创建实体与初始字段；JSON 输入支持字段 `isUnique` 和实体 `indexes`，创建后可通过 `get-entity` 回读索引
 - `system list-entities`
   用途：列出实体定义；可用 `--limit <数量>` 限制返回条数
 - `system add-entity-fields`
@@ -34,6 +34,12 @@
   用途：更新实体字段定义
 - `system delete-entity-field`
   用途：按 `--entity-code` 与 `--field-id`/`--field-code` 删除实体字段；会同步修改物理表，使用前必须确认目标
+- `system add-entity-index`
+  用途：为既有实体在线创建普通或唯一复合索引
+- `system list-entity-indexes`
+  用途：读取实体索引定义
+- `system delete-entity-index`
+  用途：按索引 ID 或名称删除既有实体索引及物理索引
 - `system create-feature`
   用途：创建功能并初始化默认场景
 - `system list-features`
@@ -178,9 +184,9 @@
 - `dictionary get`
   用途：读取系统字典
 - `dictionary create`
-  用途：创建系统字典
+  用途：创建系统字典；字典条目使用单数字段 `value`，不使用 `items` / `values` / `options` / `entries`
 - `dictionary update`
-  用途：更新系统字典
+  用途：更新系统字典；字典条目使用单数字段 `value`
 - `dictionary delete`
   用途：删除系统字典
 - `scheduled-job list`

@@ -173,6 +173,21 @@ cat <<'EOF' | ./asapflow.sh data query-records --entity-code customer --input -
 EOF
 ```
 
+系统字典的写入字段名是单数 `value`，值可以是数组或对象；不要使用 `values`：
+
+```json
+{
+  "code": "order_status",
+  "value": [
+    { "label": "草稿", "value": "draft" },
+    { "label": "完成", "value": "done" }
+  ],
+  "description": "订单状态"
+}
+```
+
+请求 JSON 中出现接口未定义的字段时，服务端会返回 400，不会再静默忽略拼写错误。
+
 ## 4. 输出方式
 
 默认情况下，CLI 将 JSON 结果输出到标准输出。

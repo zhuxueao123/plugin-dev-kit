@@ -626,6 +626,12 @@ AI 选型规则：
   含义：实体字段列表。
   必填：否，但创建可用实体时通常应提供至少一个业务字段。
 
+- `indexes`
+  含义：随实体创建的复合索引列表。
+  必填：否。
+  结构：每项包含 `name`、`fields`、`isUnique`，`indexType` 当前仅支持 `btree`。
+  说明：单字段唯一约束优先用字段的 `isUnique: true`；多字段唯一或普通索引用 `indexes`。
+
 ### 2.2 `EntityFieldRequest`
 
 - `code`
@@ -661,6 +667,13 @@ AI 选型规则：
   必填：否。
   说明：常规业务字段不需要显式设置，系统保留 `id` 主键。
 
+- `isUnique`
+  含义：是否创建单字段唯一约束。
+  必填：否。
+  默认：`false`。
+  说明：这是正式请求字段；服务端仍兼容旧格式 `metadata.unique`，读取实体时也会返回 `isUnique`。
+  规则：字段元数据包含 `businessIdentifier: true` 时，平台会强制写入唯一约束；显式传 `isUnique: false` 会被拒绝。
+
 - `defaultValue`
   含义：默认值。
   必填：否。
@@ -687,6 +700,39 @@ AI 选型规则：
 3. `schemaName` 默认使用 `public`。
 4. `physicalName` 通常与 `code` 一致。
 5. 实体创建成功后，系统会自动补系统字段：`id`、`created_at`、`created_by`、`updated_at`、`updated_by`。
+6. 当前不支持在线切换主键。需要调整主键时，应新建实体迁移数据，或在停机维护窗口手工调整数据库后同步元数据。
+7. 新创建的业务记录 ID 使用 UUID v7。SQL Server 新建业务表的 UUID 主键使用 `NONCLUSTERED`，避免随机 GUID 聚簇主键造成业务数据页频繁分裂；已有表不会被自动重建索引。
+
+复合索引示例：
+
+```json
+{
+  "code": "sales_order",
+  "name": "销售订单",
+  "module": "sales",
+  "fields": [
+    { "code": "order_no", "name": "订单号", "dataType": "string", "isUnique": true },
+    { "code": "customer_code", "name": "客户编码", "dataType": "string" },
+    { "code": "order_date", "name": "订单日期", "dataType": "date" }
+  ],
+  "indexes": [
+    {
+      "name": "ix_sales_order_customer_date",
+      "fields": ["customer_code", "order_date"],
+      "isUnique": false,
+      "indexType": "btree"
+    }
+  ]
+}
+```
+
+既有实体可以在线维护索引：
+
+```bash
+asapflow system add-entity-index --entity-code sales_order --json '{"name":"ix_sales_order_status_date","fields":["status","order_date"],"isUnique":false}'
+asapflow system list-entity-indexes --code sales_order
+asapflow system delete-entity-index --entity-code sales_order --index-name ix_sales_order_status_date
+```
 
 ## 3. 功能配置
 
