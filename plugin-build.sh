@@ -25,5 +25,5 @@ if [[ -z "${PLUGIN_ROOT}" ]]; then
 fi
 
 echo "Plugin location: ${PLUGIN_LOCATION}"
-"${KIT_DIR}/bin/macos/asapflow/asapflow" plugin validate --root "${PLUGIN_ROOT}" --code "${PLUGIN_CODE}"
-"${KIT_DIR}/bin/macos/asapflow/asapflow" plugin pack --root "${PLUGIN_ROOT}" --code "${PLUGIN_CODE}"
+"${KIT_DIR}/asapflow.sh" plugin validate --root "${PLUGIN_ROOT}" --code "${PLUGIN_CODE}"
+"${KIT_DIR}/asapflow.sh" plugin pack --root "${PLUGIN_ROOT}" --code "${PLUGIN_CODE}"

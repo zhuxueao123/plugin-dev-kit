@@ -1,0 +1,18 @@
+{
+  "version": "0.2.5",
+  "source_commit": "993e022222a2c7e8fd45c2a727574e61186ec83c",
+  "platforms": {
+    "x86_64-pc-windows-msvc": {
+      "path": "bin/windows/asapflow/asapflow.exe",
+      "sha256": "c95d3f302a6d4f67e1342c15039744035c268453cf661e5e8d50d3b865c678cb"
+    },
+    "aarch64-apple-darwin": {
+      "path": "bin/macos/asapflow/asapflow",
+      "sha256": "1906eb90ffeb74fe54371b99b227f254322f389065ea51d7102befc43d99b35a"
+    },
+    "x86_64-unknown-linux-gnu": {
+      "path": "bin/linux-x86_64/asapflow/asapflow",
+      "sha256": "5899586d625c4b5d6c3dbc916672359905fe40585731aeaca01fdefbc9b425fc"
+    }
+  }
+}

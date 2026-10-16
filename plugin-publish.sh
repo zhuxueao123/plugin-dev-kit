@@ -26,4 +26,4 @@ if [[ -z "${PLUGIN_ROOT}" ]]; then
 fi
 
 echo "Plugin location: ${PLUGIN_LOCATION}"
-"${KIT_DIR}/bin/macos/asapflow/asapflow" plugin publish --root "${PLUGIN_ROOT}" --code "${PLUGIN_CODE}"
+"${KIT_DIR}/asapflow.sh" plugin publish --root "${PLUGIN_ROOT}" --code "${PLUGIN_CODE}"
