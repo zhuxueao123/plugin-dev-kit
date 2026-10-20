@@ -194,11 +194,13 @@ exports/
 ```
 
 - `pageIndex` 从 `1` 开始，`pageIndex` 和 `pageSize` 必填且没有 CLI 上限。
-- 不传 `--order-by` 时使用 `SYS_Table.IDFIELD`；元数据为空时必须显式指定。
+- 不传 `--order-by` 时使用 `SYS_Table.IDFIELD`；显式传入排序时也会自动追加尚未包含的 `IDFIELD` 字段作为稳定分页尾键。元数据和参数均为空时命令会拒绝执行。
 - `--columns` 不支持 `*`，未登记字段和二进制字段会被拒绝。
 - `--where` 拒绝分号、注释、子查询以及增删改、执行和 DDL 关键词。
-- 输出支持 `json`、`csv`；CSV 同时生成记录分页信息、行数和实际查询语句的 manifest。
+- 输出支持 `json`、`csv`；JSON 中 bit 字段输出为真正的布尔值或 `null`，CSV 保留文本形式；CSV 同时生成记录分页信息、行数和实际查询语句的 manifest。
+- `query-data` 会在 SQL 层把单元格编码为单行十六进制并在本地还原，字段值中的换行、Tab 和输出分隔符不会再造成丢行或串行。
 - 未传 `--out` 时默认写入 `exports/business_data/<TABLE>/page-<pageIndex>.<format>`。
+- 功能码和表码用作目录名时会先转换为安全名称，绝对路径、`..` 和路径分隔符不会逃逸导出根目录。
 
 ## 范围导出
 

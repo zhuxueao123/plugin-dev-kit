@@ -33,5 +33,9 @@ if (-not $PluginRoot) {
 }
 
 Write-Host "Plugin location: $PluginLocation"
+& $Cli plugin validate --root $PluginRoot --code $PluginCode
+if ($LASTEXITCODE -ne 0) {
+    exit $LASTEXITCODE
+}
 & $Cli plugin publish --root $PluginRoot --code $PluginCode
 exit $LASTEXITCODE

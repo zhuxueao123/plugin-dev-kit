@@ -259,7 +259,7 @@ CLI 统一输出 JSON。
 6. `system update-feature`
 7. `system create-scenario` / `system get-scenario-edit-model` / `system update-scenario` / `system patch-scenario` / `system restore-scenario-backup`
 8. `system create-action` / `system update-action`
-9. `system create-menu` / `system update-menu`
+9. `system create-menu` / `system update-menu`（迁移重跑时 `create-menu` 可加 `--if-exists skip`，按非空 `code` 判重）
 10. `number-rule create`
 11. `number-rule bind-field`
 12. `identity create-role`
@@ -267,10 +267,32 @@ CLI 统一输出 JSON。
 14. `identity assign-user-roles`
 15. `identity set-password-policy`
 
+`system update-action` 是整包更新。修改名称等单个属性前，先用 `system list-actions` 读取原动作，并提交包含 `code`、`name`、`actionType`、`executionMode`、`permissionCode` 在内的完整定义。
+
+手动调用插件能力时，请把业务输入放在 `payload` 中：
+
+```bash
+asapflow plugin invoke --plugin-code agent_mail --capability-code send --json '{"payload":{"subject":"test"}}'
+```
+
+调用 `scenario.action.execute` 能力时，需要显式补充场景上下文，例如：
+
+```bash
+asapflow plugin invoke --plugin-code zmc_core --capability-code ping --json '{"payload":{},"context":{"feature":{"code":"zmc"},"scenario":{"code":"list"},"selection":{"ids":[]}}}'
+```
+
+计划任务的 cron 与每天固定时间按请求中的 `timeZone` 解释，使用 IANA 时区编码；未提供时默认为 `Asia/Shanghai`。
+
+迁移期间如果修改了数据源连接配置，或者在数据库中重建了表、视图、存储过程，可主动释放平台连接缓存：
+
+```bash
+asapflow data-source refresh
+```
+
 ## 6. 重要规则
 
 1. 创建实体、功能、菜单等建模能力，默认不要求显式指定 `dataSourceCode`
-2. `add-entity-fields` 会把对象型 `metadata` 序列化为后端契约要求的 JSON 字符串，并按数据类型忽略无效的 `length/precision/scale`；批量失败时错误会指明字段编码和输入序号
+2. `add-entity-fields` 会把对象型 `metadata` 序列化为后端契约要求的 JSON 字符串，并按数据类型忽略无效的 `length/precision/scale`；`decimal` 必须同时提供 `precision` 和 `scale`；批量失败时错误会指明字段编码和输入序号
 3. `workflow start-instance` 支持两种抄送写法：
    - 在 JSON 请求体中写 `ccUserIds`
    - 在命令行追加多个 `--cc-user-id`

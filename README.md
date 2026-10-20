@@ -34,7 +34,7 @@ Windows PowerShell：
 
 | 目录 | 用途 | 日常开发是否需要 |
 | --- | --- | --- |
-| `bin/` | macOS、Windows 的 AsapFlow CLI 及配置模板 | 是 |
+| `bin/` | Windows x64、macOS ARM64、Linux x64 的 AsapFlow CLI 及配置模板 | 是 |
 | `docs/` | 唯一文档入口，按插件开发、CLI、AI、迁移分类 | 是 |
 | `plugin-workspace/` | 客户维护的前后端插件源码、示例和 Runtime SDK | 是 |
 | `optional/` | 旧系统导出和迁移材料，与普通插件开发无关 | 否 |
@@ -62,5 +62,16 @@ plugin-workspace/locales/
 - 前后端 manifest 的 `pluginCode` 和 `version` 必须一致。
 - 后端插件不得执行原生 SQL，应使用平台 SDK 能力。
 - 不要把真实令牌、`config.json`、`node_modules` 或 Python 虚拟环境放进发布包。
-- Windows 可执行文件必须从同一源码版本构建。先执行 `.\scripts\build_windows_cli.ps1` 和 `.\scripts\build_windows_legacy_export.ps1`，产物统一写入 `dist\windows\`；生成开发包时只允许从该目录取件，不再回退到历史二进制缓存。
-- Windows CLI 唯一认可的 Cargo 源产物是 `cli\target\release\asapflow.exe`。不要使用 `cli\target\x86_64-pc-windows-gnu\release\asapflow.exe`；构建脚本会删除该旧目录，防止误打包。
+- 三端平台 CLI 由平台仓库 GitHub Actions 统一构建并自动同步，版本记录见 `CLI_VERSION.json`，无需在开发包中本地编译。
+
+## 提交开发包改动
+
+提交前先执行 `git pull --ff-only`，保留 GitHub 发布的三端程序。`.gitignore` 会忽略新增的本机构建文件；已跟踪的程序继续保留在仓库中，便于所有用户拉取。
+
+维护此仓库时执行一次以下命令，启用二进制提交保护：
+
+```bash
+git config core.hooksPath .githooks
+```
+
+提交检查会阻止手工提交预构建程序及 CLI 版本、校验文件，避免旧程序覆盖自动构建版本。GitHub Actions 使用独立检出，不启用此本地 Hook。旧系统迁移工具的本地二进制也受保护，迁移工具的受控发布需单独处理。

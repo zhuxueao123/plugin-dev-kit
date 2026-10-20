@@ -36,6 +36,18 @@
 - `patch_record(entity_code, record_id, payload)`
 - `delete_record(entity_code, record_id)`
 
+`query_records(...)` 成功时的 `payload` 为分页对象：
+
+```python
+result = context.core.query_records("Order", page_size=20)
+items = result.payload["items"]
+total = result.payload["totalCount"]
+page_index = result.payload["pageIndex"]
+page_size = result.payload["pageSize"]
+```
+
+记录数组使用 `items`，不是 `rows`；`rows` 只用于 `execute_procedure(..., returns_rows=True)` 的结果集。
+
 `get_entity_relationships` 的 `direction` 支持 `both`、`outgoing`、`incoming`，返回源/目标实体编码、源/目标字段编码、关系类型、桥接实体和删除行为，可用于级联处理与关系校验。
 
 过滤操作符支持 `$eq`、`$ne`、`$isnull`、`$in`、`$nin`、`$gt`、`$gte`、`$lt`、`$lte`、`$contains` 以及 `$and` / `$or`。不支持的操作符会直接报错，不会静默删除或返回空结果。
@@ -50,6 +62,8 @@
 - `procedure_name` 支持 `name` 或 `schema.name`。
 - 参数名与过程名会做格式校验。
 - 参数值统一参数化传递。
+- 调用始终使用编码为 `default` 的业务数据源，不读取系统元数据库连接。
+- 平台会按 `default` 数据源的数据库类型生成 PostgreSQL、SQL Server 或 MySQL 调用语法。
 
 示例：
 
@@ -147,7 +161,7 @@ user = core.get_user().payload
 config = core.get_config().payload
 scenario = core.get_scenario("supplier_management", "list").payload
 scenario_config = core.get_scenario_config("supplier_management", "list").payload
-records = core.query_records("Order", page_size=20).payload
+records = core.query_records("Order", page_size=20).payload["items"]
 core.log("info", "plugin executed", {"user": user})
 ```
 

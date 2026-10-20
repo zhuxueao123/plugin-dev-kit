@@ -12,4 +12,4 @@
 
 完整命令、配置和输出结构见 [`CLI_REFERENCE.md`](CLI_REFERENCE.md)，导出格式见 `docs/`，命令示例见 `examples/`。
 
-业务数据抽样或分批提取使用 `query-data`。该命令要求显式传入 `pageIndex`、`pageSize`、表和字段，不会自动混入功能 handoff。
+业务数据抽样或分批提取使用 `query-data`。该命令要求显式传入 `pageIndex`、`pageSize`、表和字段，不会自动混入功能 handoff。JSON 输出中的 bit 字段会转换为 JSON 布尔值；`text/ntext` 等字段通过单行编码传输，不会因换行或分隔符破坏记录边界；显式排序时仍会追加 `SYS_Table.IDFIELD` 作为稳定分页尾键。

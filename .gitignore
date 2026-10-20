@@ -20,3 +20,10 @@ optional/migration/legacy-export/exports/
 Thumbs.db
 *.pyc
 *.pyo
+
+# Prebuilt executables are published by GitHub Actions.
+# Existing tracked deliveries stay tracked so git pull includes them.
+/bin/*/asapflow/asapflow
+/bin/*/asapflow/asapflow.exe
+/optional/migration/legacy-export/bin/*/legacy-export
+/optional/migration/legacy-export/bin/*/legacy-export.exe

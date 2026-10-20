@@ -69,11 +69,11 @@
 - `system list-actions`
   用途：列出动作，可按 feature 过滤
 - `system update-action`
-  用途：更新动作定义
+  用途：整包更新动作定义；`code`、`name`、`actionType`、`executionMode`、`permissionCode` 必填，修改前应先用 `system list-actions` 读取原定义
 - `system delete-action`
   用途：删除动作定义
 - `system create-menu`
-  用途：创建菜单
+  用途：创建菜单；迁移重跑可使用 `--if-exists skip` 按非空菜单编码跳过已有项
 - `system list-menus`
   用途：列出菜单树
 - `system update-menu`
@@ -168,11 +168,13 @@
 - `configuration set-file-storage`
   用途：保存文件存储配置
 - `data-source list`
-  用途：列出业务数据源
+  用途：列出业务数据源；响应包含连接配置，仅授予 `system.configuration.manage` 的管理员可调用
 - `data-source get`
-  用途：读取业务数据源
+  用途：读取业务数据源；响应包含连接配置，仅授予 `system.configuration.manage` 的管理员可调用
 - `data-source validate`
   用途：校验数据源连接
+- `data-source refresh`
+  用途：立即释放并重建业务数据源连接缓存；修改外部数据库对象或连接配置后可执行，不需要重启平台
 - `data-source create`
   用途：创建业务数据源
 - `data-source update`
@@ -194,7 +196,7 @@
 - `scheduled-job get`
   用途：读取计划任务详情
 - `scheduled-job create`
-  用途：创建计划任务，任务目标为插件能力
+  用途：创建计划任务，任务目标为插件能力；cron/daily 输入可通过 `timeZone` 指定 IANA 时区，默认 `Asia/Shanghai`
 - `scheduled-job update`
   用途：更新计划任务
 - `scheduled-job delete`
@@ -265,7 +267,7 @@
 - `plugin pages`
   用途：查看当前平台识别到的插件页面
 - `plugin invoke`
-  用途：手动调用某个插件能力
+  用途：手动调用某个插件能力；请求体必须使用 `{"payload": {...}}` 结构；`scenario.action.execute` 能力还需在 `context` 中提供 `feature` 和 `scenario`
 - `plugin pack`
   用途：在本地构建并生成 `.afplugin` 发布制品
 - `plugin publish`

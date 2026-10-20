@@ -128,6 +128,8 @@ asapflow number-rule bind-field --entity-code sales_order --field-code order_no 
 4. 用 `scheduled-job run` 立即执行一次验证。
 5. 用 `scheduled-job runs` 查看运行记录。
 
+`cron` 和 `daily` 任务应显式设置 `timeZone`，使用 IANA 时区编码（例如 `Asia/Shanghai`）。不要为了适配服务器 UTC 时区手工把北京时间减 8 小时。
+
 ### 4.3 CLI 命令形态
 
 ```bash

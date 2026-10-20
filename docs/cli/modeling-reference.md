@@ -611,6 +611,7 @@ AI 选型规则：
   含义：是否允许通过平台写入该实体。
   必填：否。
   默认：由 CLI 简化输入默认补成 `true`。
+  说明：显式传 `false` 时实体保持只读，数据新增、修改和删除接口会拒绝写入。
 
 - `description`
   含义：实体说明。
@@ -645,7 +646,7 @@ AI 选型规则：
 - `dataType`
   含义：字段类型。
   必填：是。
-  常见值：`string`、`int`、`decimal`、`bool`、`date`、`datetime`、`uuid`。
+  常见值：`string`、`text`、`int`、`bigint`、`smallint`、`decimal`、`float`、`double`、`boolean`、`date`、`time`、`datetime`、`timestamp`、`uuid`、`json`、`binary`。
 
 - `length`
   含义：字符串长度。
@@ -654,8 +655,8 @@ AI 选型规则：
 
 - `precision` / `scale`
   含义：数值精度与小数位。
-  必填：否。
-  说明：仅在 `decimal` 等数值类型下使用。
+  必填：`decimal` 字段两项都必填，其它类型否。
+  说明：`decimal` 必须满足 `1 <= precision <= 38` 且 `0 <= scale <= precision`；平台不再创建数据库默认的 `decimal(18,0)`，避免静默丢失小数。
 
 - `isNullable`
   含义：是否可空。
@@ -677,6 +678,7 @@ AI 选型规则：
 - `defaultValue`
   含义：默认值。
   必填：否。
+  说明：契约中使用字符串表达默认值；写入记录时平台会按 `dataType` 转成布尔、数字、JSON 或字符串。布尔值可用 `true/false` 或 `1/0`。
 
 - `orderIndex`
   含义：字段顺序。
@@ -1175,7 +1177,7 @@ CLI 请求示例见 `examples/update_detail_scenario_tabs.json`。
 
 整包更新前可执行 `system get-scenario-edit-model --feature-id <id> --scenario-id <id>`，其返回值可直接作为更新基础，不必手工把 `featureFieldId` 映射回 `featureFieldKey`。
 
-局部更新请求示例见 `examples/patch_scenario.json`。JSON patch 对象中的 `null` 表示删除该属性；未出现的属性保持不变。`fieldGroupChanges.upsert/remove` 和 `actionChanges.upsert/remove` 都是显式操作，不会影响未列出的节点。
+局部更新请求示例见 `examples/patch_scenario.json`。JSON patch 对象中的 `null` 表示删除该属性；未出现的属性保持不变。`fieldGroupChanges.upsert` 只修改请求中显式出现的 `list/form/detail` 上下文；某个上下文传 `enabled:false` 只删除该上下文，不删除同一字段的其他上下文。`fieldGroupChanges.remove` 才会删除该字段的全部上下文。`actionChanges.upsert/remove` 也只影响明确列出的动作。
 
 ## 6. 最重要的默认规则
 
@@ -1309,6 +1311,7 @@ CLI 请求示例见 `examples/update_detail_scenario_tabs.json`。
 - `reportCode`
   含义：报表编码。
   必填：否。
+  说明：`report` 类型菜单必须填写，值为已发布 BI 看板的 `code`；运行时路径为 `/reports/{reportCode}`，平台会按编码解析看板。
 
 - `description`
   含义：菜单说明。
@@ -1331,6 +1334,7 @@ CLI 请求示例见 `examples/update_detail_scenario_tabs.json`。
 3. `group` 只负责分组，不直接承载业务页面。
 4. 旧菜单叶子编码形如 `BD_ITEM@GADMIN` 时，建议使用 `BD_ITEM_GADMIN` 作为唯一菜单编码，并分别通过 `featureId`、`scenarioId` 绑定真实功能和场景。
 5. `system update-menu` 是整包更新；修改菜单类型前必须先读取原菜单，并提交目标类型所需的全部字段。无法安全转换时应删除错误入口后按正确层级重建。
+6. BI 看板入口使用 `report` 类型并填写已发布看板编码；不要把看板 ID 填入 `reportCode`，也不需要用 `customRoute=/bi/{id}` 绕过。
 
 ## 9. 安全更新指南
 

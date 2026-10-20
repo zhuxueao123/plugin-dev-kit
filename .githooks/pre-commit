@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+blocked=0
+while IFS= read -r -d '' path; do
+  case "$path" in
+    bin/*/asapflow/asapflow|bin/*/asapflow/asapflow.exe|CLI_VERSION.json|CLI_SHA256SUMS|optional/migration/legacy-export/bin/*/legacy-export|optional/migration/legacy-export/bin/*/legacy-export.exe)
+      printf 'Refusing local prebuilt delivery change: %s\n' "$path" >&2
+      blocked=1
+      ;;
+  esac
+done < <(git diff --cached --name-only -z)
+if (( blocked )); then
+  echo 'Keep GitHub-built deliveries unchanged. Unstage local binaries and publish source through the platform workflow.' >&2
+  exit 1
+fi
