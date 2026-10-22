@@ -281,7 +281,23 @@ asapflow plugin invoke --plugin-code agent_mail --capability-code send --json '{
 asapflow plugin invoke --plugin-code zmc_core --capability-code ping --json '{"payload":{},"context":{"feature":{"code":"zmc"},"scenario":{"code":"list"},"selection":{"ids":[]}}}'
 ```
 
-计划任务的 cron 与每天固定时间按请求中的 `timeZone` 解释，使用 IANA 时区编码；未提供时默认为 `Asia/Shanghai`。
+计划任务的 cron 与每天固定时间按请求中的 `timeZone` 解释，使用 IANA 时区编码；未提供时默认为 `Asia/Shanghai`：
+
+```json
+{
+  "code": "daily_probe",
+  "name": "每日探针",
+  "status": "active",
+  "scheduleType": "cron",
+  "cronExpression": "0 8 * * *",
+  "timeZone": "Asia/Shanghai",
+  "pluginCode": "zmc_core",
+  "capabilityCode": "ping",
+  "payload": {},
+  "params": {},
+  "metadata": {}
+}
+```
 
 迁移期间如果修改了数据源连接配置，或者在数据库中重建了表、视图、存储过程，可主动释放平台连接缓存：
 

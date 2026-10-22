@@ -733,8 +733,24 @@ AI 选型规则：
 ```bash
 asapflow system add-entity-index --entity-code sales_order --json '{"name":"ix_sales_order_status_date","fields":["status","order_date"],"isUnique":false}'
 asapflow system list-entity-indexes --code sales_order
+asapflow system reconcile-entity-indexes --entity-code sales_order
+# 确认检查结果后再应用；不会自动删除重复业务数据
+asapflow system reconcile-entity-indexes --entity-code sales_order --apply
 asapflow system delete-entity-index --entity-code sales_order --index-name ix_sales_order_status_date
 ```
+
+索引对账状态：
+
+- `synchronized`：元数据与物理索引一致。
+- `physical_missing`：元数据存在但物理索引缺失。
+- `metadata_missing`：发现可恢复的旧平台唯一性或已有物理唯一索引，但缺少新平台索引元数据。
+- `created`：使用 `--apply` 后已补建。
+- `failed`：补建失败；唯一索引应优先检查现有重复值，详细数据库错误查看平台服务日志。
+- `mismatch`：同名索引的字段顺序或唯一性不一致，不自动覆盖。
+- `physical_only`：只有物理索引，不自动删除。
+- `unmanaged`：实体 `SchemaManaged=false`，应由数据库管理员维护。
+
+`add-entity-index` 只适用于平台托管实体。非托管实体会返回 `entity_schema_not_managed`，避免只保存元数据而没有物理索引。迁移完成不代表唯一约束已经生效，应把对账结果作为验收项。
 
 ## 3. 功能配置
 

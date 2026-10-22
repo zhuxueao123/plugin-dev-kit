@@ -58,6 +58,27 @@
 - `data create-record` 的输入是扁平字段对象，不需要 `{ "data": ... }` 包装；`--preserve-number-values` 只控制本次编号规则应用。
 - `legacy-export export-system` 和功能 handoff 不自动混入业务记录；需要旧平台业务数据时使用 `legacy-export query-data` 按 `pageIndex/pageSize` 走独立、可审计的只读提取流程。
 
+## 9. 唯一性与物理索引
+
+- `isUnique` 或索引元数据不是数据库约束本身；只有业务库中实际存在的唯一约束/唯一索引才能阻止重复写入。
+- 新迁移会把旧平台 `Field.xml` 的 `UNIQUE` 标记转换为实体唯一索引。复合唯一索引必须根据旧平台索引定义显式配置，不能仅凭单字段标记推断。
+- 迁移或发布后必须执行索引对账：
+
+  ```bash
+  asapflow system reconcile-entity-indexes --entity-code <实体编码>
+  ```
+
+- 默认命令只检查，不修改元数据或数据库。确认报告后使用 `--apply` 补建缺失索引并恢复旧字段唯一性：
+
+  ```bash
+  asapflow system reconcile-entity-indexes --entity-code <实体编码> --apply
+  ```
+
+- `failed` 通常表示已有重复数据导致唯一索引无法创建。修复命令不会自动删除或合并业务记录；应先导出重复键报告，由业务确认保留/合并规则后再重试。
+- `mismatch` 表示同名物理索引的字段、顺序或唯一性与元数据不同；平台不会自动覆盖。
+- `physical_only` 表示数据库索引没有对应元数据；平台不会自动删除。
+- `SchemaManaged=false` 的实体由数据库管理员维护物理结构。平台会拒绝在线新增索引，不能把“元数据保存成功”当作索引创建成功。
+
 ## 场景动作规则
 
 - `list` 场景通常配置 `create`、`edit`、`delete`、`view`。
