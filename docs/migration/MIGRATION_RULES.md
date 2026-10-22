@@ -68,16 +68,17 @@
   asapflow system reconcile-entity-indexes --entity-code <实体编码>
   ```
 
-- 默认命令只检查，不修改元数据或数据库。确认报告后使用 `--apply` 补建缺失索引并恢复旧字段唯一性：
+- 默认命令只检查，不修改元数据或数据库。确认报告后使用 `--apply` 同步结构：缺少物理索引时补建；物理索引已存在但缺少元数据时只回填元数据，不重复执行 DDL：
 
   ```bash
   asapflow system reconcile-entity-indexes --entity-code <实体编码> --apply
   ```
 
-- `failed` 通常表示已有重复数据导致唯一索引无法创建。修复命令不会自动删除或合并业务记录；应先导出重复键报告，由业务确认保留/合并规则后再重试。
+- `metadata_missing` 表示物理索引已存在但平台元数据缺失，`--apply` 后应变为 `metadata_imported`。
+- `failed` 会返回数据库原始错误。它可能表示重复数据，也可能是 `schemaName/physicalName/dataSourceCode` 指向了错误对象；不要仅凭通用失败提示判断为重复键。
 - `mismatch` 表示同名物理索引的字段、顺序或唯一性与元数据不同；平台不会自动覆盖。
-- `physical_only` 表示数据库索引没有对应元数据；平台不会自动删除。
 - `SchemaManaged=false` 的实体由数据库管理员维护物理结构。平台会拒绝在线新增索引，不能把“元数据保存成功”当作索引创建成功。
+- `add-entity-index` 用于新增索引；迁移后接管数据库既有索引必须使用 `reconcile-entity-indexes --apply`。
 
 ## 场景动作规则
 

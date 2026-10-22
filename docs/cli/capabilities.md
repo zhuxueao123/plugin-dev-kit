@@ -39,7 +39,7 @@
 - `system list-entity-indexes`
   用途：读取实体索引定义
 - `system reconcile-entity-indexes`
-  用途：对比实体索引元数据与业务库物理索引；默认只检查，`--apply` 仅补建安全项并从旧字段元数据恢复单字段唯一索引，不会删除重复业务数据或覆盖冲突索引
+  用途：双向对账实体索引元数据与业务库物理索引；默认只检查，`--apply` 会补建缺失物理索引，或从已存在的物理索引回填元数据，不会删除重复业务数据、删除物理索引或覆盖冲突索引
 - `system delete-entity-index`
   用途：按索引 ID 或名称删除既有实体索引及物理索引
 - `system create-feature`

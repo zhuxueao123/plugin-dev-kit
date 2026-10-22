@@ -743,14 +743,16 @@ asapflow system delete-entity-index --entity-code sales_order --index-name ix_sa
 
 - `synchronized`：元数据与物理索引一致。
 - `physical_missing`：元数据存在但物理索引缺失。
-- `metadata_missing`：发现可恢复的旧平台唯一性或已有物理唯一索引，但缺少新平台索引元数据。
+- `metadata_missing`：数据库中已有物理索引，但缺少平台索引元数据；`--apply` 只回填元数据，不重复执行 DDL。
+- `metadata_imported`：已使用 `--apply` 从数据库物理结构回填索引元数据。
 - `created`：使用 `--apply` 后已补建。
-- `failed`：补建失败；唯一索引应优先检查现有重复值，详细数据库错误查看平台服务日志。
+- `failed`：补建失败；返回结果会包含数据库原始错误。先核对响应中的 `schemaName`、`physicalName` 与 `dataSourceCode`，再检查重复值。
 - `mismatch`：同名索引的字段顺序或唯一性不一致，不自动覆盖。
-- `physical_only`：只有物理索引，不自动删除。
 - `unmanaged`：实体 `SchemaManaged=false`，应由数据库管理员维护。
 
-`add-entity-index` 只适用于平台托管实体。非托管实体会返回 `entity_schema_not_managed`，避免只保存元数据而没有物理索引。迁移完成不代表唯一约束已经生效，应把对账结果作为验收项。
+`reconcile-entity-indexes` 是双向结构对账：元数据有、数据库没有时补建物理索引；数据库有、元数据没有时回填元数据。它不会删除物理索引、覆盖冲突索引或搬迁业务数据。`add-entity-index` 只适用于明确新增索引，不用于接管数据库中已经存在的索引。
+
+对账响应同时返回实体的 `storageType/schemaName/physicalName/dataSourceCode` 和 `physicalIndexCount`。若 `physicalIndexCount=0` 但数据库中明确存在索引，应先确认 CLI 连接的实例、业务数据源、schema 和物理表是否与人工检查的是同一个目标。
 
 ## 3. 功能配置
 
