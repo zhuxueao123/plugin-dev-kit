@@ -1,18 +1,18 @@
 {
   "version": "0.2.8",
-  "source_commit": "527b3b062a2c3773ff68aee7599bd2126099ea69",
+  "source_commit": "48e5a934662eaad54516de74c3cfa18589596a07",
   "platforms": {
     "x86_64-pc-windows-msvc": {
       "path": "bin/windows/asapflow/asapflow.exe",
-      "sha256": "d05953375430859b436ef9d65d003822e6c84e8f8e30c53d97dac72cb1ab1e39"
+      "sha256": "566b28a1b8902833a590d8fcca8383c37bf536682a5898759d43682219ccac7a"
     },
     "aarch64-apple-darwin": {
       "path": "bin/macos/asapflow/asapflow",
-      "sha256": "0c5c1bd80f5dc4e73a26430fef128d4428e3469317a03bbe438ecf95cd15ad42"
+      "sha256": "e9b061bcb8b6340f572bc3d61693945e5601b6a1baaabb459ce7c47003d40f6f"
     },
     "x86_64-unknown-linux-gnu": {
       "path": "bin/linux-x86_64/asapflow/asapflow",
-      "sha256": "6093467378cac57dbc81de8a1232de79bdf460608972f89a98fb06957002a1a6"
+      "sha256": "6fbc315de2d510909e3dc1c2fc889c74e5f0ca1c3fdc46de081ff69623fba189"
     }
   }
 }
