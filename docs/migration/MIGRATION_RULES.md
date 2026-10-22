@@ -60,6 +60,7 @@
 
 ## 9. 唯一性与物理索引
 
+- `storageType=table` 的实体必须有 `physicalName`。未显式提供时默认使用实体编码；SQL Server 的 `schemaName=public` 会映射为 `dbo`。若 `physicalName` 为空，平台会退回 `entity_data_record`，物理表唯一索引也不会约束这些记录。
 - `isUnique` 或索引元数据不是数据库约束本身；只有业务库中实际存在的唯一约束/唯一索引才能阻止重复写入。
 - 新迁移会把旧平台 `Field.xml` 的 `UNIQUE` 标记转换为实体唯一索引。复合唯一索引必须根据旧平台索引定义显式配置，不能仅凭单字段标记推断。
 - 迁移或发布后必须执行索引对账：

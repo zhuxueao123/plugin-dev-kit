@@ -598,6 +598,7 @@ AI 选型规则：
 
 - `physicalName`
   含义：业务库中的物理表名。
+  对 `storageType=table` 的实体不能为空；未提供或仅为空白时，平台和 CLI 会使用实体 `code`。平台启动时也会把历史遗留的空物理表名回填为实体编码。SQL Server 中 `schemaName=public` 会按 `dbo` 处理。
   必填：是。
   建议：通常与 `code` 保持一致。
 
