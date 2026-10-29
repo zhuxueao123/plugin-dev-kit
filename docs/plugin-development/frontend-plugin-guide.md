@@ -252,3 +252,54 @@ npm install @trusteem/asapflow-plugin-sdk
 
 - UI 控制协议见 [plugin-ui-protocol.md](plugin-ui-protocol.md)
 - 完整联调链路见 [plugin-e2e-examples.md](plugin-e2e-examples.md)
+
+## 9. 提供项目自定义登录页
+
+登录页也是前端页面插件，通过 `pages[].purpose = "login"` 声明。它在用户登录前加载，占据整个页面，不注册进业务主布局，也不需要配置菜单。为兼容当前 CLI，清单仍需保留唯一的 `route.name/path`，不要抢占 `/login`。
+
+```json
+{
+  "pluginCode": "customer-brand",
+  "pluginName": "项目登录页",
+  "version": "1.0.0",
+  "pages": [
+    {
+      "code": "login",
+      "purpose": "login",
+      "route": { "name": "plugin-customer-brand-login", "path": "/plugins/customer-brand/login" },
+      "entry": "./LoginPage.vue"
+    }
+  ]
+}
+```
+
+入口组件通过属性调用平台的登录能力，不直接导入宿主源码，也不自行保存 token：
+
+```vue
+<template>
+  <form @submit.prevent="loginContext.signIn(form)">
+    <label>账号<input v-model="form.userName" autocomplete="username" required /></label>
+    <label>密码<input v-model="form.password" type="password" autocomplete="current-password" required /></label>
+    <p v-if="loginContext.state.error" role="alert">{{ loginContext.state.error }}</p>
+    <button type="submit" :disabled="loginContext.state.submitting">
+      {{ loginContext.state.submitting ? '登录中…' : '登录' }}
+    </button>
+  </form>
+</template>
+
+<script setup>
+import { reactive } from 'vue'
+defineProps({ loginContext: { type: Object, required: true } })
+const form = reactive({ userName: '', password: '' })
+</script>
+```
+
+- `signIn()` 返回 `Promise<boolean>`，失败返回 false，错误文案写入 `state.error`；成功后平台负责初始化、强制改密和页面跳转。
+- 页面及子组件放在入口所在目录内，使用标准 `vue` 导入。使用新版工作区构建器，使该目录共享宿主 Vue 运行时；只更新宿主而继续用旧构建器打包，无法保证响应式和生命周期正确。
+- 样式推荐使用 `scoped`，图片通过相对 import 或 CSS url 打包；登录前不能读取受保护的业务接口。
+- 构建和发布沿用本指南第 3 节；需发布完整构建依赖，不能只替换入口 JS。首次接入需先升级支持登录插件的宿主前后端。
+- 单个候选自动采用。多个候选时由部署方设置 `LoginPage__PluginCode` 和 `LoginPage__PageCode`；未明确选出唯一页面则使用默认登录页。
+- 加载失败或组件渲染失败会回退默认页。恢复地址是 `/#/login?builtin=1`（hash 路由）或 `/login?builtin=1`（history 路由）。
+- 登录页代码能读取账号密码，只能发布经过项目维护者信任的插件。默认入口跳过页面插件，不跳过认证。
+
+完整步骤和智能体任务示例见 [登录页开发指南](login-page-guide.md)。可复制模板位于插件工作区的 `examples/frontend/customer-brand/`；在开发工具包中对应 `plugin-workspace/examples/frontend/customer-brand/`。

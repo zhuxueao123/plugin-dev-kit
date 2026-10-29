@@ -20,3 +20,5 @@ asapflow plugin publish --root . --code <plugin-code> --wait
 - [`../plugin-development/frontend-plugin-guide.md`](../plugin-development/frontend-plugin-guide.md)
 - [`../plugin-development/release.md`](../plugin-development/release.md)
 - [`../plugin-development/core-sdk-reference.md`](../plugin-development/core-sdk-reference.md)
+
+- 自定义登录页的智能体操作、CLI 兼容清单与示例见 [登录页开发指南](../plugin-development/login-page-guide.md)。

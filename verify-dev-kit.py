@@ -45,6 +45,23 @@ def verify_manifests() -> None:
         )
 
 
+def verify_login_example() -> None:
+    require("AGENTS.md")
+    require("docs/plugin-development/login-page-guide.md")
+    directory = "plugin-workspace/examples/frontend/customer-brand"
+    manifest = json.loads(require(f"{directory}/manifest.json").read_text(encoding="utf-8-sig"))
+    if manifest.get("pluginCode") != "customer-brand":
+        raise RuntimeError("login example pluginCode must match its directory")
+    pages = manifest.get("pages", [])
+    if len(pages) != 1 or pages[0].get("purpose") != "login":
+        raise RuntimeError("login example must declare one login page")
+    page = pages[0]
+    require(f"{directory}/{page['entry']}")
+    route = page.get("route", {})
+    if not route.get("name") or not route.get("path") or route["path"] == "/login":
+        raise RuntimeError("login example needs a unique compatibility route for CLI 0.2.8")
+
+
 def verify_sdk() -> None:
     sys.path.insert(0, str(SDK_ROOT))
     import asap_runtime
@@ -89,6 +106,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     verify_manifests()
+    verify_login_example()
     verify_sdk()
     if args.mode == "delivery":
         verify_forbidden_files()

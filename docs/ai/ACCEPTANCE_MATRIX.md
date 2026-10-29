@@ -31,3 +31,9 @@ cd plugin-workspace/runtime-sdk && python -m unittest tests.test_sdk_smoke
 | Runtime 热重载 | 发布后执行 `plugin reload` 并调用对应能力 | CLI 输出、Runtime 日志、调用结果 |
 | 回滚恢复旧版本 | 成功发布 v2 后回滚到 v1 | 回滚输出和 v1 行为截图/响应 |
 | 页面通过宿主鉴权访问 | 登录后访问两个 `supplier_portal` 页面 | 页面截图及无 401 的网络记录 |
+
+## 登录页插件
+
+- `verify-dev-kit.py` 检查智能体入口、登录页指南及 customer-brand 示例清单、组件和 CLI 兼容路由。
+- 从示例复制到正式前端工程后，执行 `plugin-build.* customer-brand`，检查制品内保留 `purpose: "login"` 并包含页面、CSS 和依赖。
+- 获得发布授权后，按登录页指南验证匿名展示、手机布局、登录反馈、默认入口和登录跳转。离线打包成功不代表真实账号认证已经联调。

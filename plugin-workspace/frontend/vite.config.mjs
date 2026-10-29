@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import * as vueRuntime from 'vue'
 import { dirname, resolve, relative } from 'path'
 import { fileURLToPath } from 'url'
 import fs from 'fs'
@@ -52,6 +53,7 @@ function loadPluginDescriptors() {
       pages.push({
         code: page.code,
         displayName: page.displayName ?? null,
+        purpose: page.purpose ?? null,
         route: page.route ?? null,
         entryPath,
         bundleFileName: page.bundle ?? `${page.code}.js`,
@@ -139,6 +141,7 @@ function manifestWriterPlugin(descriptors) {
           pages.push({
             code: page.code,
             displayName: page.displayName,
+            purpose: page.purpose,
             route: page.route,
             modulePath,
             bundlePath,
@@ -205,8 +208,30 @@ function cssInjectorPlugin() {
 const descriptors = loadPluginDescriptors()
 const rollupInput = descriptors.length ? createInputMap(descriptors) : undefined
 
+// Login pages must share the host Vue runtime for reactive props and lifecycle hooks.
+function loginVueBridgePlugin() {
+  const roots = descriptors.flatMap(plugin => plugin.pages
+    .filter(page => page.purpose === 'login')
+    .map(page => dirname(page.entryPath)))
+  const id = '\0asapflow-login-vue'
+  return {
+    name: 'asapflow-login-vue',
+    enforce: 'pre',
+    resolveId(source, importer) {
+      if (source === 'vue' && importer && roots.some(root => importer.startsWith(root + '/'))) return id
+    },
+    load(source) {
+      if (source !== id) return
+      return Object.keys(vueRuntime)
+        .filter(name => /^[a-zA-Z_$][\w$]*$/.test(name) && name !== 'default')
+        .map(name => `export const ${name} = window.__ASAPFLOW_LOGIN_VUE__.${name};`)
+        .join('\n')
+    }
+  }
+}
+
 export default defineConfig({
-  plugins: [vue(), cssInjectorPlugin(), manifestWriterPlugin(descriptors)],
+  plugins: [loginVueBridgePlugin(), vue(), cssInjectorPlugin(), manifestWriterPlugin(descriptors)],
   resolve: {
     alias: {
       src: resolve(__dirname, 'src')

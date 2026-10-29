@@ -1,0 +1,17 @@
+{
+  "pluginCode": "customer-brand",
+  "pluginName": "项目登录页",
+  "version": "1.0.0",
+  "pages": [
+    {
+      "code": "login",
+      "displayName": "项目登录页",
+      "purpose": "login",
+      "entry": "./LoginPage.vue",
+      "route": {
+        "name": "plugin-customer-brand-login",
+        "path": "/plugins/customer-brand/login"
+      }
+    }
+  ]
+}

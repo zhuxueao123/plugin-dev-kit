@@ -11,3 +11,5 @@
 - `examples/backend/supplier_guard`
 - `examples/backend/supplier_runtime_rules`
 - `examples/frontend/supplier_portal`
+
+- `examples/frontend/customer-brand`：自定义登录页，复制到正式前端工程后构建，详见工具包登录页指南。

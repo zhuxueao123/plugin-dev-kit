@@ -29,3 +29,7 @@
 ## 迁移旧系统
 
 迁移不是普通插件开发的必经步骤。只有涉及旧系统元数据、业务功能或业务数据迁移时，才阅读 `migration/`，并使用开发包根目录下的 `optional/migration/` 工具和样板。
+
+## 使用智能体定制登录页
+
+让智能体先读取根目录 `AGENTS.md` 和 `docs/ai/AI_OPERATOR_GUIDE.md`，再按 [登录页开发指南](plugin-development/login-page-guide.md) 创建页面、校验并生成 `.afplugin`。可复制示例在 `plugin-workspace/examples/frontend/customer-brand/`。请整体更新工具包，保留新版前端构建器；无需修改平台前端源码。

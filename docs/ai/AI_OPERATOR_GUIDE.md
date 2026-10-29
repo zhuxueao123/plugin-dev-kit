@@ -14,6 +14,10 @@
 
 允许在 `plugin-workspace/backend/`、`plugin-workspace/frontend/` 和 `plugin-workspace/locales/` 内生成代码。使用 `plugin validate`、`plugin pack`、`plugin publish` 完成校验与发布。
 
+## 自定义登录页
+
+优先读取 `docs/plugin-development/login-page-guide.md` 和 `release.md`。从 `plugin-workspace/examples/frontend/customer-brand/` 复制到正式前端工程，再按用户设计要求修改。使用 `purpose: "login"` 与 `loginContext`，保留当前 CLI 所需的兼容 route；不注册业务菜单、不重写认证、不直接导入宿主源码。更新构建器与文档必须一起获取，完成 `plugin-build.*` 验证与制品检查后报告结果；只有用户明确要求发布时才运行 `plugin-publish.*`。
+
 ## 平台配置任务
 
 读取 `docs/cli/README.md`、`docs/cli/usage.md`、`docs/cli/capabilities.md` 及相关 JSON 示例。只通过 `asapflow` CLI 调用平台能力，不直接操作数据库。

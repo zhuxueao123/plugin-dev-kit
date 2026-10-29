@@ -27,3 +27,10 @@
 - 仅在客户需要旧系统迁移时检查 `optional/migration/`。
 - 对应平台的 `legacy-export(.exe)` 可执行，开发包应同时携带 macOS 与 Linux x86_64 版本。
 - 至少保留一个主从表样板和一个业务动作插件样板。
+
+## 登录页插件交付
+
+- 根目录 `AGENTS.md`、`docs/plugin-development/login-page-guide.md` 与 AI 入口齐全。
+- `plugin-workspace/examples/frontend/customer-brand/` 包含页面和带 `purpose: "login"` 的清单，并保留 CLI 0.2.8 兼容 route。
+- 工作区构建器保留 purpose 并共享宿主 Vue；复制示例到正式前端工程后运行 `plugin-build.* customer-brand`，检查 `.afplugin` 内清单、页面 JS、CSS 与共享依赖。
+- 不默认发布示例或更改平台登录页；连接测试平台的验收需用户明确授权。

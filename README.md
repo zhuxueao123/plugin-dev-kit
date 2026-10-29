@@ -75,3 +75,7 @@ git config core.hooksPath .githooks
 ```
 
 提交检查会阻止手工提交预构建程序及 CLI 版本、校验文件，避免旧程序覆盖自动构建版本。GitHub Actions 使用独立检出，不启用此本地 Hook。旧系统迁移工具的本地二进制也受保护，迁移工具的受控发布需单独处理。
+
+## 使用智能体定制登录页
+
+让智能体先读取根目录 `AGENTS.md` 和 `docs/ai/AI_OPERATOR_GUIDE.md`，再按 [登录页开发指南](docs/plugin-development/login-page-guide.md) 创建页面、校验并生成 `.afplugin`。可复制示例在 `plugin-workspace/examples/frontend/customer-brand/`。请整体更新工具包，保留新版前端构建器；无需修改平台前端源码。

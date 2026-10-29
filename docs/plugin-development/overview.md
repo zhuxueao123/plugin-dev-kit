@@ -53,3 +53,7 @@
 - [plugin-i18n-guide.md](plugin-i18n-guide.md)
 - [plugin-ui-protocol.md](plugin-ui-protocol.md)
 - [plugin-e2e-examples.md](plugin-e2e-examples.md)
+
+## 自定义登录页
+
+智能体开发步骤、登录能力、兼容清单及默认恢复入口见 [登录页开发指南](login-page-guide.md)。示例位于 `plugin-workspace/examples/frontend/customer-brand/`，复制到正式工程后构建，不自动启用。
