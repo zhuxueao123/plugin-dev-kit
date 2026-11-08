@@ -55,7 +55,7 @@ Copy-Item -Recurse plugin-workspace/examples/frontend/customer-brand plugin-work
 }
 ```
 
-`purpose: "login"` 是识别依据。当前 CLI 0.2.8 校验仍要求 `route`，因此必须保留上面的兼容字段；宿主不会将该页面注册到业务菜单或主布局，也不会让该路径取代 `/login`。不需要新增菜单、后端插件、实体、场景或 Python handler。
+`purpose: "login"` 是识别依据。当前 CLI 0.2.9 校验仍要求 `route`，因此必须保留上面的兼容字段；宿主不会将该页面注册到业务菜单或主布局，也不会让该路径取代 `/login`。不需要新增菜单、后端插件、实体、场景或 Python handler。
 
 入口 Vue 组件默认导出，通过属性接收 `loginContext`：
 

@@ -59,7 +59,7 @@ def verify_login_example() -> None:
     require(f"{directory}/{page['entry']}")
     route = page.get("route", {})
     if not route.get("name") or not route.get("path") or route["path"] == "/login":
-        raise RuntimeError("login example needs a unique compatibility route for CLI 0.2.8")
+        raise RuntimeError("login example needs a unique compatibility route for CLI 0.2.9")
 
 
 def verify_sdk() -> None:

@@ -31,6 +31,6 @@
 ## 登录页插件交付
 
 - 根目录 `AGENTS.md`、`docs/plugin-development/login-page-guide.md` 与 AI 入口齐全。
-- `plugin-workspace/examples/frontend/customer-brand/` 包含页面和带 `purpose: "login"` 的清单，并保留 CLI 0.2.8 兼容 route。
+- `plugin-workspace/examples/frontend/customer-brand/` 包含页面和带 `purpose: "login"` 的清单，并保留 CLI 0.2.9 兼容 route。
 - 工作区构建器保留 purpose 并共享宿主 Vue；复制示例到正式前端工程后运行 `plugin-build.* customer-brand`，检查 `.afplugin` 内清单、页面 JS、CSS 与共享依赖。
 - 不默认发布示例或更改平台登录页；连接测试平台的验收需用户明确授权。

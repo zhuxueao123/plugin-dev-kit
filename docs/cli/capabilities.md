@@ -126,7 +126,7 @@
 - `identity create-role`
   用途：创建角色并绑定权限
 - `identity update-role`
-  用途：更新角色及权限
+  用途：更新角色；默认保留现有权限和数据范围，并将输入的 `permissionCodes`、`dataScopeIds` 增量合并。只有显式增加 `--allow-destructive-replace` 时，这两个数组才按完整集合替换
 - `identity delete-role`
   用途：删除角色
 - `identity list-users`
@@ -134,7 +134,11 @@
 - `identity create-user`
   用途：创建用户
 - `identity assign-user-roles`
-  用途：为用户分配角色
+  用途：兼容命令，语义与 `add-user-roles` 相同，只追加角色，不删除已有角色
+- `identity add-user-roles`
+  用途：为用户增量追加角色；未提交的已有角色保持不变
+- `identity replace-user-roles`
+  用途：全量替换用户角色；必须增加 `--confirm-replace`，`roleIds` 中遗漏的角色会被删除
 - `identity get-user-permissions`
   用途：查看某个用户的最终权限
 - `identity get-password-policy`
@@ -246,6 +250,28 @@
    - `service`
    - `end`
 7. AI 修改已有流程前，应先读取当前定义，再做增量更新
+
+## 集合更新语义
+
+以下命令是增量操作，不会因为输入只包含新增项而删除已有项：
+
+- `system add-entity-fields`
+- `system add-entity-index`
+- `system add-feature-fields`
+- `system patch-scenario`
+- `identity add-user-roles`
+- `identity assign-user-roles`（兼容别名）
+- `identity update-role`（默认模式下合并 `permissionCodes` 和 `dataScopeIds`）
+
+以下命令包含全量替换语义，调用前必须读取完整现状：
+
+- `identity replace-user-roles --confirm-replace`：`roleIds` 是完整角色集合。
+- `identity update-role --allow-destructive-replace`：输入的 `permissionCodes`、`dataScopeIds` 是完整集合。
+- `system update-scenario`：整包更新场景；后续局部修改优先使用 `patch-scenario`。
+- `system update-action`：提交完整动作定义。
+- `workflow update-definition`：提交完整流程定义。
+
+AI 不得把名称为 `replace` 的命令理解为追加，也不得为了“增加一项”提交只有一个元素的全量集合。
 
 ## 7. 插件能力
 

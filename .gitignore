@@ -3,16 +3,27 @@
 **/.env
 **/.env.*
 
-# Dependency caches and generated output
+# Dependency caches generated while validating or building plugins
 **/node_modules/
 **/__pycache__/
 **/.venv/
 **/target/
-plugin-workspace/frontend/dist/
-plugin-workspace/frontend/.generated/
-dist/
-exports/
-optional/migration/legacy-export/exports/
+**/.pytest_cache/
+**/.ruff_cache/
+**/.mypy_cache/
+**/.cache/
+**/.vite/
+
+# CLI-generated build, packaging, and migration directories
+**/dist/
+**/.generated/
+**/exports/
+**/tmp/
+**/temp/
+
+# Test and coverage output produced by plugin validation workflows
+**/htmlcov/
+**/coverage/
 
 # Editor and operating-system files
 .DS_Store

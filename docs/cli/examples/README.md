@@ -20,7 +20,8 @@
 - `publish_workflow.json`：依赖已存在的流程定义，先执行 `workflow create-definition --input create_workflow.json` 并使用返回的定义 ID。
 - `execute_workflow_action.json`：依赖已存在的待办任务和动作编码，先通过 `workflow list-workbench --view todo` 获取任务。
 - `start_workflow_instance.json`：可直接补充 `ccUserIds`，或在命令行追加 `--cc-user-id` 来指定抄送用户。
-- `assign_user_roles.json`：依赖已存在用户和角色，先执行 `identity list-users` 与 `identity list-roles`。
+- `assign_user_roles.json`：用于 `identity add-user-roles` 或兼容命令 `assign-user-roles`，只追加列出的角色并保留已有角色。依赖已存在用户和角色，先执行 `identity list-users` 与 `identity list-roles`。
+- `replace_user_roles.json`：仅用于 `identity replace-user-roles --confirm-replace`；其中 `roleIds` 必须包含用户最终应保留的全部角色。
 - `set_password_policy.json`：管理员配置密码强度与失效期限；留空 `expireDays` 表示不过期。
 - `create_bi_dashboard.json`：示例 SQL 依赖目标数据源中已经存在 `sales_order` 表及对应字段；它不会创建表或数据源。
 - `create_bi_dashboard_plugin.json`：示例插件接口依赖目标插件已安装并暴露对应能力。

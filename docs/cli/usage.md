@@ -264,7 +264,7 @@ CLI 统一输出 JSON。
 11. `number-rule bind-field`
 12. `identity create-role`
 13. `identity create-user`
-14. `identity assign-user-roles`
+14. `identity add-user-roles`（`assign-user-roles` 是兼容别名，均只追加；全量替换必须使用 `replace-user-roles --confirm-replace`）
 15. `identity set-password-policy`
 
 `system update-action` 是整包更新。修改名称等单个属性前，先用 `system list-actions` 读取原动作，并提交包含 `code`、`name`、`actionType`、`executionMode`、`permissionCode` 在内的完整定义。
@@ -328,6 +328,8 @@ asapflow data-source refresh
 17. 如果旧功能存在主表 + 子表结构，必须额外执行 `system update-scenario`，在 `detail` 场景的 `metadata.detailTables` 中显式配置子表
 18. `metadata.detailTables` 至少要包含 `entityCode`、`relation.parentKey`、`relation.childKey` 和 `columns`
 19. 场景局部修改优先使用 `system patch-scenario`；需要整包更新时，先用 `system get-scenario-edit-model` 读取可写结构。`system update-scenario` 默认要求请求显式包含 `fieldGroups`（或 `fields`）和 `actions`；只有确实要清空遗漏集合时才使用 `--allow-destructive-replace`
+20. 给用户增加角色使用 `identity add-user-roles`。它会先读取现有角色并合并输入；不要为了增加角色使用全量替换。只有已经取得用户完整角色列表并明确需要删除遗漏角色时，才使用 `identity replace-user-roles --confirm-replace`
+21. `identity update-role` 默认将 `permissionCodes`、`dataScopeIds` 与现有集合合并。只有明确需要删除现有权限或数据范围时才增加 `--allow-destructive-replace`，此时输入数组必须是期望保留的完整集合
 20. 表单场景如果要支持提交保存，必须显式为该场景配置 `save` 动作；仅有 `create/edit/view` 跳转并不会让表单页自动出现保存按钮
 21. 如果表单字段很多，或旧平台已经有字段块/分组，应在表单场景 `metadata.formLayout` 中配置 `type = tabs`；示例见 `examples/update_detail_scenario_tabs.json`
 22. 删除菜单、动作、场景、功能和实体时，应按引用关系从外到内处理，例如先删除菜单，再删除功能，最后删除实体
