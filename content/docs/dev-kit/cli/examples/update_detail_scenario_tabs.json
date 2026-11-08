@@ -1,0 +1,92 @@
+{
+  "featureId": "replace-with-feature-id",
+  "scenarioId": "replace-with-detail-scenario-id",
+  "code": "detail",
+  "name": "供应商详情",
+  "scenarioType": "form",
+  "description": "供应商新建、编辑和查看表单",
+  "isDefault": false,
+  "metadata": "{\"formLayout\":{\"type\":\"tabs\",\"tabs\":[{\"key\":\"basic\",\"label\":\"基本信息\",\"fields\":[\"code\",\"name\",\"short_name\",\"status\"]},{\"key\":\"contact\",\"label\":\"联系信息\",\"fields\":[\"contact_person\",\"contact_phone\",\"email\",\"address\"]},{\"key\":\"finance\",\"label\":\"财务信息\",\"fields\":[\"tax_no\",\"bank_name\",\"bank_account\"]}]}}",
+  "fieldGroups": [
+    {
+      "featureFieldKey": "code",
+      "orderIndex": 0,
+      "form": {
+        "enabled": true,
+        "visible": true,
+        "required": true,
+        "component": "q-input",
+        "span": 6
+      },
+      "detail": {
+        "enabled": true,
+        "visible": true,
+        "readonly": true,
+        "component": "q-input",
+        "span": 6
+      }
+    },
+    {
+      "featureFieldKey": "name",
+      "orderIndex": 1,
+      "form": {
+        "enabled": true,
+        "visible": true,
+        "required": true,
+        "component": "q-input",
+        "span": 6
+      },
+      "detail": {
+        "enabled": true,
+        "visible": true,
+        "readonly": true,
+        "component": "q-input",
+        "span": 6
+      }
+    },
+    {
+      "featureFieldKey": "contact_person",
+      "orderIndex": 2,
+      "form": {
+        "enabled": true,
+        "visible": true,
+        "component": "q-input",
+        "span": 6
+      },
+      "detail": {
+        "enabled": true,
+        "visible": true,
+        "readonly": true,
+        "component": "q-input",
+        "span": 6
+      }
+    },
+    {
+      "featureFieldKey": "contact_phone",
+      "orderIndex": 3,
+      "form": {
+        "enabled": true,
+        "visible": true,
+        "component": "q-input",
+        "span": 6
+      },
+      "detail": {
+        "enabled": true,
+        "visible": true,
+        "readonly": true,
+        "component": "q-input",
+        "span": 6
+      }
+    }
+  ],
+  "actions": [
+    {
+      "actionId": "replace-with-save-action-id",
+      "displayName": "保存",
+      "orderIndex": 10,
+      "layoutSlot": "toolbar-primary",
+      "metadata": "{\"placement\":\"toolbar\",\"selectionScope\":\"none\"}"
+    }
+  ],
+  "notes": "这是表单/详情场景整包更新参考。真实更新前应先读取当前场景，保留已有 fieldGroups、actions、detailTables、search 等配置，只按需增改 metadata.formLayout。"
+}

@@ -1,0 +1,7 @@
+{
+  "label": "客户管理",
+  "code": "customer-management",
+  "menuType": "scenario",
+  "featureId": "replace-with-feature-id",
+  "scenarioId": "replace-with-list-scenario-id"
+}

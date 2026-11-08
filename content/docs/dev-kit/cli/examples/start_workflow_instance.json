@@ -1,0 +1,21 @@
+{
+  "definitionCode": "order_approval",
+  "businessObjectType": "order",
+  "businessId": "SO20260330001",
+  "businessTitle": "销售订单 SO20260330001",
+  "featureCode": "order_management",
+  "scenarioCode": "order-detail",
+  "mode": "view",
+  "businessData": {
+    "order_no": "SO20260330001",
+    "customer_name": "华星贸易",
+    "amount": 12800
+  },
+  "startPayload": {
+    "source": "cli"
+  },
+  "ccUserIds": [
+    "00000000-0000-0000-0000-000000000101",
+    "00000000-0000-0000-0000-000000000102"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "code": "customer",
+  "name": "客户",
+  "module": "crm",
+  "description": "客户主数据",
+  "fields": [
+    {
+      "code": "name",
+      "name": "客户名称",
+      "dataType": "string",
+      "length": 128,
+      "isNullable": false
+    },
+    {
+      "code": "mobile",
+      "name": "手机号",
+      "dataType": "string",
+      "length": 32
+    }
+  ]
+}

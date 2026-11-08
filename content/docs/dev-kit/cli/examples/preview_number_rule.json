@@ -1,0 +1,9 @@
+{
+  "ruleCode": "sales_order_no",
+  "businessData": {
+    "customerCode": "VIP"
+  },
+  "contextData": {
+    "orgCode": "SH"
+  }
+}

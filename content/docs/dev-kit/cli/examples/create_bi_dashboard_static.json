@@ -1,0 +1,63 @@
+{
+  "code": "manual_sales_target",
+  "name": "手工销售目标",
+  "description": "使用静态 JSON 数据展示少量手工维护的目标值",
+  "definition": {
+    "schemaVersion": 1,
+    "layout": {
+      "columns": 12,
+      "rowHeight": 72,
+      "gap": 12
+    },
+    "filters": [],
+    "queries": [
+      {
+        "id": "salesTarget",
+        "name": "月度销售目标",
+        "sourceType": "static",
+        "staticData": [
+          { "month": "2026-01", "target": 100000, "actual": 86000 },
+          { "month": "2026-02", "target": 120000, "actual": 113000 },
+          { "month": "2026-03", "target": 150000, "actual": 158000 }
+        ],
+        "parameters": [],
+        "maxRows": 1000
+      }
+    ],
+    "components": [
+      {
+        "id": "targetCompare",
+        "type": "bar",
+        "title": "销售目标完成情况",
+        "queryRef": "salesTarget",
+        "mapping": {
+          "categoryField": "month",
+          "valueField": "actual"
+        },
+        "layout": { "x": 0, "y": 0, "w": 8, "h": 4 },
+        "style": {
+          "background": "#ffffff",
+          "textColor": "#1f2937",
+          "borderColor": "#e5e7eb",
+          "borderRadius": 12,
+          "titleFontSize": 14
+        }
+      },
+      {
+        "id": "targetNote",
+        "type": "dynamic-text",
+        "title": "说明",
+        "queryRef": "salesTarget",
+        "template": "更新时间：{{ system.datetime:yyyy-MM-dd HH:mm }}。首月目标：{{ target }}，实际：{{ actual }}",
+        "layout": { "x": 8, "y": 0, "w": 4, "h": 2 },
+        "style": {
+          "background": "#ffffff",
+          "textColor": "#1f2937",
+          "borderColor": "#e5e7eb",
+          "borderRadius": 12,
+          "titleFontSize": 14
+        }
+      }
+    ]
+  }
+}

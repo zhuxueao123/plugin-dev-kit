@@ -1,0 +1,70 @@
+{
+  "code": "sales_overview",
+  "name": "销售概览",
+  "description": "按月份展示销售汇总数据",
+  "definition": {
+    "schemaVersion": 1,
+    "layout": {
+      "columns": 12,
+      "rowHeight": 72,
+      "gap": 12
+    },
+    "filters": [],
+    "queries": [
+      {
+        "id": "monthlySales",
+        "name": "月度销售额",
+        "sourceType": "sql",
+        "dataSourceCode": null,
+        "sql": "SELECT order_month, SUM(amount) AS value FROM sales_order WHERE order_date >= @start_date GROUP BY order_month ORDER BY order_month",
+        "parameters": [
+          {
+            "name": "start_date",
+            "type": "date",
+            "required": true,
+            "defaultValue": "2026-01-01",
+            "label": "开始日期"
+          }
+        ],
+        "securityMode": "public",
+        "timeoutSeconds": 15,
+        "maxRows": 1000
+      }
+    ],
+    "components": [
+      {
+        "id": "salesTrend",
+        "type": "line",
+        "title": "月度销售趋势",
+        "queryRef": "monthlySales",
+        "mapping": {
+          "categoryField": "order_month",
+          "valueField": "value"
+        },
+        "layout": { "x": 0, "y": 0, "w": 8, "h": 4 },
+        "style": {
+          "background": "#ffffff",
+          "textColor": "#1f2937",
+          "borderColor": "#e5e7eb",
+          "borderRadius": 12,
+          "titleFontSize": 14,
+          "area": true
+        }
+      },
+      {
+        "id": "salesSummaryText",
+        "type": "dynamic-text",
+        "title": "说明",
+        "queryRef": "monthlySales",
+        "template": "{{ currentUser.displayName }}，当前筛选起始日期为 {{ filters.start_date }}。首月销售额：{{ value }}",
+        "layout": { "x": 8, "y": 0, "w": 4, "h": 2 },
+        "style": {
+          "background": "#ffffff",
+          "borderColor": "#e5e7eb",
+          "borderRadius": 12,
+          "titleFontSize": 14
+        }
+      }
+    ]
+  }
+}

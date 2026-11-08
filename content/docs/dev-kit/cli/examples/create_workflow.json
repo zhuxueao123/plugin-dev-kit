@@ -1,0 +1,144 @@
+{
+  "code": "order_approval",
+  "name": "订单审批流程",
+  "businessObjectType": "order",
+  "description": "销售提交后，主管审批，再由仓库确认发货。",
+  "metadata": {
+    "authorization": {
+      "startPermissionCode": "sales_order.workflow.start",
+      "visiblePrincipals": [
+        "initiator",
+        "active_assignee",
+        "active_candidate_role_member",
+        "history_actor",
+        "cc_user",
+        "workflow_instance_admin"
+      ]
+    }
+  },
+  "draftDefinition": {
+    "startNodeId": "start",
+    "nodes": [
+      {
+        "id": "start",
+        "name": "开始",
+        "type": "start",
+        "position": {
+          "x": 120,
+          "y": 180
+        }
+      },
+      {
+        "id": "manager_approve",
+        "name": "主管审批",
+        "type": "approval",
+        "participant": {
+          "type": "role",
+          "roleCode": "sales_manager"
+        },
+        "actions": [
+          {
+            "code": "approve",
+            "label": "同意",
+            "nextNodeId": "warehouse_confirm",
+            "completeProcess": false
+          },
+          {
+            "code": "reject",
+            "label": "驳回",
+            "nextNodeId": "end",
+            "completeProcess": true
+          }
+        ],
+        "fieldPermissions": [
+          {
+            "fieldKey": "amount",
+            "readonly": true
+          },
+          {
+            "fieldKey": "manager_comment",
+            "required": true
+          }
+        ],
+        "approvalVisibleFieldKeys": [
+          "order_no",
+          "customer_name",
+          "amount",
+          "manager_comment"
+        ],
+        "position": {
+          "x": 360,
+          "y": 180
+        }
+      },
+      {
+        "id": "warehouse_confirm",
+        "name": "仓库确认",
+        "type": "task",
+        "participant": {
+          "type": "role",
+          "roleCode": "warehouse_operator"
+        },
+        "actions": [
+          {
+            "code": "confirm_ship",
+            "label": "确认发货",
+            "nextNodeId": "end",
+            "completeProcess": false
+          }
+        ],
+        "fieldPermissions": [
+          {
+            "fieldKey": "shipping_no",
+            "required": true
+          },
+          {
+            "fieldKey": "shipping_time",
+            "required": true
+          }
+        ],
+        "approvalVisibleFieldKeys": [
+          "order_no",
+          "customer_name",
+          "shipping_no",
+          "shipping_time"
+        ],
+        "position": {
+          "x": 640,
+          "y": 180
+        }
+      },
+      {
+        "id": "end",
+        "name": "结束",
+        "type": "end",
+        "position": {
+          "x": 920,
+          "y": 180
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-start-manager",
+        "sourceId": "start",
+        "targetId": "manager_approve",
+        "order": 0
+      },
+      {
+        "id": "edge-manager-warehouse",
+        "sourceId": "manager_approve",
+        "targetId": "warehouse_confirm",
+        "actionCode": "approve",
+        "order": 0
+      },
+      {
+        "id": "edge-warehouse-end",
+        "sourceId": "warehouse_confirm",
+        "targetId": "end",
+        "actionCode": "confirm_ship",
+        "order": 0
+      }
+    ]
+  }
+}

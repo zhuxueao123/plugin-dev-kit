@@ -7,18 +7,18 @@
 ```bash
 python verify-dev-kit.py
 python verify-dev-kit.py --mode delivery
-python -m unittest discover plugin-workspace/runtime-sdk/tests
-cd plugin-workspace/runtime-sdk && python -m unittest tests.test_sdk_smoke
+python -m unittest discover project-template/runtime-sdk/tests
+cd project-template/runtime-sdk && python -m unittest tests.test_sdk_smoke
 ```
 
 | 声明 | 自动检查 | 通过标准 |
 | --- | --- | --- |
 | 后端 SDK 可在干净环境导入 | `verify-dev-kit.py`、SDK smoke tests | `asap_runtime` 与 `plugins_sdk` 均可导入，工厂与结果构造器可用 |
 | 测试目录可作为 Python 包导入 | `python -m unittest tests.test_sdk_smoke` | 测试模块成功加载并通过 |
-| 完整供应商示例随包交付 | `verify-dev-kit.py` | `plugin-workspace/examples/` 下两个后端插件和前端页面入口全部存在 |
+| 完整供应商示例随包交付 | `verify-dev-kit.py` | `project-template/examples/` 下两个后端插件和前端页面入口全部存在 |
 | 已安装工作区结构可用 | `verify-dev-kit.py` | 允许本地 `config.json` 和依赖目录，SDK 与示例结构检查通过 |
 | 交付包不包含敏感或临时文件 | `verify-dev-kit.py --mode delivery` | 不含 `config.json`、`.DS_Store`、虚拟环境和依赖缓存 |
-| 前端示例可以构建 | `cd plugin-workspace/frontend && npm install && npm run build` | Vite 构建成功并生成两个页面入口 |
+| 前端示例可以构建 | `cd project-template/frontend && npm install && npm run build` | Vite 构建成功并生成两个页面入口 |
 | 插件可以校验和打包 | `plugin-build.* supplier_portal` | CLI 校验成功并生成 `.afplugin` |
 
 ## 必须连接平台的人工验收

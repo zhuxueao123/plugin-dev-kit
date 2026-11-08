@@ -9,11 +9,11 @@
 - Linux x86_64 `legacy-export` 可通过 `./scripts/build_linux_legacy_export.sh` 构建，输出位于 `dist/linux-x86_64/legacy-export`。
 - Windows EXE 的源码提交与开发包文档/示例必须来自同一版本，禁止回退使用 `tools/plugin-dev-kit-binaries` 历史缓存。
 - `docs/README.md` 能作为唯一文档入口，链接均指向包内文件。
-- `plugin-workspace/backend/`、`frontend/`、`locales/`、`examples/`、`runtime-sdk/` 完整。
+- `project-template/backend/`、`frontend/`、`locales/`、`examples/`、`runtime-sdk/` 完整。
 - 前端工程声明在线依赖 `@trusteem/asapflow-plugin-sdk`，并能通过 npm 安装。
 - 根目录构建、发布脚本可执行。
 - 本地使用执行 `python verify-dev-kit.py`；正式交付前必须执行 `python verify-dev-kit.py --mode delivery`，且 Runtime SDK 可独立导入。
-- `plugin-workspace/examples/` 下存在 `supplier_guard`、`supplier_runtime_rules` 与 `supplier_portal` 完整示例。
+- `project-template/examples/` 下存在 `supplier_guard`、`supplier_runtime_rules` 与 `supplier_portal` 完整示例。
 - `runtime-sdk/asap_runtime`、`runtime-sdk/plugins_sdk` 均可独立导入，`runtime-sdk/tests/__init__.py` 存在。
 
 ## 安全检查
@@ -31,6 +31,6 @@
 ## 登录页插件交付
 
 - 根目录 `AGENTS.md`、`docs/plugin-development/login-page-guide.md` 与 AI 入口齐全。
-- `plugin-workspace/examples/frontend/customer-brand/` 包含页面和带 `purpose: "login"` 的清单，并保留 CLI 0.2.9 兼容 route。
+- `project-template/examples/frontend/customer-brand/` 包含页面和带 `purpose: "login"` 的清单，并保留 CLI 0.2.9 兼容 route。
 - 工作区构建器保留 purpose 并共享宿主 Vue；复制示例到正式前端工程后运行 `plugin-build.* customer-brand`，检查 `.afplugin` 内清单、页面 JS、CSS 与共享依赖。
 - 不默认发布示例或更改平台登录页；连接测试平台的验收需用户明确授权。

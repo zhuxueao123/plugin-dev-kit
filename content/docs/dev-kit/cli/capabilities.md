@@ -1,0 +1,378 @@
+# Asapment CLI 能力清单
+
+## 1. 认证与环境
+
+- `auth whoami`
+  用途：确认当前 token 是否有效、当前身份是谁
+- `auth health-check`
+  用途：确认 CLI 是否能访问平台 API
+- `auth use-token`
+  用途：写入本地配置文件
+- `auth login`
+  用途：用用户名密码换取临时 JWT，仅作为辅助能力
+
+## 2. 系统结构能力
+
+- 术语说明：
+  - `feature` = 功能，是一个可被菜单、场景和动作消费的业务功能单元
+  - `scenario` = 场景，是功能下的页面/视图配置，例如 `list`、`detail`
+  - `action` = 动作，是场景中的按钮或操作，不等于场景本身
+
+- `system create-entity`
+  用途：创建实体与初始字段；JSON 输入支持字段 `isUnique` 和实体 `indexes`，创建后可通过 `get-entity` 回读索引
+- `system list-entities`
+  用途：列出实体定义；可用 `--limit <数量>` 限制返回条数
+- `system add-entity-fields`
+  用途：为已有实体补充字段
+- `system get-entity`
+  用途：查询实体定义
+- `system update-entity`
+  用途：更新实体定义
+- `system delete-entity`
+  用途：按 `--entity-id` 或 `--code` 删除实体定义
+- `system update-entity-field`
+  用途：更新实体字段定义
+- `system delete-entity-field`
+  用途：按 `--entity-code` 与 `--field-id`/`--field-code` 删除实体字段；会同步修改物理表，使用前必须确认目标
+- `system add-entity-index`
+  用途：为既有实体在线创建普通或唯一复合索引
+- `system list-entity-indexes`
+  用途：读取实体索引定义
+- `system reconcile-entity-indexes`
+  用途：双向对账实体索引元数据与业务库物理索引；默认只检查，`--apply` 会补建缺失物理索引，或从已存在的物理索引回填元数据，不会删除重复业务数据、删除物理索引或覆盖冲突索引
+- `system delete-entity-index`
+  用途：按索引 ID 或名称删除既有实体索引及物理索引
+- `system create-feature`
+  用途：创建功能并初始化默认场景
+- `system list-features`
+  用途：列出功能定义；可用 `--limit <数量>` 限制返回条数
+- `system get-feature`
+  用途：查询功能定义
+- `system add-feature-fields`
+  用途：为已有功能增量补充字段（按 `fieldKey` 自动新增或更新）
+- `system update-feature`
+  用途：更新功能定义；当输入包含 `fields` 时会同步 feature 字段（按 `fieldKey` 自动新增或更新）
+- `system delete-feature`
+  用途：按 `--feature-id` 或 `--code` 删除功能定义
+- `system create-scenario`
+  用途：为功能创建额外场景
+- `system get-scenario-edit-model`
+  用途：读取可直接用于场景更新的 `ScenarioRequest` 结构
+- `system update-scenario`
+  用途：整包更新指定场景
+- `system patch-scenario`
+  用途：局部合并场景 JSON 配置，或按稳定键增删字段组和动作
+- `system restore-scenario-backup`
+  用途：恢复最近一次场景更新前的滚动备份
+- `system delete-scenario`
+  用途：删除指定功能下的场景
+- `system create-action`
+  用途：为功能创建动作
+- `system list-actions`
+  用途：列出动作，可按 feature 过滤
+- `system update-action`
+  用途：整包更新动作定义；`code`、`name`、`actionType`、`executionMode`、`permissionCode` 必填，修改前应先用 `system list-actions` 读取原定义
+- `system delete-action`
+  用途：删除动作定义
+- `system create-menu`
+  用途：创建菜单；迁移重跑可使用 `--if-exists skip` 按非空菜单编码跳过已有项
+- `system list-menus`
+  用途：列出菜单树
+- `system update-menu`
+  用途：更新菜单
+- `system delete-menu`
+  用途：删除菜单
+- `system create-action-menu`
+  用途：一次性创建动作与菜单
+- `workflow create-definition`
+  用途：创建流程定义草稿
+- `workflow update-definition`
+  用途：更新流程定义草稿
+- `workflow get-definition`
+  用途：读取流程定义与已发布版本
+- `workflow publish-definition`
+  用途：发布流程定义版本
+- `workflow list-workbench`
+  用途：查询待我处理、我发起、我已处理、抄送我的、已结束等流程视图
+- `workflow start-instance`
+  用途：在某个业务对象上发起流程实例，支持显式抄送 `ccUserIds`
+- `workflow get-instance`
+  用途：读取流程实例审批上下文、可执行动作、字段权限与历史
+- `workflow execute-task-action`
+  用途：执行当前任务动作，例如同意、驳回、确认发货
+- `number-rule create`
+  用途：创建编号规则
+- `number-rule update`
+  用途：更新编号规则
+- `number-rule get`
+  用途：按 `id` 或 `code` 读取编号规则
+- `number-rule list`
+  用途：查询全部编号规则
+- `number-rule preview`
+  用途：预览编号生成结果，不占用流水号
+- `number-rule bind-field`
+  用途：把编号规则绑定到实体字段 metadata.generator
+- `workflow list-definitions`
+  用途：列出流程定义
+- `workflow delete-definition`
+  用途：删除未产生实例的流程定义
+
+## 3. 身份与权限能力
+
+- `identity list-permissions`
+  用途：列出平台权限
+- `identity list-roles`
+  用途：列出角色
+- `identity create-role`
+  用途：创建角色并绑定权限
+- `identity update-role`
+  用途：更新角色；默认保留现有权限和数据范围，并将输入的 `permissionCodes`、`dataScopeIds` 增量合并。只有显式增加 `--allow-destructive-replace` 时，这两个数组才按完整集合替换
+- `identity delete-role`
+  用途：删除角色
+- `identity list-users`
+  用途：列出用户
+- `identity create-user`
+  用途：创建用户
+- `identity assign-user-roles`
+  用途：兼容命令，语义与 `add-user-roles` 相同，只追加角色，不删除已有角色
+- `identity add-user-roles`
+  用途：为用户增量追加角色；未提交的已有角色保持不变
+- `identity replace-user-roles`
+  用途：全量替换用户角色；必须增加 `--confirm-replace`，`roleIds` 中遗漏的角色会被删除
+- `identity get-user-permissions`
+  用途：查看某个用户的最终权限
+- `identity get-password-policy`
+  用途：读取当前密码强度和失效期限策略
+- `identity set-password-policy`
+  用途：保存密码强度和失效期限策略
+
+## 4. 系统使用能力
+
+- `data query-records`
+  用途：分页查询实体数据
+- `data get-record`
+  用途：读取单条记录
+- `data create-record`
+  用途：新增记录
+- `data update-record`
+  用途：更新记录
+- `data delete-record`
+  用途：删除记录
+- `data execute-action`
+  用途：执行某个实体动作
+
+## 5. 配置与运维能力
+
+- `configuration list`
+  用途：列出系统配置，可通过 `--prefix` 过滤
+- `configuration set`
+  用途：保存系统配置项
+- `configuration delete`
+  用途：删除系统配置项
+- `configuration get-file-storage`
+  用途：读取文件存储配置
+- `configuration set-file-storage`
+  用途：保存文件存储配置
+- `data-source list`
+  用途：列出业务数据源；响应包含连接配置，仅授予 `system.configuration.manage` 的管理员可调用
+- `data-source get`
+  用途：读取业务数据源；响应包含连接配置，仅授予 `system.configuration.manage` 的管理员可调用
+- `data-source validate`
+  用途：校验数据源连接
+- `data-source refresh`
+  用途：立即释放并重建业务数据源连接缓存；修改外部数据库对象或连接配置后可执行，不需要重启平台
+- `data-source create`
+  用途：创建业务数据源
+- `data-source update`
+  用途：更新业务数据源
+- `data-source delete`
+  用途：删除业务数据源
+- `dictionary list`
+  用途：列出系统字典
+- `dictionary get`
+  用途：读取系统字典
+- `dictionary create`
+  用途：创建系统字典；字典条目使用单数字段 `value`，不使用 `items` / `values` / `options` / `entries`
+- `dictionary update`
+  用途：更新系统字典；字典条目使用单数字段 `value`
+- `dictionary delete`
+  用途：删除系统字典
+- `scheduled-job list`
+  用途：列出计划任务
+- `scheduled-job get`
+  用途：读取计划任务详情
+- `scheduled-job create`
+  用途：创建计划任务，任务目标为插件能力；cron/daily 输入可通过 `timeZone` 指定 IANA 时区，默认 `Asia/Shanghai`
+- `scheduled-job update`
+  用途：更新计划任务
+- `scheduled-job delete`
+  用途：删除计划任务
+- `scheduled-job run`
+  用途：立即执行一次计划任务
+- `scheduled-job runs`
+  用途：查询计划任务运行记录
+- `import-export config`
+  用途：读取功能场景的导入导出配置
+- `import-export template`
+  用途：下载导入模板
+- `import-export create-import-task`
+  用途：上传文件并创建导入任务
+- `import-export create-export-task`
+  用途：创建导出任务
+- `import-export list-tasks`
+  用途：查询当前用户的导入导出任务
+- `import-export download`
+  用途：下载导入导出任务结果文件
+- `feature-package export`
+  用途：导出功能包 ZIP
+- `feature-package import-preview`
+  用途：预览功能包导入影响
+- `feature-package import`
+  用途：导入功能包
+- `feature-package legacy-preview`
+  用途：预览旧平台包迁移结果
+- `feature-package legacy-convert`
+  用途：把旧平台包转换为新平台功能包 ZIP
+- `feature-package legacy-import`
+  用途：转换并导入旧平台包
+
+## 6. 流程能力输入原则
+
+1. 流程定义使用结构化 JSON，不再使用 Visio 导入
+2. `businessObjectType` 必须稳定，例如 `order`、`purchase_request`
+3. 流程定义与场景解耦，不为每个节点单独创建场景
+4. 如果流程最终需要跳转到业务页面，应显式传 `featureCode` 与 `scenarioCode`
+5. 节点字段权限统一写在 `fieldPermissions`
+6. AI 生成流程时，第一版优先使用：
+   - `start`
+   - `approval`
+   - `task`
+   - `service`
+   - `end`
+7. AI 修改已有流程前，应先读取当前定义，再做增量更新
+
+## 集合更新语义
+
+以下命令是增量操作，不会因为输入只包含新增项而删除已有项：
+
+- `system add-entity-fields`
+- `system add-entity-index`
+- `system add-feature-fields`
+- `system patch-scenario`
+- `identity add-user-roles`
+- `identity assign-user-roles`（兼容别名）
+- `identity update-role`（默认模式下合并 `permissionCodes` 和 `dataScopeIds`）
+
+以下命令包含全量替换语义，调用前必须读取完整现状：
+
+- `identity replace-user-roles --confirm-replace`：`roleIds` 是完整角色集合。
+- `identity update-role --allow-destructive-replace`：输入的 `permissionCodes`、`dataScopeIds` 是完整集合。
+- `system update-scenario`：整包更新场景；后续局部修改优先使用 `patch-scenario`。
+- `system update-action`：提交完整动作定义。
+- `workflow update-definition`：提交完整流程定义。
+
+AI 不得把名称为 `replace` 的命令理解为追加，也不得为了“增加一项”提交只有一个元素的全量集合。
+
+## 7. 插件能力
+
+### 本地工程能力
+
+- `plugin init`
+  用途：初始化插件骨架
+- `plugin validate`
+  用途：校验插件目录与 manifest
+- `plugin manifest-check`
+  用途：校验单个 manifest 文件
+- `plugin build-frontend`
+  用途：构建前端插件。默认自动识别源码仓库的 `plugins/frontend`、开发包的 `./frontend` 或当前前端目录；也可用 `--working-dir` 明确指定
+
+### 服务端运行能力
+
+- `plugin list`
+  用途：查看当前平台识别到的插件能力
+- `plugin reload`
+  用途：通知平台重载插件
+- `plugin pages`
+  用途：查看当前平台识别到的插件页面
+- `plugin invoke`
+  用途：手动调用某个插件能力；请求体必须使用 `{"payload": {...}}` 结构；`scenario.action.execute` 能力还需在 `context` 中提供 `feature` 和 `scenario`
+- `plugin pack`
+  用途：在本地构建并生成 `.afplugin` 发布制品
+- `plugin publish`
+  用途：上传制品，并可等待后台发布完成
+- `plugin release-status`
+  用途：查询指定发布任务的状态和日志
+- `plugin releases`
+  用途：查询插件发布历史
+- `plugin rollback`
+  用途：回滚到平台保留的成功版本
+- `plugin workspace-status`
+  用途：查看插件工作区传输能力
+- `plugin pull-package`
+  用途：下载当前服务器 `plugins/` 工作区压缩包
+- `plugin package`
+  用途：把本地 `plugins/` 工作区打包成 zip
+- `plugin deploy-package`
+  用途：上传本地 `plugins/` 工作区压缩包并部署，可选触发前端构建与后端热重载
+
+## 8. BI 看板能力
+
+- `bi list`
+  用途：列出可管理的 BI 看板
+- `bi get`
+  用途：读取看板草稿完整定义和发布版本摘要
+- `bi create`
+  用途：通过完整 JSON 创建看板草稿
+- `bi update`
+  用途：整包更新看板草稿
+- `bi delete`
+  用途：删除看板及其历史版本
+- `bi publish`
+  用途：校验全部 SQL 并发布不可变版本
+- `bi execute-query`
+  用途：执行草稿查询；增加 `--published` 后执行已发布查询
+- `bi list-published`
+  用途：列出当前用户可查看的已发布看板
+- `bi get-published`
+  用途：读取已发布且已移除 SQL 的运行时定义
+- `bi homepage`
+  用途：解析当前登录用户的 BI 个人主页
+- `bi list-homepage-bindings`
+  用途：列出用户、部门、角色和全局主页绑定
+- `bi save-homepage-binding`
+  用途：创建或覆盖一个主页绑定，输入为完整 JSON
+- `bi delete-homepage-binding`
+  用途：删除主页绑定
+
+当前 BI 查询支持 SQL、插件接口和静态 JSON 数据；SQL 复用平台现有数据源。个人主页已支持用户、主部门、主角色和全局默认的单看板解析；多看板标签页、部门继承和个人自定义副本尚未实现。详细协议见 `bi-dashboard-reference.md`。
+
+## 9. AI 调用原则
+
+1. 优先使用最贴近目标的能力，不自行拆底层 API
+2. 已有实体的数据操作只使用 `entityCode`
+3. 没有必要时，不显式传 `dataSourceCode`
+4. `system create-feature` 在包含字段时默认会初始化 `list` 和 `detail` 两个基础场景；`fields=[]` 时默认跳过初始化
+5. 如果未显式说明，默认列表场景会附带四个系统动作：`create`、`edit`、`delete`、`view`
+6. 如果客户明确要求“不带默认系统动作”，应在创建 feature 时传 `includeDefaultListActions = false`
+7. 插件相关的源码生成只发生在本地工作目录
+8. AI 直接调用 `auth/system/data/plugin` 分组命令，不再使用额外的 `run` 别名层
+9. 流程创建优先调用 `workflow create-definition`，不要绕过成手工调用后端 REST
+10. 流程发布后，如果需要测试，应优先调用 `workflow start-instance`
+11. 编号规则优先调用 `number-rule create` 创建，再通过实体字段 `metadata.generator` 绑定到业务字段
+12. 迁移已有对象时，优先使用 `list/get/update` 组合；如果只需要跳过已存在实体或功能，可对 `system create-entity` / `system create-feature` 使用 `--if-exists skip`
+13. 生成表单场景时应显式选择合适控件，控件清单见 [modeling-reference.md](modeling-reference.md)；不要默认把所有字段都配置成 `q-input` 或 `q-number`
+14. 生成表单场景时如果字段较多，或旧平台存在字段块/分组，应配置 `metadata.formLayout.type = "tabs"`，让运行页按标签页展示字段
+15. 修改 BI 看板前先执行 `bi get`；`bi update` 是完整草稿更新，必须保留未修改的查询和组件
+16. BI SQL 必须参数化，CLI 不在本地执行 SQL，数据库识别与安全校验由后端完成
+17. BI 主页绑定使用 `bi save-homepage-binding`，不要写入看板 `definition` JSON
+
+### 独立插件项目与开发文档
+
+`plugin init-project --root <项目目录> --source <本地内容目录或 HTTPS 目录>` 初始化独立项目，不执行 git init、提交、拉取或远端配置。
+
+- 首次运行创建缺失的 backend/、frontend/src/pages/、locales/、docs/project/ 和前端构建配置；保留已有项目文件。
+- 后续 `--check` 只检查更新，`--update` 更新 docs/dev-kit/，`--offline` 禁止网络。
+- 文档通过内容源 manifest.json 独立版本化，不以 CLI 版本判断更新；不覆盖业务源码或项目文档。
+- 内容校验失败、本地托管文档已修改、降级或路径不合法时，在写入前拒绝执行。旧版移除的文档保留，需人工清理。
+- 本地来源记录为绝对路径，其他开发者可通过 --source 指定本机内容目录；团队也可使用共同 HTTPS 来源。
+- 旧 ./ 先移出工具包，再初始化该目录；CLI 不自动迁移或删除旧文件。

@@ -1,0 +1,6 @@
+{
+  "roleIds": [
+    "replace-with-every-role-id-that-must-remain"
+  ],
+  "primaryRoleId": "replace-with-one-role-id-from-roleIds-or-null"
+}

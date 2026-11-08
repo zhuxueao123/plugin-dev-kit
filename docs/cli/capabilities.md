@@ -284,7 +284,7 @@ AI 不得把名称为 `replace` 的命令理解为追加，也不得为了“增
 - `plugin manifest-check`
   用途：校验单个 manifest 文件
 - `plugin build-frontend`
-  用途：构建前端插件。默认自动识别源码仓库的 `plugins/frontend`、开发包的 `plugin-workspace/frontend` 或当前前端目录；也可用 `--working-dir` 明确指定
+  用途：构建前端插件。默认自动识别源码仓库的 `plugins/frontend`、开发包的 `project-template/frontend` 或当前前端目录；也可用 `--working-dir` 明确指定
 
 ### 服务端运行能力
 

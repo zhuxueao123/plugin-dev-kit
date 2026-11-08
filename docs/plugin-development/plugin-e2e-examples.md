@@ -13,9 +13,9 @@
 - 后端插件：`supplier_runtime_rules`
 - 前端插件：`supplier_portal`
 
-开发包中的可复制示例位于 `plugin-workspace/examples/backend/` 和
-`plugin-workspace/examples/frontend/`；启用后放入 `plugin-workspace/backend/`
-和 `plugin-workspace/frontend/src/pages/`。AsapFlow 源仓库中的示例路径为
+开发包中的可复制示例位于 `project-template/examples/backend/` 和
+`project-template/examples/frontend/`；启用后放入 `project-template/backend/`
+和 `project-template/frontend/src/pages/`。AsapFlow 源仓库中的示例路径为
 `plugins/examples/`。
 
 ## 1. 前置条件
@@ -125,7 +125,7 @@ asapflow plugin reload --plugin-code supplier_runtime_rules
 构建：
 
 ```bash
-cd plugin-workspace/frontend
+cd project-template/frontend
 npm run build
 ```
 

@@ -1,0 +1,31 @@
+{
+  "code": "in_progress",
+  "name": "进行中订单",
+  "scenarioType": "list",
+  "description": "只展示进行中的订单",
+  "isDefault": false,
+  "metadata": "{\"search\":{\"defaultFilter\":{\"status\":\"in_progress\"}}}",
+  "fieldGroups": [
+    {
+      "featureFieldKey": "order_no",
+      "orderIndex": 0,
+      "list": {
+        "enabled": true,
+        "visible": true,
+        "filterable": true,
+        "columnWidth": 180
+      }
+    },
+    {
+      "featureFieldKey": "status",
+      "orderIndex": 1,
+      "list": {
+        "enabled": true,
+        "visible": true,
+        "filterable": true,
+        "columnWidth": 120
+      }
+    }
+  ],
+  "actions": []
+}

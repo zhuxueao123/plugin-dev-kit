@@ -1,15 +1,9 @@
-plugin-dev-kit
-├── README.md
-├── plugin-build.sh / plugin-build.ps1
-├── plugin-publish.sh / plugin-publish.ps1
-├── bin/
-│   ├── macos/asapflow/      # macOS CLI
-│   └── windows/asapflow/    # Windows CLI replacement location
-├── docs/
-│   ├── README.md            # single documentation entry
-│   ├── plugin-development/
-│   ├── cli/
-│   ├── ai/
-│   └── migration/
-├── plugin-workspace/        # plugin source workspace
-└── optional/migration/      # legacy migration only
+plugin-dev-kit/
+  bin/                 GitHub Actions-built CLI executables
+  content/             independently versioned documentation manifest and files
+  project-template/    reference examples and SDK, never a project workspace
+  docs/                toolkit reference documentation
+  optional/            optional legacy migration tools
+  asapflow.sh          native platform launcher
+  plugin-build.*       build an external project
+  plugin-publish.*     publish an external project

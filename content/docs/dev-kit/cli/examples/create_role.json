@@ -1,0 +1,10 @@
+{
+  "code": "sales_manager",
+  "name": "销售主管",
+  "description": "负责销售审核与订单查看",
+  "isSystem": false,
+  "permissionCodes": [
+    "workflow.task.approve",
+    "feature.sales_order.view"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "featureId": "replace-with-feature-id",
+  "scenarioId": "replace-with-scenario-id",
+  "code": "list",
+  "name": "供应商管理 List",
+  "scenarioType": "list",
+  "description": "供应商列表场景",
+  "isDefault": true,
+  "metadata": "{\"search\":{\"fields\":[{\"key\":\"name\",\"label\":\"供应商名称\",\"type\":\"string\"}]}}",
+  "fieldGroups": [
+    {
+      "featureFieldKey": "name",
+      "orderIndex": 0,
+      "list": {
+        "enabled": true,
+        "visible": true,
+        "filterable": true,
+        "columnWidth": 220,
+        "align": "left"
+      }
+    },
+    {
+      "featureFieldKey": "code",
+      "orderIndex": 1,
+      "list": {
+        "enabled": true,
+        "visible": true,
+        "filterable": true,
+        "columnWidth": 160,
+        "align": "left"
+      }
+    }
+  ],
+  "actions": [
+    {
+      "actionId": "replace-with-create-action-id",
+      "displayName": "新建",
+      "orderIndex": 10,
+      "layoutSlot": "toolbar",
+      "metadata": "{\"placement\":\"toolbar\",\"selectionScope\":\"none\",\"navigation\":{\"type\":\"scenario-form\",\"scenarioCode\":\"detail\",\"mode\":\"create\",\"openMode\":\"router\"}}"
+    },
+    {
+      "actionId": "replace-with-edit-action-id",
+      "displayName": "编辑",
+      "orderIndex": 20,
+      "layoutSlot": "row",
+      "metadata": "{\"placement\":\"row\",\"selectionScope\":\"row\",\"navigation\":{\"type\":\"scenario-form\",\"scenarioCode\":\"detail\",\"mode\":\"edit\",\"openMode\":\"router\"}}"
+    },
+    {
+      "actionId": "replace-with-delete-action-id",
+      "displayName": "删除",
+      "orderIndex": 30,
+      "layoutSlot": "row",
+      "confirmation": "{\"message\":\"确认删除当前记录？\"}",
+      "metadata": "{\"placement\":\"row\",\"selectionScope\":\"row\"}"
+    },
+    {
+      "actionId": "replace-with-view-action-id",
+      "displayName": "查看",
+      "orderIndex": 40,
+      "layoutSlot": "row",
+      "metadata": "{\"placement\":\"row\",\"selectionScope\":\"row\",\"navigation\":{\"type\":\"scenario-form\",\"scenarioCode\":\"detail\",\"mode\":\"view\",\"openMode\":\"router\"}}"
+    }
+  ],
+  "notes": "这是整包更新参考。更新场景时，fieldGroups 和 actions 更接近整包覆盖，AI 不应只发局部残片。"
+}

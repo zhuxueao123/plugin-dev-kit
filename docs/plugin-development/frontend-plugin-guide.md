@@ -302,4 +302,4 @@ const form = reactive({ userName: '', password: '' })
 - 加载失败或组件渲染失败会回退默认页。恢复地址是 `/#/login?builtin=1`（hash 路由）或 `/login?builtin=1`（history 路由）。
 - 登录页代码能读取账号密码，只能发布经过项目维护者信任的插件。默认入口跳过页面插件，不跳过认证。
 
-完整步骤和智能体任务示例见 [登录页开发指南](login-page-guide.md)。可复制模板位于插件工作区的 `examples/frontend/customer-brand/`；在开发工具包中对应 `plugin-workspace/examples/frontend/customer-brand/`。
+完整步骤和智能体任务示例见 [登录页开发指南](login-page-guide.md)。可复制模板位于插件工作区的 `examples/frontend/customer-brand/`；在开发工具包中对应 `project-template/examples/frontend/customer-brand/`。

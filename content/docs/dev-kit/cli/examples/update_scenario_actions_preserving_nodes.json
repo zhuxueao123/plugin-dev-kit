@@ -1,0 +1,34 @@
+{
+  "code": "GMSTOCK",
+  "name": "库存信息",
+  "scenarioType": "list",
+  "isDefault": false,
+  "dataBinding": "{\"primaryEntityCode\":\"BD_ITEM\",\"defaultFilter\":{\"STAT_ITEM\":{\"$ne\":\"6\"}},\"legacyFilter\":\"STAT_ITEM<>'6'\"}",
+  "metadata": "{\"search\":{\"defaultFilter\":{\"STAT_ITEM\":{\"$ne\":\"6\"}}},\"legacyFilters\":{\"BMAINLIST\":{\"gfilter\":\"STAT_ITEM<>'6'\"}}}",
+  "fieldGroups": [
+    {
+      "featureFieldKey": "CODE_ITEM",
+      "orderIndex": 0,
+      "list": {
+        "enabled": true,
+        "visible": true,
+        "filterable": true,
+        "columnWidth": 160
+      }
+    }
+  ],
+  "actions": [
+    {
+      "actionId": "replace-with-create-action-id",
+      "displayName": "新建",
+      "orderIndex": 10,
+      "layoutSlot": "toolbar"
+    },
+    {
+      "actionId": "replace-with-view-action-id",
+      "displayName": "查看",
+      "orderIndex": 20,
+      "layoutSlot": "row"
+    }
+  ]
+}

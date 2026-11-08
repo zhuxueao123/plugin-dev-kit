@@ -1,35 +1,7 @@
-# 文档导航
+# 工具包文档入口
 
-这里是插件开发人员的统一文档入口。根据当前开发任务阅读对应分组，不需要从头通读。
+业务项目请在工具包外运行 plugin init-project，初始化步骤见工具包 README.md。
+项目的权威开发文档位于初始化后的 docs/dev-kit/，项目自身约定位于 docs/project/。
 
-## 开发插件
-
-建议按以下顺序阅读：
-
-1. [`plugin-development/overview.md`](plugin-development/overview.md)：插件目录、运行方式和开发流程。
-2. [`plugin-development/backend-plugin-guide.md`](plugin-development/backend-plugin-guide.md) 或 [`plugin-development/frontend-plugin-guide.md`](plugin-development/frontend-plugin-guide.md)：选择后端或前端开发指南。
-3. [`plugin-development/release.md`](plugin-development/release.md)：本地构建、上传、状态查询和回滚。
-4. [`plugin-development/plugin-e2e-examples.md`](plugin-development/plugin-e2e-examples.md)：端到端示例。
-
-其他参考资料：
-
-- `plugin-development/core-sdk-reference.md`：后端 Core SDK。
-- `plugin-development/platform-capabilities-guide.md`：平台能力边界。
-- `plugin-development/plugin-ui-protocol.md`：前端宿主协议。
-- `plugin-development/plugin-i18n-guide.md`：多语言约定。
-
-## 使用 CLI
-
-进入 [`cli/README.md`](cli/README.md)。`cli/usage.md` 说明配置与通用参数，`cli/capabilities.md` 是命令能力索引，`cli/examples/` 提供 JSON 示例。
-
-## 让 AI 开发
-
-先让 AI 阅读 [`ai/AI_OPERATOR_GUIDE.md`](ai/AI_OPERATOR_GUIDE.md)，再根据任务提供 `plugin-development/` 或 `cli/` 中的相关文档。不要一次性要求 AI 读取迁移材料。
-
-## 迁移旧系统
-
-迁移不是普通插件开发的必经步骤。只有涉及旧系统元数据、业务功能或业务数据迁移时，才阅读 `migration/`，并使用开发包根目录下的 `optional/migration/` 工具和样板。
-
-## 使用智能体定制登录页
-
-让智能体先读取根目录 `AGENTS.md` 和 `docs/ai/AI_OPERATOR_GUIDE.md`，再按 [登录页开发指南](plugin-development/login-page-guide.md) 创建页面、校验并生成 `.afplugin`。可复制示例在 `plugin-workspace/examples/frontend/customer-brand/`。请整体更新工具包，保留新版前端构建器；无需修改平台前端源码。
+本目录保存工具包参考文档。project-template/ 只提供可复制示例和 SDK 安装参考，不是业务工作区。
+Git 由开发者管理。不要在工具包仓库中开发项目插件。

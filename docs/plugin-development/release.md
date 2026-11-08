@@ -8,11 +8,11 @@
 
 ## 日常开发
 
-源码始终保留在本机的 `plugin-workspace/`：
+源码始终保留在本机的 `project-template/`：
 
 ```text
-plugin-workspace/backend/<plugin-code>/
-plugin-workspace/frontend/src/pages/<plugin-code>/
+project-template/backend/<plugin-code>/
+project-template/frontend/src/pages/<plugin-code>/
 ```
 
 修改完成后执行：
@@ -30,7 +30,7 @@ Windows PowerShell：
 ```
 
 根目录脚本按插件编码优先使用正式工作区，找不到时自动使用
-`plugin-workspace/examples`。Windows 也可传 `-Root <目录>`，例如：
+`project-template/examples`。Windows 也可传 `-Root <目录>`，例如：
 
 ```powershell
 .\plugin-build.ps1 supplier_guard -Root .\plugin-workspace\examples

@@ -1,117 +1,31 @@
 #!/usr/bin/env python3
-"""Verify the extracted AsapFlow Plugin Dev Kit before delivery or use."""
-from __future__ import annotations
-
+"""Verify published tool deliveries and independently versioned project content."""
 import argparse
+import hashlib
 import json
-import sys
 from pathlib import Path
 
-KIT_ROOT = Path(__file__).resolve().parent
-WORKSPACE = KIT_ROOT / "plugin-workspace"
-SDK_ROOT = WORKSPACE / "runtime-sdk"
+
+def verify(root):
+    if (root / 'plugin-workspace').exists():
+        raise ValueError('Legacy embedded plugin-workspace exists; move projects outside the tool checkout')
+    manifest = json.loads((root / 'content/manifest.json').read_text())
+    for relative, expected in manifest['files'].items():
+        if not relative.startswith('docs/dev-kit/') or '..' in Path(relative).parts:
+            raise ValueError(f'Unsafe managed content: {relative}')
+        path = root / 'content' / relative
+        if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+            raise ValueError(f'Content checksum mismatch: {relative}')
+    record = json.loads((root / 'CLI_VERSION.json').read_text())
+    for platform, item in record['platforms'].items():
+        path = root / item['path']
+        if hashlib.sha256(path.read_bytes()).hexdigest() != item['sha256']:
+            raise ValueError(f'Executable checksum mismatch: {platform}')
+    print(f"Verified CLI {record['version']}, content {manifest['version']}, {len(manifest['files'])} managed files")
 
 
-def require(relative_path: str) -> Path:
-    path = KIT_ROOT / relative_path
-    if not path.exists():
-        raise RuntimeError(f"missing required delivery file: {relative_path}")
-    return path
-
-
-def verify_manifests() -> None:
-    backend_plugins = ("supplier_guard", "supplier_runtime_rules")
-    for plugin_code in backend_plugins:
-        manifest_path = require(
-            f"plugin-workspace/examples/backend/{plugin_code}/manifest.json"
-        )
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8-sig"))
-        if manifest.get("pluginCode") != plugin_code:
-            raise RuntimeError(f"unexpected pluginCode in {manifest_path}")
-        require(f"plugin-workspace/examples/backend/{plugin_code}/main.py")
-
-    frontend_manifest_path = require(
-        "plugin-workspace/examples/frontend/supplier_portal/manifest.json"
-    )
-    frontend_manifest = json.loads(
-        frontend_manifest_path.read_text(encoding="utf-8-sig")
-    )
-    if frontend_manifest.get("pluginCode") != "supplier_portal":
-        raise RuntimeError(f"unexpected pluginCode in {frontend_manifest_path}")
-    for page in frontend_manifest.get("pages", []):
-        require(
-            "plugin-workspace/examples/frontend/supplier_portal/"
-            + page["entry"]
-        )
-
-
-def verify_login_example() -> None:
-    require("AGENTS.md")
-    require("docs/plugin-development/login-page-guide.md")
-    directory = "plugin-workspace/examples/frontend/customer-brand"
-    manifest = json.loads(require(f"{directory}/manifest.json").read_text(encoding="utf-8-sig"))
-    if manifest.get("pluginCode") != "customer-brand":
-        raise RuntimeError("login example pluginCode must match its directory")
-    pages = manifest.get("pages", [])
-    if len(pages) != 1 or pages[0].get("purpose") != "login":
-        raise RuntimeError("login example must declare one login page")
-    page = pages[0]
-    require(f"{directory}/{page['entry']}")
-    route = page.get("route", {})
-    if not route.get("name") or not route.get("path") or route["path"] == "/login":
-        raise RuntimeError("login example needs a unique compatibility route for CLI 0.2.9")
-
-
-def verify_sdk() -> None:
-    sys.path.insert(0, str(SDK_ROOT))
-    import asap_runtime
-    from asap_runtime import PluginContext, wrap_model
-    from plugins_sdk import ExecutionResultBuilder, PluginContextFactory
-
-    if asap_runtime.PluginContext is not PluginContext:
-        raise RuntimeError("asap_runtime public import smoke check failed")
-    if wrap_model({"ready": True}).ready is not True:
-        raise RuntimeError("asap_runtime model import smoke check failed")
-
-    context = PluginContextFactory.from_fixture(
-        datasets={"order": {"amount": 100}}
-    )
-    if context.model.amount != 100:
-        raise RuntimeError("PluginContextFactory smoke check failed")
-    result = ExecutionResultBuilder().status("ok").payload({"ready": True}).build()
-    if result.status != "ok" or result.payload != {"ready": True}:
-        raise RuntimeError("ExecutionResultBuilder smoke check failed")
-
-
-def verify_forbidden_files() -> None:
-    forbidden_names = {"config.json", ".DS_Store"}
-    for path in KIT_ROOT.rglob("*"):
-        if path.name in forbidden_names or path.name.startswith("._"):
-            raise RuntimeError(f"forbidden delivery file: {path.relative_to(KIT_ROOT)}")
-        if path.is_dir() and path.name in {"node_modules", ".venv", "__pycache__"}:
-            raise RuntimeError(f"forbidden delivery directory: {path.relative_to(KIT_ROOT)}")
-
-
-def parse_args() -> argparse.Namespace:
+if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--mode",
-        choices=("local", "delivery"),
-        default="local",
-        help="local validates an installed workspace; delivery also rejects secrets and generated files",
-    )
-    return parser.parse_args()
-
-
-def main() -> None:
-    args = parse_args()
-    verify_manifests()
-    verify_login_example()
-    verify_sdk()
-    if args.mode == "delivery":
-        verify_forbidden_files()
-    print(f"Plugin Dev Kit verification passed ({args.mode} mode).")
-
-
-if __name__ == "__main__":
-    main()
+    parser.add_argument('--mode', choices=['local', 'delivery'], default='local')
+    parser.parse_args()
+    verify(Path(__file__).resolve().parent)

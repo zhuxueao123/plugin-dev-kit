@@ -1,0 +1,39 @@
+{
+  "dataBindingPatch": {
+    "defaultFilter": {
+      "STAT_ITEM": {
+        "$ne": "6"
+      }
+    },
+    "legacyFilter": "STAT_ITEM<>'6'"
+  },
+  "metadataPatch": {
+    "search": {
+      "defaultFilter": {
+        "STAT_ITEM": {
+          "$ne": "6"
+        }
+      }
+    },
+    "legacyFilters": {
+      "BMAINLIST": {
+        "gfilter": "STAT_ITEM<>'6'"
+      }
+    }
+  },
+  "fieldGroupChanges": {
+    "upsert": [],
+    "remove": []
+  },
+  "actionChanges": {
+    "upsert": [
+      {
+        "actionId": "replace-with-view-action-id",
+        "displayName": "查看",
+        "orderIndex": 20,
+        "layoutSlot": "row"
+      }
+    ],
+    "remove": []
+  }
+}
