@@ -9,3 +9,6 @@
 bin/macos/asapflow/asapflow binary
 optional/migration/legacy-export/bin/macos/legacy-export binary
 optional/migration/legacy-export/bin/linux-x86_64/legacy-export binary
+
+# Content hashes require identical bytes on Windows, macOS and Linux.
+/content/** -text

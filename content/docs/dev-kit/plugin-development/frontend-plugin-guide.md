@@ -64,7 +64,7 @@ plugins/frontend/src/pages/<plugin-code>/
 plugins/locales/<locale>.json
 ```
 
-并按 `pluginCode` 做命名空间。  
+并按 `pluginCode` 做命名空间。
 宿主前端会把 `plugins/locales/*.json` merge 到现有 `vue-i18n`，所以前端插件应直接复用这套语言资源。
 
 同一份语言包还可以覆盖平台前端文案，建议命名空间约定为：
@@ -190,7 +190,7 @@ const { data } = await api.get('/identity/whoami')
   3. 是否在宿主页面内加载，而不是脱离宿主单独打开插件 bundle
   4. 宿主当前登录态是否已过期
 
-### 7.2 `plugin-workspace` 场景的额外约束
+### 7.2 独立插件项目 场景的额外约束
 
 - 客户开发包统一从 npm 安装 SDK，不携带 `plugins-sdk/` 源码副本。
 - 客户侧推荐依赖写法：
@@ -209,7 +209,7 @@ const { data } = await api.get('/identity/whoami')
 npm install @trusteem/asapflow-plugin-sdk
 ```
 
-- AI 在 `plugin-workspace` 中应先检查：
+- AI 在 独立插件项目 中应先检查：
   1. `package.json` 是否已经声明 `@trusteem/asapflow-plugin-sdk`
   2. `node_modules/@trusteem/asapflow-plugin-sdk` 是否已成功安装且能读取包导出
 

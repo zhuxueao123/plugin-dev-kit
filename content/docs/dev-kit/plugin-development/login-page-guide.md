@@ -4,35 +4,35 @@
 
 ## 1. 交给智能体的任务
 
-在开发工具包目录打开智能体，使用以下任务说明，并补充品牌名称、配色、Logo 和期望布局：
+在独立插件项目目录打开智能体，使用以下任务说明，并补充品牌名称、配色、Logo 和期望布局：
 
-> 先阅读 AGENTS.md、docs/dev-kit/ai/AI_OPERATOR_GUIDE.md、docs/dev-kit/plugin-development/login-page-guide.md 和 docs/dev-kit/plugin-development/release.md。基于 docs/dev-kit/examples/frontend/customer-brand 创建项目的自定义登录页，复制到 ./frontend/src/pages/customer-brand 后修改。使用 purpose: "login" 与 loginContext；保留兼容 CLI 的唯一 route，不覆盖平台 /login。界面应适配桌面和手机，包含账号密码、提交状态、错误提示与自动填充。通过 plugin-build 脚本验证并生成 .afplugin，报告产物路径和验证结果。只有我明确要求发布时才上传到配置的平台，不通过 SSH 或服务器文件目录部署。
+> 先阅读 AGENTS.md、docs/dev-kit/ai/AI_OPERATOR_GUIDE.md、docs/dev-kit/plugin-development/login-page-guide.md 和 docs/dev-kit/plugin-development/release.md。基于 docs/dev-kit/examples/frontend/customer-brand 创建项目的自定义登录页，复制到 frontend/src/pages/customer-brand 后修改。使用 purpose: "login" 与 loginContext；保留兼容 CLI 的唯一 route，不覆盖平台 /login。界面应适配桌面和手机，包含账号密码、提交状态、错误提示与自动填充。通过 asapflow plugin pack 命令验证并生成 .afplugin，报告产物路径和验证结果。只有我明确要求发布时才上传到配置的平台，不通过 SSH 或服务器文件目录部署。
 
 此任务默认只创建和打包。需要发布时，再明确要求智能体运行发布脚本；真实服务令牌保存在本机配置中，不要粘贴到页面源码或对话生成的示例文件里。
 
 ## 2. 前提与工作目录
 
 - 平台前后端需支持登录页插件（包含平台源码提交 `95005cb` 或后续版本）。开发服务器 `http://172.16.1.12:18080` 已于 2026-10-29 部署支持版本；其他环境由部署方确认，更新工具包本身不会升级服务器。
-- 使用本工具包随附的新版 `./frontend/vite.config.mjs`：构建器必须保留 `purpose`，并为登录页共享宿主 Vue 运行时。不要从旧项目覆盖该文件，也不要只拉取某一份文档。
+- 使用本工具包随附的新版 `frontend/vite.config.mjs`：构建器必须保留 `purpose`，并为登录页共享宿主 Vue 运行时。不要从旧项目覆盖该文件，也不要只拉取某一份文档。
 - Node.js 18+、npm；发布还需本机 CLI 配置及 `system.plugin.manage` 权限。详见 [发布指南](release.md)。
-- 原始示例在 `docs/dev-kit/examples/frontend/customer-brand/`。复制到 `./frontend/src/pages/customer-brand/`，不要直接在 examples 中构建登录页，因为它不是完整的前端工程。
+- 原始示例在 `docs/dev-kit/examples/frontend/customer-brand/`。复制到 `frontend/src/pages/customer-brand/`，不要直接在 examples 中构建登录页，因为它不是完整的前端工程。
 - 智能体可自定插件编码，但目录名、`pluginCode`、构建和发布命令中的编码必须一致；路由名、路径也需唯一。
 
-macOS / Linux 在工具包根目录执行：
+macOS / Linux 在项目根目录执行：
 
 ```bash
-cp -R docs/dev-kit/examples/frontend/customer-brand ./frontend/src/pages/customer-brand
-./plugin-build.sh customer-brand
+cp -R docs/dev-kit/examples/frontend/customer-brand frontend/src/pages/customer-brand
+asapflow plugin pack --root . --code customer-brand
 ```
 
 Windows PowerShell：
 
 ```powershell
-Copy-Item -Recurse docs/dev-kit/examples/frontend/customer-brand ./frontend/src/pages/customer-brand
+Copy-Item -Recurse docs/dev-kit/examples/frontend/customer-brand frontend/src/pages/customer-brand
 .\plugin-build.ps1 customer-brand
 ```
 
-复制前检查目标是否已存在；已有页面先读取后修改，不覆盖同事的代码。macOS / Linux 工具包使用根目录 `asapflow.sh` 自动选择 CLI；不要写死某个平台的可执行文件路径。
+复制前检查目标是否已存在；已有页面先读取后修改，不覆盖同事的代码。工具包 CLI 加入 PATH 后，在项目内直接使用 asapflow，不复制可执行文件或脚本。
 
 ## 3. 清单与组件约定
 
@@ -71,14 +71,14 @@ Copy-Item -Recurse docs/dev-kit/examples/frontend/customer-brand ./frontend/src/
 
 ## 4. 校验、构建与发布
 
-`plugin-build.* customer-brand` 会调用工具包现有 CLI 校验和打包，自动构建前端。输出为 `dist/customer-brand-1.0.0.afplugin`，其中应包含 `release.json`、`frontend.zip`；内层包含 `manifests/customer-brand.json`、页面 JS、CSS 以及需要的共享文件。构建清单中必须保留 `purpose: "login"`，并有 `/plugins/frontend/dist/` 下的 `bundlePath`。
+`asapflow plugin pack --root . --code customer-brand` 会调用工具包现有 CLI 校验和打包，自动构建前端。输出为 `dist/customer-brand-1.0.0.afplugin`，其中应包含 `release.json`、`frontend.zip`；内层包含 `manifests/customer-brand.json`、页面 JS、CSS 以及需要的共享文件。构建清单中必须保留 `purpose: "login"`，并有 `/plugins/frontend/dist/` 下的 `bundlePath`。
 
 不要编辑生成后的 dist 清单来补 purpose；应更新工作区构建器，然后重新构建。不要把 node_modules、config.json、Vue 源码或真实令牌打进制品。
 
-用户明确要求发布后，在工具包根目录执行：
+用户明确要求发布后，在项目根目录执行：
 
 ```bash
-./plugin-publish.sh customer-brand
+asapflow plugin publish --root . --code customer-brand
 ```
 
 Windows 使用 `.\plugin-publish.ps1 customer-brand`。脚本会重新构建、上传并等待平台完成切换。通过 CLI 查询发布状态或回滚，不通过 SSH、Git 拉取或手工覆盖服务器目录发布。只修改登录页插件时不需要重新构建平台或 Runtime Reload。

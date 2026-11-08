@@ -1,9 +1,8 @@
 {
-  "version": "0.1.0",
+  "version": "0.1.1",
   "files": {
     "docs/dev-kit/README.md": "344635dcc7660a335af45cff4860100cf9e950917306e2ae08e2cbddc42152f4",
-    "docs/dev-kit/ai/AI_OPERATOR_GUIDE.md": "b108896ecc51076783842e826adc55cbab7544e47d10f026b59423b8b181215f",
-    "docs/dev-kit/cli/.DS_Store": "a86c1ca77587127240e78aa5a10409f1f07a978f0e4e2ca984818654619b908e",
+    "docs/dev-kit/ai/AI_OPERATOR_GUIDE.md": "e81fc1b72c51879ffbaf36da29c218d8864d23a162e31726ba13ac43e7339803",
     "docs/dev-kit/cli/README.md": "6954589574d7ae093a682d66010e5ae8c0af7fc8e94e5e6aa097a0b9ef633df9",
     "docs/dev-kit/cli/bi-dashboard-reference.md": "b706021998b70f7ee197481bc4ef797a04436773eac659d7265081cffbecd252",
     "docs/dev-kit/cli/capabilities.md": "8bc20aaa7b448f08292805f56930a394de0723033bc2ac170cf89aac3475b306",
@@ -60,13 +59,13 @@
     "docs/dev-kit/examples/frontend/supplier_portal/supplier-dashboard.vue": "7e6135cc0d49587ca4074db1aae8fd185581ced06dacae65e1216f3131234c1d",
     "docs/dev-kit/plugin-development/backend-plugin-guide.md": "fbcc36c2408ab01d47fca00037cc4209296f98e9c0b8caaca3b2e9a10af5bfc1",
     "docs/dev-kit/plugin-development/core-sdk-reference.md": "d17e2b88e0fddf27e8fcbf8d05bc4eb741add2f7afbb1a15133dcad165250dcb",
-    "docs/dev-kit/plugin-development/frontend-plugin-guide.md": "293e55cba39d33c3a7c96c8bddfd6b599a8b7155c2741de05cf276b3e47f12da",
-    "docs/dev-kit/plugin-development/login-page-guide.md": "bc6226cbd0d417e7cffa2f0f2c3c90986123a7c018eae93c7f5ba510efe6210a",
+    "docs/dev-kit/plugin-development/frontend-plugin-guide.md": "bcafd925cbc00d35356565135fa90de21a4c3135ee126a1b9721c753363c6da2",
+    "docs/dev-kit/plugin-development/login-page-guide.md": "7d97b24823bfd1d1817476043c706534d955745f6fd1a0e157f90b0745061129",
     "docs/dev-kit/plugin-development/overview.md": "8a7ae8cb4526aa87c445789440d82b56a67e008c1f52041cb1cbf47a5a1713bf",
     "docs/dev-kit/plugin-development/platform-capabilities-guide.md": "a310d329f1c3f4bf5c3a519f15e0991ed5b1c19334de2791c08aadb0478f2d82",
     "docs/dev-kit/plugin-development/plugin-e2e-examples.md": "df278b8dca2bb1b976d58c33a2b42005107b3da3b57e481e7bb4f1e3f9093fda",
-    "docs/dev-kit/plugin-development/plugin-i18n-guide.md": "0389645e37d9b459fd8930d0b0faf61e4f9562d0217781fe5334a5eec77b71b2",
+    "docs/dev-kit/plugin-development/plugin-i18n-guide.md": "28439cbe869944658ae351678898fdf31dc84403de4bb46a0cb42e6cddb992dc",
     "docs/dev-kit/plugin-development/plugin-ui-protocol.md": "5a2b90c3454d509beeb3f1aa787c6c638fae8b445da88f1f445973926b23a897",
-    "docs/dev-kit/plugin-development/release.md": "4d186b2debe76cccd89495ade57c52db70e2af264249e9ede38ffe25c36b0cdc"
+    "docs/dev-kit/plugin-development/release.md": "426881a293ce71dd25091cab6b05c10151578146dbd032fb65b473311338d4b6"
   }
 }

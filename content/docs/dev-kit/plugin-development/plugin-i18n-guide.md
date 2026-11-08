@@ -77,7 +77,7 @@ plugins/
 context.t("messages.name_required")
 ```
 
-runtime 会自动按当前 `pluginCode` 补命名空间。  
+runtime 会自动按当前 `pluginCode` 补命名空间。
 也就是说，`supplier_guard` 插件里：
 
 ```python
