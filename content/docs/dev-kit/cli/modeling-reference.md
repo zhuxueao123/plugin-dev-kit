@@ -165,6 +165,14 @@ AI 选型规则：
 
 列表字典可以在同一字段组的 `list.extraMetadata` 中配置。常用下拉筛选可在场景元数据的 `search.fields` 中把对应字段设为 `{ "key": "order_status", "quickFilter": true }`。列表展示标签，查询条件使用实际值。
 
+### 引用预览和重点字段
+
+在被引用的实体上配置 `metadata.keyFields`，数组按显示顺序填写**目标实体的字段编码**。CLI 创建或更新实体时，`metadata` 按请求约定传 JSON 字符串。例如 `"metadata": "{\"keyFields\":[\"customer_code\",\"name\",\"status\"]}"`。已有实体应先用 `system get-entity --code customer` 读取定义，将 `keyFields` 写入原有元数据，再通过 `system update-entity --code customer --input entity-update.json` 提交完整的可写配置。不要把详情响应中的 `id`、`fields` 或 `indexes` 整包传回更新接口。新建可参照 [实体示例](examples/create_entity.json)。
+
+关联字段继续配置目标实体和关联键。原有 `displayFields` 用于关联选择和链接名称，`keyFields` 用于气泡的详情内容及 AI 助手的默认摘要。AI 助手按显式给出的 `ui.answerFields` 生成指定字段的回答。业务引用预览要求目标实体存在可访问的表单场景，按业务编码引用时，目标键应唯一。未设置重点字段时，业务气泡默认取前四个非系统字段中可查看且有值的项。
+
+创建人和修改人使用 `created_by`、`updated_by`，在场景中设为只读。界面以 `[账号]姓名` 回显，悬停查看账号、姓名、部门和状态。业务数据提交仍使用原始用户 ID。
+
 ## 5. 编号规则配置
 
 ### 5.1 `number-rule create`

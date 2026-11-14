@@ -17,5 +17,6 @@
       "dataType": "string",
       "length": 32
     }
-  ]
+  ],
+  "metadata": "{\"keyFields\":[\"name\"]}"
 }

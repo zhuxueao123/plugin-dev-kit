@@ -72,13 +72,26 @@ asapflow plugin deploy-package --file plugins.zip --mode replace --build-fronten
 
 创建实体的 JSON 支持 `auditEnabled` 和 `status`。留痕适用于默认业务数据源的表实体；省略状态时默认使用 `draft`。
 
+新建功能时，自动生成的列表标题使用「功能名＋列表」，表单标题使用功能名，说明留空。已有场景的标题可继续通过场景配置维护。
+
+AI Assistant 从能力查询开始，再按需要解析、预览或执行：
+
+```bash
+asapflow ai-assistant capabilities
+asapflow ai-assistant parse --input parse-request.json
+asapflow ai-assistant preview --input preview-request.json
+asapflow ai-assistant execute --input execute-request.json
+```
+
+`parse` 请求包含 `provider`，以及 `message` 或结构化 `intent`。`preview` 请求包含 `intent`。`execute` 使用执行所需的 `intentId`、`intentToken` 或 `intent`，需要确认的操作应沿用预览返回的标识和令牌。各命令使用当前登录身份及其权限。
+
 字典创建示例：
 
 ```bash
 asapflow dictionary create --json '{"code":"ASC_GRADE","description":"筛选结论","value":[{"label":"A 合格","value":"A","orderIndex":0}]}'
 ```
 
-字典请求使用 `code`、`description` 和 `value`，字典条目的显示名放在 `value[].label`。JSON 属性错误会在响应中提供 `message` 和 `path`。
+字典请求使用 `code`、`description` 和 `value`，字典条目的显示名放在 `value[].label`。JSON 属性错误会在响应中提供 `message` 和 `path`，例如 `$.fieldGroups[0].form.label`。该示例应将 `label` 移入 `form.extraMetadata`，再按建模参考检查同级字段。
 
 对外客户使用前，先用独立的客户账号验证数据范围。分别测试列表、直达记录、修改和导出，并检查其他客户的记录 ID 无法访问。通用业务场景需要登录。访问详情时，服务端会记录 `AccessAudit:record.read.detail`，可用其中的用户、实体和记录 ID 排查访问记录。实体的 `auditEnabled` 用于变更留痕。
 

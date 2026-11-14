@@ -55,6 +55,8 @@
 24. BI 查询支持 SQL、插件接口和静态数据；SQL 必须参数化，且生产数据源必须使用数据库只读账号和最小权限。
 25. BI 主页绑定使用 `bi save-homepage-binding`；多标签、部门继承和个人副本尚未实现，不要写进看板 `definition` JSON。
 26. 创建或更新表单类场景时，如果字段很多，或旧平台字段已经按块/分组组织，应在场景 `metadata.formLayout` 中配置 `type = tabs`，不要让所有字段平铺在表单页。
+27. 引用预览和默认摘要用目标实体的 `metadata.keyFields`。配置项使用目标实体字段编码，关系选择器继续使用原有 `displayFields`。
+28. 场景写入使用 `componentType`，扩展属性按建模参考放入 `extraMetadata`。收到 400 时先查看响应的 `path` 和 `message`。
 
 ## 建议先给 AI 的文件
 
