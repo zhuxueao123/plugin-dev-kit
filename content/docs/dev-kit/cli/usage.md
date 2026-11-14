@@ -68,6 +68,22 @@ asapflow plugin package --source ./plugins --output-file plugins.zip
 asapflow plugin deploy-package --file plugins.zip --mode replace --build-frontend --reload-backend --strict-docs
 ```
 
+无过滤条件时可直接运行 `asapflow data query-records --code customer`，默认读取第一页。实体参数也接受 `--entity-code`，记录命令的记录标识接受 `--id` 或 `--record-id`。
+
+创建实体的 JSON 支持 `auditEnabled` 和 `status`。留痕适用于默认业务数据源的表实体；省略状态时默认使用 `draft`。
+
+字典创建示例：
+
+```bash
+asapflow dictionary create --json '{"code":"ASC_GRADE","description":"筛选结论","value":[{"label":"A 合格","value":"A","orderIndex":0}]}'
+```
+
+字典请求使用 `code`、`description` 和 `value`，字典条目的显示名放在 `value[].label`。JSON 属性错误会在响应中提供 `message` 和 `path`。
+
+对外客户使用前，先用独立的客户账号验证数据范围。分别测试列表、直达记录、修改和导出，并检查其他客户的记录 ID 无法访问。通用业务场景需要登录。访问详情时，服务端会记录 `AccessAudit:record.read.detail`，可用其中的用户、实体和记录 ID 排查访问记录。实体的 `auditEnabled` 用于变更留痕。
+
+字段的查看权限和脱敏可由实体字段的安全元数据配置。附件可通过 `configuration get-file-storage` 查看当前存储状态。外部智能体可通过服务账号调用获授权的数据接口；平台内 AI Assistant 的能力可通过登录后的 `/api/ai-assistant/capabilities` 查看。
+
 `query-records` 的 `pageIndex` 从 `0` 开始。需要验证场景固定过滤时，在请求体同时传 `featureCode` 和 `scenarioCode`，运行时会自动合并该场景的固定过滤：
 
 ```json

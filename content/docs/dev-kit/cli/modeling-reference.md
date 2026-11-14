@@ -61,6 +61,8 @@ AI 创建功能和场景时，不能按“`dataType = string` 就用 `q-input`�
 - `json`
 - `binary`
 
+通过 API 或 CLI 写入 `datetime`、`timestamp` 时，请在 ISO 8601 值中明确写出时区偏移，例如 `2026-11-13T09:12:00+08:00`。物理表写入会将这个时刻转换为 UTC，也就是 `2026-11-13T01:12:00Z`。通用表单按浏览器时区显示带偏移的时间，编辑时把本地输入转为 UTC。已有无偏移值按原有方式显示。日期字段使用 `YYYY-MM-DD`。
+
 说明：
 
 - `dataType` 面向实体字段建模，决定业务数据如何落库。
@@ -141,22 +143,27 @@ AI 选型规则：
 - 需求表达为“业务日期/计划日期”时，优先使用 `q-date`；表达为“创建时间/审批时间/发货时间”时，优先使用 `q-datetime` 或 `q-time`。
 - 附件、图片、照片、合同、报告等字段不要用普通文本框，使用上传组件。
 
-场景字段配置示例：
+场景写入接口的 `fieldGroups` 元素示例：
 
 ```json
 {
-  "fieldKey": "order_status",
+  "featureFieldKey": "order_status",
   "form": {
-    "component": "q-select",
-    "optionSourceType": "dictionary",
-    "optionSource": {
-      "dictionaryCode": "order_status"
+    "componentType": "q-select",
+    "extraMetadata": {
+      "optionSourceType": "dictionary",
+      "optionSource": {
+        "type": "dictionary",
+        "config": { "dictionaryCode": "order_status" }
+      }
     },
     "span": 6,
     "required": true
   }
 }
 ```
+
+列表字典可以在同一字段组的 `list.extraMetadata` 中配置。常用下拉筛选可在场景元数据的 `search.fields` 中把对应字段设为 `{ "key": "order_status", "quickFilter": true }`。列表展示标签，查询条件使用实际值。
 
 ## 5. 编号规则配置
 
@@ -1170,7 +1177,7 @@ CLI 请求示例见 `examples/update_detail_scenario_tabs.json`。
 1. 实体有单独的新增字段、更新字段、删除字段接口。
 2. 功能字段也有单独的新增、更新、删除接口。
 3. `system update-scenario` 保留整包覆盖语义，适合首次迁移和完整重建。
-4. `system patch-scenario` 只修改请求中明确给出的节点；JSON 对象递归合并，字段组按 `featureFieldKey`、动作按 `actionId` 增删。
+4. `system patch-scenario` 按 `featureFieldKey` 更新字段组，按 `actionId` 更新动作。场景级 JSON 补丁递归合并；字段组中显式提交的 `list`、`form` 或 `detail` 会替换对应视图的整块配置。先读取编辑模型，并随该视图提交需要保留的 `modes`、组件属性和其他设置。
 5. 两种更新都会先覆盖保存一份“最近更新前快照”；平台不维护版本链。误操作后可执行 `system restore-scenario-backup`，恢复操作会把恢复前状态变成新的最近备份。
 
 这意味着：

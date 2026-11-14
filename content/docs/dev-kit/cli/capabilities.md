@@ -149,7 +149,7 @@
 ## 4. 系统使用能力
 
 - `data query-records`
-  用途：分页查询实体数据
+  用途：分页查询实体数据；省略 JSON 输入时读取第一页
 - `data get-record`
   用途：读取单条记录
 - `data create-record`
@@ -160,6 +160,10 @@
   用途：删除记录
 - `data execute-action`
   用途：执行某个实体动作
+- `ai-assistant capabilities`
+  用途：查询当前账号可用的 AI Assistant 能力
+- `ai-assistant parse`、`ai-assistant preview`、`ai-assistant execute`
+  用途：通过 `--input` 或 `--json` 提交解析、预览和执行请求，沿用平台的身份和权限检查
 
 ## 5. 配置与运维能力
 
@@ -192,7 +196,7 @@
 - `dictionary get`
   用途：读取系统字典
 - `dictionary create`
-  用途：创建系统字典；字典条目使用单数字段 `value`，不使用 `items` / `values` / `options` / `entries`
+  用途：创建系统字典。请求字段为 `code`、`description`、`value`，条目使用 `label`、`value` 和可选的 `orderIndex`。
 - `dictionary update`
   用途：更新系统字典；字典条目使用单数字段 `value`
 - `dictionary delete`
